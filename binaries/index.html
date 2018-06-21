@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Binaries - bioprocs</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Binaries";
+    var mkdocs_page_input_path = "binaries.md";
+    var mkdocs_page_url = "/binaries/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> bioprocs</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Introduction</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../processes/">Processes</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../aggregations/">Aggregations</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Binaries</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#main-command">Main command</a></li>
+    
+
+    <li class="toctree-l2"><a href="#subcommand-params">Subcommand: params</a></li>
+    
+
+    <li class="toctree-l2"><a href="#subcommand-list">Subcommand: list</a></li>
+    
+
+    <li class="toctree-l2"><a href="#script-genomeplot">Script: genomeplot</a></li>
+    
+
+    <li class="toctree-l2"><a href="#script-mutcall">Script: mutcall</a></li>
+    
+
+    <li class="toctree-l2"><a href="#script-runcmds">Script: runcmds</a></li>
+    
+
+    <li class="toctree-l2"><a href="#process">Process</a></li>
+    
+
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">bioprocs</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Binaries</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h3 id="main-command">Main command</h3>
+<div class="highlight"><pre><span></span>&gt; bioprocs
+
+Usage: bioprocs &lt;command&gt; <span class="o">[</span>options ...<span class="o">]</span>
+
+Method commands:
+  params                        - Show bioprocs.params items.
+  list                          - List the process
+                                  Use <span class="s2">&quot;bioprocs list &lt;MOD&gt;&quot;</span> to list all processes of a module.
+  <span class="nb">help</span>                          - Print this <span class="nb">help</span> information.
+                                  Use <span class="s2">&quot;bioprocs help &lt;CMD&gt;&quot;</span> to show <span class="nb">help</span> <span class="k">for</span> commands.
+
+Script commands:
+  genomeplot                    - Plot genomic elements.
+  mutcall                       - Call mutations from sequencing data.
+  pwmscan                       
+  runcmds                       - Using PyPPL to distribute and run commands.
+
+Process commands:
+  &lt;module.proc&gt;                 - Use <span class="s2">&quot;{prog} list&quot;</span> to show all processes, or
+                                  use <span class="s2">&quot;{prog} list &lt;module&gt;&quot;</span> to show processes of a module.
+</pre></div>
+
+<p>Run <code>bioprocs help &lt;command&gt;</code> to show the help information of the subcommand.</p>
+<h3 id="subcommand-params">Subcommand: params</h3>
+<div class="highlight"><pre><span></span>&gt; bioprocs <span class="nb">help</span> params
+
+Show bioprocs.params items.
+
+Usage:
+  bioprocs params
+  bioprocs params <span class="o">[</span>PARAM1<span class="o">]</span> <span class="o">[</span>PARAM2 ...<span class="o">]</span>
+  bioprocs params <span class="o">[</span>-param PARAM1 PARAM2 ...<span class="o">]</span>
+
+Options:
+  param                         - The parameter names
+</pre></div>
+
+<h3 id="subcommand-list">Subcommand: list</h3>
+<div class="highlight"><pre><span></span>&gt; bioprocs <span class="nb">help</span> list
+
+List the process
+Use <span class="s2">&quot;bioprocs list &lt;MOD&gt;&quot;</span> to list all processes of a module.
+
+Usage:
+  bioprocs list
+  bioprocs list <span class="o">[</span>MOD<span class="o">]</span>
+  bioprocs list <span class="o">[</span>-mod MOD<span class="o">]</span>
+
+Options:
+  mod                           - The name of the module.
+</pre></div>
+
+<h3 id="script-genomeplot">Script: genomeplot</h3>
+<div class="highlight"><pre><span></span>&gt; bioprocs <span class="nb">help</span> genomeplot
+USAGE:
+  bioprocs -inputs &lt;LIST&gt; -tracks &lt;LIST&gt; -outdir &lt;STR&gt; -region &lt;STR&gt; -names &lt;LIST&gt; <span class="o">[</span>OPTIONS<span class="o">]</span>
+
+REQUIRED OPTIONS:
+  -inputs     &lt;LIST&gt;                    - The input of the tracks.
+                                          <span class="s2">&quot;&lt;ucscTrack&gt;:&lt;gvizTrack&gt;&quot;</span> <span class="k">for</span> ucsc track<span class="p">;</span>
+                                          <span class="s2">&quot;&lt;infile&gt;:&lt;intype&gt;&quot;</span> <span class="k">for</span> interaction tracks<span class="p">;</span>
+                                          files <span class="k">for</span> other tracks.
+  -tracks     &lt;LIST&gt;                    - The track types. Could be data, anno, interaction or ucsc, or multiple of them.
+  -outdir     &lt;STR&gt;                     - Output directory.
+  -region     &lt;STR&gt;                     - The region to plot. E.g. chr1:1000000-1200000
+  -names      &lt;LIST&gt;                    - The corresponding names of the tracks.
+
+OPTIONAL OPTIONS:
+  -ideo       &lt;STR&gt;                     - Show ideogram track? DEFAULT: <span class="s1">&#39;True&#39;</span>
+  -plotparams &lt;STR&gt;                     - The params <span class="k">for</span> pGenomePlot. DEFAULT: <span class="s1">&#39;&#39;</span>
+  -highlights &lt;LIST&gt;                    - The highlight regions in format of <span class="s2">&quot;start-end&quot;</span>
+                                          DEFAULT: <span class="o">[]</span>
+  -genes      &lt;STR&gt;                     - Show gene track?
+                                          DEFAULT: <span class="s1">&#39;/data2/junwenwang/shared/reference/hg19/hg19-gene.gtf&#39;</span>
+  -devpars    &lt;STR&gt;                     - The device parameters <span class="k">for</span> plotting.
+                                          DEFAULT: <span class="s1">&#39;{&quot;res&quot;: 300, &quot;height&quot;: 300, &quot;width&quot;: 2000}&#39;</span>
+  -params     &lt;LIST&gt;                    - The params <span class="k">for</span> each track DEFAULT: <span class="o">[]</span>
+  -splitlen   &lt;INT&gt;                     - Split the plot into <span class="m">2</span> <span class="k">if</span> the region is longer <span class="k">then</span> splitlen.
+                                          DEFAULT: <span class="m">1000000</span>
+  -genome     &lt;STR&gt;                     - Commonly used genome assembly. DEFAULT: <span class="s1">&#39;hg19&#39;</span>
+  -forks      &lt;INT&gt;                     - Number of cores used to plot <span class="k">if</span> split. DEFAULT: <span class="m">2</span>
+  -axis       <span class="o">(</span>BOOL<span class="o">)</span>                    - Show axis? DEFAULT: True
+  -h, --help, -H, -?                    - Print this <span class="nb">help</span> information.
+</pre></div>
+
+<h3 id="script-mutcall">Script: mutcall</h3>
+<div class="highlight"><pre><span></span>&gt; bioprocs <span class="nb">help</span> mutcall
+USAGE:
+  bioprocs -exdir &lt;STR&gt; -saminfo &lt;STR&gt; -indir &lt;STR&gt; <span class="o">[</span>OPTIONS<span class="o">]</span>
+
+REQUIRED OPTIONS:
+  -exdir    &lt;STR&gt;                       - Where to <span class="nb">export</span> the result files.
+  -saminfo  &lt;STR&gt;                       - The sample information file:
+                                          Column <span class="m">1</span>: the basename of the sample file in <span class="s1">&#39;-indir&#39;</span>
+                                          Column <span class="m">2</span>: Group <span class="k">if</span> <span class="s1">&#39;-muts&#39;</span> includes <span class="s1">&#39;soma&#39;</span>, basically, <span class="s1">&#39;TUMOR&#39;</span> and <span class="s1">&#39;NORMAL&#39;</span>
+                                          Column <span class="m">3</span>: Patient <span class="k">if</span> multiple samples belong to the same patient.
+                                          Example:
+                                          Sample	Group	Patient
+                                          A1.bam	TUMOR	A
+                                          A2.bam	NORMAL	A
+                                          B1.bam	TUMOR	A
+                                          B2.bam	NORMAL	A
+  -indir    &lt;STR&gt;                       - The input directory containing input files.
+
+OPTIONAL OPTIONS:
+  -runner   &lt;STR&gt;                       - The runner to run the processes. DEFAULT: <span class="s1">&#39;local&#39;</span>
+  -intype   &lt;STR&gt;                       - The input file types. Either bam, ebam or fastq.
+                                          Ebam means the bam files need to reformatted into fastq files.
+                                          DEFAULT: <span class="s1">&#39;bam&#39;</span>
+  -compress <span class="o">(</span>BOOL<span class="o">)</span>                      - Use gzip and bam file to save space. DEFAULT: True
+  -muts     &lt;LIST&gt;                      - What kind of mutations to call.
+                                          Note: soma need paired information DEFAULT: <span class="o">[</span><span class="s1">&#39;germ&#39;</span><span class="o">]</span>
+  -forks    &lt;INT&gt;                       - How many <span class="nb">jobs</span> to run simultanuously. DEFAULT: <span class="m">1</span>
+  -logfile  &lt;STR&gt;                       - Where to save the logs. DEFAULT: <span class="s1">&#39;&#39;</span>
+  -h, --help, -H, -?                    - Print this <span class="nb">help</span> information.
+</pre></div>
+
+<h3 id="script-runcmds">Script: runcmds</h3>
+<div class="highlight"><pre><span></span>&gt; bioprocs <span class="nb">help</span> runcmds
+USAGE:
+  bioprocs -cmds &lt;STR&gt; <span class="o">[</span>OPTIONS<span class="o">]</span>
+
+REQUIRED OPTIONS:
+  -cmds   &lt;STR&gt;                         - The cmd list. If not provided, STDIN will be used.
+
+OPTIONAL OPTIONS:
+  -runner &lt;STR&gt;                         - The runner. DEFAULT: <span class="s1">&#39;local&#39;</span>
+  -forks  &lt;INT&gt;                         - How many <span class="nb">jobs</span> to run simultaneously. DEFAULT: <span class="m">1</span>
+  -h, --help, -H, -?                    - Print this <span class="nb">help</span> information.
+</pre></div>
+
+<h3 id="process">Process</h3>
+<p>Convert a <code>pyppl.Proc</code> to a command line interface.<br />
+Try <code>bioprocs &lt;module&gt;.&lt;process&gt;</code> to show the help information of the process.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../aggregations/" class="btn btn-neutral" title="Aggregations"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../aggregations/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/require.js"></script>
+      <script src="../search/search.js"></script>
+
+</body>
+</html>
