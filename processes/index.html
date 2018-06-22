@@ -3659,9 +3659,36 @@ has-mir-22	Gene	+	+	+
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>header</code>: <code>header</code> parameter for <code>read.table</code>, default: True  </li>
-<li><code>rownames</code>: <code>row.names</code> parameter for <code>read.table</code>, default: 1  </li>
-<li><code>params</code>: Other parameters for <code>boxplot</code>, default: ""  </li>
+<li><code>inopts</code> : Input options to read the input file  <ul>
+<li><code>cnames</code> :   Whether the input file has header. Default: <code>True</code></li>
+<li><code>rnames</code> :   Whether the input file has row names. Default: <code>False</code></li>
+<li><code>delimit</code>:   The seperator. Defualt: <code>\\t</code></li>
+</ul>
+</li>
+<li><code>x</code>      : The <code>ind</code> (index) column. Only for <code>args.stacked = True</code>. Default: <code>2</code>  </li>
+<li><code>y</code>      : The <code>values</code> column. Only for <code>args.stacked = True</code>. Default: <code>1</code>  </li>
+<li><code>helper</code> : Some raw codes to help to construct the matrix and arguments.  </li>
+<li><code>stacked</code>: Whether the input file is stacked  <ul>
+<li>Stacked file looks like:
+  <div class="highlight"><pre><span></span>values	ind
+1.1	col1
+1.2	col1
+...
+.8	col2
+.9	col2
+...
+3.2	col3
+...
+</pre></div></li>
+<li>Unstacked file looks like:
+  <div class="highlight"><pre><span></span>col1	col2	col3
+1.1	.8	3.2
+1.2	.9	2.2
+</pre></div></li>
+</ul>
+</li>
+<li><code>params</code>: Other parameters for <code>boxplot</code>, default: <code>""</code>  </li>
+<li><code>ggs</code>   : Extra ggplot2 statements  </li>
 </ul>
 </li>
 </ul>
