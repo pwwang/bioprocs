@@ -3246,6 +3246,52 @@ has-mir-22	Gene	+	+	+
 </li>
 </ul>
 </div>
+<div class="admonition hint">
+<p class="admonition-title">pNCBI</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    The NCBI E-Utils</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>term</code>: The term or the id argument for esearch or efetch  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output file  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>prog</code>   : The program to use, esearch (Default) or efetch  </li>
+<li><code>apikey</code> : The api key for E-utils  <ul>
+<li>Without API key, we can only query 3 time in a second</li>
+<li>With it, we can do 10.</li>
+</ul>
+</li>
+<li><code>db</code>     : The database to query. Default: <code>pubmed</code>. Available databases:  <ul>
+<li>annotinfo, assembly, biocollections, bioproject, biosample, biosystems, blastdbinfo, books, </li>
+<li>cdd, clinvar, clone, dbvar, gap, gapplus, gds, gencoll, gene, genome, geoprofiles, grasp, gtr, </li>
+<li>homologene, ipg, medgen, mesh, ncbisearch, nlmcatalog, nuccore, nucest, nucgss, nucleotide, </li>
+<li>omim, orgtrack, pcassay, pccompound, pcsubstance, pmc, popset, probe, protein, proteinclusters, </li>
+<li>pubmed, pubmedhealth, seqannot, snp, sparcle, sra, structure, taxonomy, unigene</li>
+</ul>
+</li>
+<li><code>joiner</code> : The delimit to use if the field is a list  </li>
+<li><code>record</code> : A function to transform the record.  </li>
+</ul>
+</li>
+<li>
+<p><strong>requires</strong><br />
+<a href="https://github.com/biocommons/eutils">python-eutils</a></p>
+</li>
+</ul>
+</div>
 <h3 id="pca">pca</h3>
 <div class="admonition hint">
 <p class="admonition-title">pPCA</p>
