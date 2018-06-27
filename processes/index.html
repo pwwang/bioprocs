@@ -102,6 +102,9 @@
     <li class="toctree-l2"><a href="#marray">marray</a></li>
     
 
+    <li class="toctree-l2"><a href="#math">math</a></li>
+    
+
     <li class="toctree-l2"><a href="#misc">misc</a></li>
     
 
@@ -1212,7 +1215,7 @@ s2	s3	1
 <li>
 <p><strong>input</strong>  </p>
 <ul>
-<li><code>fafile:file</code>: The fasta file  </li>
+<li><code>index</code>: The index of the job  </li>
 </ul>
 </li>
 <li>
@@ -1226,6 +1229,7 @@ s2	s3	1
 <ul>
 <li><code>params</code>: Other parameters for <code>cnvkit.py access</code>  </li>
 <li><code>cnvkit</code>: The executable of cnvkit. Default: 'cnvkit.py'  </li>
+<li><code>ref</code>: The reference file. Required.  </li>
 </ul>
 </li>
 <li>
@@ -1245,7 +1249,6 @@ s2	s3	1
 <p><strong>input</strong>  </p>
 <ul>
 <li><code>acfile:file</code>: The access file  </li>
-<li><code>anfile:file</code>: The annotate file  </li>
 </ul>
 </li>
 <li>
@@ -1278,6 +1281,7 @@ s2	s3	1
 <p><strong>input</strong>  </p>
 <ul>
 <li><code>infile:file</code>: The bam file  </li>
+<li><code>tgfile:file</code>: The target file  </li>
 </ul>
 </li>
 <li>
@@ -1289,7 +1293,6 @@ s2	s3	1
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>tgfile</code>: The target file  </li>
 <li><code>cnvkit</code>: The executable of cnvkit. Default: 'cnvkit.py'  </li>
 <li><code>nthread</code>: The number of threads to use. Default: 1  </li>
 <li><code>params</code>: Other parameters for <code>cnvkit.py coverage</code>  </li>
@@ -1311,7 +1314,7 @@ s2	s3	1
 <li>
 <p><strong>input</strong>  </p>
 <ul>
-<li><code>indir:file</code>: The input directory containing the cnn files  </li>
+<li><code>infiles:files</code>: The input reference coverage files  </li>
 </ul>
 </li>
 <li>
@@ -1323,8 +1326,42 @@ s2	s3	1
 <li>
 <p><strong>args</strong>  </p>
 <ul>
+<li><code>ref</code>   : The reference file.  </li>
 <li><code>cnvkit</code>: The executable of cnvkit. Default: 'cnvkit.py'  </li>
 <li><code>params</code>: Other parameters for <code>cnvkit.py reference</code>, default: " --no-edge "  </li>
+</ul>
+</li>
+<li>
+<p><strong>requires</strong><br />
+<a href="http://cnvkit.readthedocs.io/">CNVkit</a></p>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pCNVkitFlatRef</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Generate reference coverage if there are no normal samples.</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>tgfile:file</code>: The target file  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output reference cnn file  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>ref</code>   : The reference file.  </li>
+<li><code>cnvkit</code>: The executable of cnvkit. Default: 'cnvkit.py'  </li>
+<li><code>params</code>: Other parameters for <code>cnvkit.py reference</code>, default: <code>{}</code>  </li>
 </ul>
 </li>
 <li>
@@ -1432,17 +1469,17 @@ s2	s3	1
 </ul>
 </div>
 <div class="admonition hint">
-<p class="admonition-title">pCNVkitPlot</p>
+<p class="admonition-title">pCNVkitScatter</p>
 <ul>
 <li>
 <p><strong>description</strong><br />
-    Plot CNVkit results</p>
+    Generate scatter plot for CNVkit results.</p>
 </li>
 <li>
 <p><strong>input</strong>  </p>
 <ul>
-<li><code>cnrdir:file</code>: The directory containing copy number ratio files  </li>
-<li><code>cnsdir:file</code>: The directory containing copy number segment files  </li>
+<li><code>cnrfile:file</code>: The cnr file  </li>
+<li><code>cnsfile:file</code>: The cns file from call  </li>
 </ul>
 </li>
 <li>
@@ -1455,21 +1492,80 @@ s2	s3	1
 <p><strong>args</strong>  </p>
 <ul>
 <li><code>cnvkit</code>: The executable of cnvkit. Default: 'cnvkit.py'  </li>
-<li><code>region</code>: The region for zoom-in plots. Default: '' (don't plot zoom-in view)  </li>
-<li><code>gene</code>: The genes to be highlighted. Default: ''  </li>
-<li><code>scatter</code>: Whether to generate the scatter plot. Default: True  </li>
-<li><code>diagram</code>: Whether to generate the diagram plot. Default: True  </li>
-<li><code>heatmap</code>: Whether to generate the heatmap plot. Default: True  </li>
+<li><code>params</code>: Other parameters for <code>cnvkit.py scatter</code>  </li>
+<li><code>regions</code>: The regoins to plot. Default: <code>['']</code>  <ul>
+<li>You can have extra specific regions, format:</li>
+<li><code>chr5:100-50000000:TERT</code> or <code>chr7:BRAF,MET</code> (genes are used to highlight)</li>
 </ul>
 </li>
-<li>
-<p><strong>requires</strong><br />
-<a href="http://cnvkit.readthedocs.io/">CNVkit</a></p>
+</ul>
 </li>
 </ul>
 </div>
 <div class="admonition hint">
-<p class="admonition-title">pCNVkitRpt</p>
+<p class="admonition-title">pCNVkitDiagram</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Generate diagram plot for CNVkit results.</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>cnrfile:file</code>: The cnr file  </li>
+<li><code>cnsfile:file</code>: The cns file from call  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output file  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>cnvkit</code>: The executable of cnvkit. Default: 'cnvkit.py'  </li>
+<li><code>params</code>: Other parameters for <code>cnvkit.py scatter</code>  </li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pCNVkitHeatmap</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Generate heatmap plot for CNVkit results.</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>cnfiles:files</code>: The cnr or cns files.  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outdir:dir</code>: The output directory  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>cnvkit</code>: The executable of cnvkit. Default: 'cnvkit.py'  </li>
+<li><code>params</code>: Other parameters for <code>cnvkit.py scatter</code>  </li>
+<li><code>regions</code>: The regoins to plot. Default: <code>['']</code>  <ul>
+<li>You can have extra specific regions, format:</li>
+<li><code>chr5:100-50000000</code> or <code>chr7</code> (genes are used to highlight)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pCNVkitReport</p>
 <ul>
 <li>
 <p><strong>description</strong><br />
@@ -3204,6 +3300,61 @@ has-mir-22	Gene	+	+	+
 </li>
 </ul>
 </div>
+<h3 id="math">math</h3>
+<div class="admonition hint">
+<p class="admonition-title">pRank</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Convert values to ranks.</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input file  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output file with ranks.  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>na</code>: Where to put the <code>NA</code> values.  <ul>
+<li><code>"first"</code> : Put <code>NA</code> first</li>
+<li><code>"last"</code>  : Put <code>NA</code> last (default)</li>
+<li><code>"remove"</code>: Remove <code>NA</code> values</li>
+<li><code>"keep"</code>  : keep <code>NA</code> values</li>
+</ul>
+</li>
+<li><code>tie</code>: How to deal with ties  <ul>
+<li><code>"average"</code> : Use average ranks (default)</li>
+<li><code>"first"</code>   : Use the ranks come first</li>
+<li><code>"last"</code>    : Use the ranks come last</li>
+<li><code>"random"</code>  : Use the random ranks</li>
+<li><code>"max"</code>     : Use the max ranks</li>
+<li><code>"min"</code>     : Use the min ranks</li>
+</ul>
+</li>
+<li><code>byrow</code>: Calculate ranks by row (instead of by column)? Default: <code>True</code>  </li>
+<li><code>reverse</code>: Take the reverse rank? Default: <code>True</code>  <ul>
+<li>Large number gets higher rank (smaller rank index)</li>
+<li><code>args.na</code> remains the same.</li>
+</ul>
+</li>
+<li><code>inopts</code>: The input options:  <ul>
+<li><code>cnames</code>: Whether the input file has header. Default: <code>True</code></li>
+<li><code>rnames</code>: Whether the input file has row names. Default: <code>True</code></li>
+<li><code>delimit</code>: The separator of columns. Default: <code>\t</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
 <h3 id="misc">misc</h3>
 <div class="admonition hint">
 <p class="admonition-title">pGEP70</p>
@@ -3272,6 +3423,11 @@ has-mir-22	Gene	+	+	+
 <li><code>apikey</code> : The api key for E-utils  <ul>
 <li>Without API key, we can only query 3 time in a second</li>
 <li>With it, we can do 10.</li>
+</ul>
+</li>
+<li><code>sleep</code>  : Sleep sometime after job done. Default: <code>0.15</code>  <ul>
+<li>Because of the limit of # queries/sec, we need to sleep sometime after the job is done</li>
+<li>At the same time, we also have to limit # jobs to run at the same time. typically: <code>pNCBI.forks = 10</code></li>
 </ul>
 </li>
 <li><code>db</code>     : The database to query. Default: <code>pubmed</code>. Available databases:  <ul>
@@ -4702,66 +4858,8 @@ Sample6	group2
 <div class="admonition hint">
 <p class="admonition-title">pBam2Cnv</p>
 <ul>
-<li>
-<p><strong>description</strong><br />
-    Detect copy number variation from bam files.</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>input:file</code>: The bam file  </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outfile:file</code>: The output vcf file  </li>
-<li><code>outdir</code>: The output directory containing other result files  </li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong>  </p>
-<ul>
-<li><code>gz</code>                    : Whether to gzip the output vcf file. Default: False  </li>
-<li><code>tool</code>                  : The tool used to call cnv. Default: 'cnvkit'  </li>
-<li><code>cnvnator</code>              : The path of cnvnator. Default: 'cnvnator'  </li>
-<li><code>cnvnator2vcf</code>          : The path of cnvnator2VCF. Default: 'cnvnator2VCF.pl'  </li>
-<li><code>cnvkit</code>                : The path of cnvkit. Default: 'cnvkit.py'  </li>
-<li><code>wandy</code>                 : Tha path of Wandy. Default: 'Wandy'. A <code>tool.info</code> file should be with the executable file.  </li>
-<li><code>ref</code>                   : The reference file. Required by cnvkit to generate access file. Default: ''  </li>
-<li><code>cnvkitAccessParams</code>    : The params for cnvkit access command. Default: '-s 5000'  </li>
-<li><code>cnvkitTargetParams</code>    : The params for cnvkit target command. Default: '--split --short-names'  </li>
-<li><code>cnvkitCoverageParams</code>  : The params for cnvkit coverage command. Default: ''  </li>
-<li><code>cnvkitReferenceParams</code> : The params for cnvkit reference command. Default: '--no-edge'  </li>
-<li><code>cnvkitFixParams</code>       : The params for cnvkit fix command. Default: '--no-edge'  </li>
-<li><code>cnvkitSegmentParams</code>   : The params for cnvkit segment command. Default: ''  </li>
-<li><code>cnvkitCallParams</code>      : The params for cnvkit call command. Default: ''  </li>
-<li><code>cnvkitPlotParams</code>      : The params for cnvkit plot command. Default: ''  </li>
-<li><code>cnvkitBreaksParams</code>    : The params for cnvkit breaks command. Default: ''  </li>
-<li><code>cnvkitGainlossParams</code>  : The params for cnvkit gainloss command. Default: ''  </li>
-<li><code>cnvkitMetricsParams</code>   : The params for cnvkit metrics command. Default: ''  </li>
-<li><code>cnvkitSegmetricsParams</code>: The params for cnvkit segmetrics command. Default: '--iqr'  </li>
-<li><code>cnvkitExportParams</code>    : The params for cnvkit export command. Default: ''  </li>
-<li><code>cnvkitScatterParams</code>   : The params for cnvkit scatter command. Default: [''] # multiple scatter plots  </li>
-<li><code>cnvkitHeatmapParams</code>   : The params for cnvkit heatmap command. Default: [''] # multiple heatmap plots  </li>
-<li><code>cnvkitDiagramParams</code>   : The params for cnvkit diagram command. Default: ''  </li>
-<li><code>cnvkitReport</code>          : Generate cnvkit reports? Default: True  </li>
-<li><code>cnvkitPlot</code>            : Generate cnvkit plots? Default: True  </li>
-<li><code>cnvnatorBinsize</code>       : Bin size for cnvnator. Default: 100  </li>
-<li><code>cnvnatorGenome</code>        : Genome for cnvnator. Default: 'hg19'. (NCBI36, hg18, GRCh37, hg19)  </li>
-<li><code>params</code>                : The params for <code>tool</code>. Default: '-t 1' # wandy 1:hg19 solid cell/blood, 2:hg19 cell free/plamsa, 3:hg38 solid cell/blood, 4:hg38 cell free/plamsa  </li>
-<li><code>mem</code>                   : The memory used. Default: '20G' # only for wandy  </li>
-<li><code>nthread</code>               : The # threads to use. Default: 1     # only for cnvkit  </li>
-</ul>
-</li>
-<li>
-<p><strong>requires</strong><br />
-<a href="http://cnvkit.readthedocs.io/en/stable/index.html"><code>cnvkit</code></a>
-    <a href="https://github.com/abyzovlab/CNVnator"><code>cnvnator</code></a></p>
-<ul>
-<li><code>wandy</code>: Inside cnv caller  </li>
-</ul>
-</li>
+<li><strong>description</strong><br />
+    see <code>bioaggr.wxs.aBam2SCnv</code> and <code>bioaggr.wxs.aBam2GCnv</code></li>
 </ul>
 </div>
 <div class="admonition hint">
@@ -5735,6 +5833,50 @@ ID	INT	PRIMARY KEY
 </li>
 <li><code>N</code>: The population size. Default: <code>None</code>  </li>
 </ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pCorr</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Calculate the correlation coefficient for the input matrix</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input file  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output file containing the correlation coefficients  </li>
+<li><code>outdir:dir</code>  : The output directory containing the outfile and the plot  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>outfmt</code>: The output format. Could be <code>matrix</code> or <code>pairs</code> (default)  </li>
+<li><code>metohd</code>: The method used to calculate the correlation coefficient. Default: <code>pearson</code>. Could also be <code>spearman</code> or <code>kendall</code>  </li>
+<li><code>byrow</code>: Calculate the correlation coefficient by row or by col. Default: <code>True</code>  </li>
+<li><code>inopts</code>: The input options:  <ul>
+<li><code>cnames</code>: Whether the input file has header. Default: <code>True</code></li>
+<li><code>rnames</code>: Whether the input file has row names. Default: <code>True</code></li>
+<li><code>delimit</code>: The separator of columns. Default: <code>\t</code></li>
+</ul>
+</li>
+<li><code>plot</code>: Whether output a correlation plot. Default: <code>False</code>  </li>
+<li><code>params</code>: The params for <code>plot.heatmap</code> in <code>utils/plot.r</code>  </li>
+<li><code>ggs</code>: The extra ggplot2 statements.  </li>
+<li><code>devpars</code>: The parameters for the plot device. Default: <code>Box(height = 2000, width = 2000, res = 300)</code>  </li>
+</ul>
+</li>
+<li>
+<p><strong>requires</strong><br />
+    R packages: <code>ggplot2</code> and <code>reshape</code></p>
 </li>
 </ul>
 </div>
