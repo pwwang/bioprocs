@@ -159,9 +159,6 @@
     <li class="toctree-l2"><a href="#tsv">tsv</a></li>
     
 
-    <li class="toctree-l2"><a href="#utils">utils</a></li>
-    
-
     <li class="toctree-l2"><a href="#vcf">vcf</a></li>
     
 
@@ -169,24 +166,6 @@
     
 
     <li class="toctree-l2"><a href="#web">web</a></li>
-    
-
-    <li class="toctree-l2"><a href="#wxs">wxs</a></li>
-    
-
-    <li class="toctree-l2"><a href="#wxsanno">wxsanno</a></li>
-    
-
-    <li class="toctree-l2"><a href="#wxscall">wxscall</a></li>
-    
-
-    <li class="toctree-l2"><a href="#wxsdown">wxsdown</a></li>
-    
-
-    <li class="toctree-l2"><a href="#wxsprep">wxsprep</a></li>
-    
-
-    <li class="toctree-l2"><a href="#wxsstat">wxsstat</a></li>
     
 
     </ul>
@@ -374,39 +353,6 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <p><strong>requires</strong><br />
 <a href="http://bedtools.readthedocs.io/en/latest/index.html"><code>bedtools</code></a>
     <a href="https://github.com/bedops/bedops"><code>bedops</code></a></p>
-</li>
-</ul>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">pBedCluster</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Assign cluster id to each record</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>infile:file</code>: The input bed file  </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outfile:file</code>: The output file  </li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong>  </p>
-<ul>
-<li><code>tool</code>: The tool used to sort the file. Default: bedtools  </li>
-<li><code>bedtools</code>: The path to bedtools. Default: bedtools  </li>
-<li><code>params</code>: Other params for <code>tool</code>. Default: ''  </li>
-</ul>
-</li>
-<li>
-<p><strong>requires</strong><br />
-<a href="http://bedtools.readthedocs.io/en/latest/index.html"><code>bedtools</code></a></p>
 </li>
 </ul>
 </div>
@@ -926,8 +872,40 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>bin</code>: The bedtools executable, default: "bedtools"  </li>
-<li><code>params</code>: Other parameters for <code>bedtools genomecov</code>, default: "-bg"  </li>
+<li><code>bedtools</code>: The bedtools executable, default: "bedtools"  </li>
+<li><code>params</code>: Other parameters for <code>bedtools genomecov</code>, default: <code>Box(bg = True)</code>  </li>
+</ul>
+</li>
+<li>
+<p><strong>requires</strong><br />
+<a href="http://bedtools.readthedocs.io/en/latest/index.html">bedtools</a></p>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pBedCluster</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Similar to merge, cluster report each set of overlapping or “book-ended” features in an interval file. In contrast to merge, cluster does not flatten the cluster of intervals into a new meta-interval; instead, it assigns an unique cluster ID to each record in each cluster. This is useful for having fine control over how sets of overlapping intervals in a single interval file are combined.</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input file  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output file with cluster id for each record  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>bedtools</code>: The bedtools executable, default: "bedtools"  </li>
+<li><code>params</code>: Other parameters for <code>bedtools cluster</code>, default: <code>Box()</code>  </li>
 </ul>
 </li>
 <li>
@@ -944,8 +922,9 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <p><strong>description</strong><br />
     Convert peaks to regulatory potential score for each gene
     The formula is:
-    <code>-(0.5 + 4*di/d0)
-    PC = sum (pi * e                  )</code>
+    <div class="highlight"><pre><span></span>                 -(0.5 + 4*di/d0)
+PC = sum (pi * e                  )
+</pre></div>
     Ref: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4489297/</p>
 </li>
 <li>
@@ -964,23 +943,24 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>intensity</code>: <code>pi</code> in the formula. Boolean value, whether use the peak intensity or not, default: <code>True</code>,  </li>
-<li><code>geneformat</code>: The format for <code>genefile</code>, default: <code>ucsc+gz</code>. It could be:  <ul>
+<li><code>signal</code>: <code>pi</code> in the formula. Boolean value, whether use the peak intensity signale or not, default: <code>True</code>,  </li>
+<li><code>genefmt</code>: The format for <code>genefile</code>, default: <code>ucsc+gz</code>. It could be:  <ul>
 <li>ucsc or ucsc+gz: typically, you can download from http://hgdownload.cse.ucsc.edu/goldenPath/hg38/database/refGene.txt.gz</li>
 <li>bed or bed+gz: <a href="https://genome.ucsc.edu/FAQ/FAQformat#format1">format</a>, 4th column required as gene identity.</li>
 </ul>
 </li>
-<li><code>peakformat</code>: The format for <code>peakfile</code>, default: <code>peak</code>. It could be:  <ul>
+<li><code>peakfmt</code>: The format for <code>peakfile</code>, default: <code>peak</code>. It could be:  <ul>
 <li>peak or peak+gz: (either <a href="https://genome.ucsc.edu/FAQ/FAQformat.html#format12">narrowPeak</a> or <a href="https://genome.ucsc.edu/FAQ/FAQformat.html#format13">broadPeak</a>, the 7th column will be used as intensity</li>
 <li>bed or bed+gz: <a href="https://genome.ucsc.edu/FAQ/FAQformat#format1">format</a>, 5th column will be used as intensity.</li>
 </ul>
 </li>
 <li><code>window</code>: <code>2 * d0</code> in the formula. The window where the peaks fall in will be consided, default: <code>100000</code>. <br />
-<code>|--------- window ----------|
-    |---- d0 -----|
-    |--- 50K --- TSS --- 50K ---|
-         ^ (peak center)
-         |-- di --|</code></li>
+    <div class="highlight"><pre><span></span>		|--------- window ----------|
+		|---- d0 -----|
+		|--- 50K --- TSS --- 50K ---|
+			^ (peak center)
+			|-- di --|
+</pre></div></li>
 </ul>
 </li>
 </ul>
@@ -3249,6 +3229,41 @@ has-mir-22	Gene	+	+	+
 </ul>
 </div>
 <h3 id="hic">hic</h3>
+<div class="admonition hint">
+<p class="admonition-title">pPartners</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Find the interaction partners of the regions in input file.</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>regfile:file</code>: The region file for the regions to find partners for.  </li>
+<li><code>intfile:file</code>: The interaction file  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The regions with partners.  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>regtype</code>: The type of region file. Default: <code>auto</code> (tell from file extension)  <ul>
+<li>Could also be <code>bed</code> or <code>bedx</code></li>
+</ul>
+</li>
+<li><code>inttype</code>: The type of interaction file. Default: <code>auto</code>  <ul>
+<li>Could also be <code>bedpe</code>, <code>chiapet.tool</code>, <code>hiclib</code> and <code>bed12</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
 <h3 id="marray">marray</h3>
 <div class="admonition hint">
 <p class="admonition-title">pCELdir2Matrix</p>
@@ -6336,7 +6351,6 @@ File2:
 </li>
 </ul>
 </div>
-<h3 id="utils">utils</h3>
 <h3 id="vcf">vcf</h3>
 <div class="admonition hint">
 <p class="admonition-title">pVcfFilter</p>
@@ -6493,7 +6507,7 @@ File2:
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>tool</code>: The tool used to do extraction. Default: vcftools  </li>
+<li><code>tool</code>: The tool used to do extraction. Default: vcftools (gatk, awk)  </li>
 <li><code>vcftools</code>: The path of vcftools' vcf-subset  </li>
 <li><code>bcftools</code>: The path of bcftools, used to extract the sample names from input vcf file.  </li>
 <li><code>gatk</code>: The path of gatk.  </li>
@@ -6752,6 +6766,44 @@ File2:
 </li>
 </ul>
 </div>
+<div class="admonition hint">
+<p class="admonition-title">pSnpEff</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    This is the default command. It is used for annotating variant filed (e.g. VCF files).</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input file   </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outdir:file</code>: The directory containing output anntated file, snpEff_genes.txt and snpEff_summary.html  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>snpEff</code>: The snpEff executable, default: "snpEff"  </li>
+<li><code>params</code>: Other parameters for <code>snpEff</code>, default: "-Xms1g -Xmx4g -v"  </li>
+<li><code>genome</code>: The genome used for annotation, default: "hg19"  </li>
+<li><code>informat</code>: The format of input file [vcf or bed], default: "vcf"  </li>
+<li><code>outformat</code>: The format of output file [vcf, gatk, bed, bedAnn], default: "vcf"  </li>
+<li><code>csvStats</code>: Whether to generate csv stats file, default: True.  </li>
+<li><code>htmlStats</code>: Whether to generate the html summary file, default: False.  </li>
+<li><code>javamem</code>: The memory to use. Default: '-Xms1g -Xmx8g'  </li>
+</ul>
+</li>
+<li>
+<p><strong>requires</strong><br />
+<a href="http://snpeff.sourceforge.net/SnpEff_manual.html">snpEff</a></p>
+</li>
+</ul>
+</div>
 <h3 id="web">web</h3>
 <div class="admonition hint">
 <p class="admonition-title">pDownloadForm</p>
@@ -6834,730 +6886,6 @@ File2:
 <p><strong>output</strong>  </p>
 <ul>
 <li><code>outfile:file</code>: The output file  </li>
-</ul>
-</li>
-</ul>
-</div>
-<h3 id="wxs">wxs</h3>
-<h3 id="wxsanno">wxsanno</h3>
-<div class="admonition hint">
-<p class="admonition-title">pSnpEff</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    This is the default command. It is used for annotating variant filed (e.g. VCF files).</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>infile:file</code>: The input file   </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outdir:file</code>: The directory containing output anntated file, snpEff_genes.txt and snpEff_summary.html  </li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong>  </p>
-<ul>
-<li><code>snpEff</code>: The snpEff executable, default: "snpEff"  </li>
-<li><code>params</code>: Other parameters for <code>snpEff</code>, default: "-Xms1g -Xmx4g -v"  </li>
-<li><code>genome</code>: The genome used for annotation, default: "hg19"  </li>
-<li><code>informat</code>: The format of input file [vcf or bed], default: "vcf"  </li>
-<li><code>outformat</code>: The format of output file [vcf, gatk, bed, bedAnn], default: "vcf"  </li>
-<li><code>csvStats</code>: Whether to generate csv stats file, default: True.  </li>
-<li><code>htmlStats</code>: Whether to generate the html summary file, default: False.  </li>
-<li><code>javamem</code>: The memory to use. Default: '-Xms1g -Xmx8g'  </li>
-</ul>
-</li>
-<li>
-<p><strong>requires</strong><br />
-<a href="http://snpeff.sourceforge.net/SnpEff_manual.html">snpEff</a></p>
-</li>
-</ul>
-</div>
-<h3 id="wxscall">wxscall</h3>
-<div class="admonition hint">
-<p class="admonition-title">pCNVnator</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Use <code>CNVnator</code> to call CNVs from bam file</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>infile:file</code>: The bam file   </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outfile:file</code>: The vcf file  </li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong>  </p>
-<ul>
-<li><code>cnvnator</code>: The CNVnator executable, default: "cnvnator"  </li>
-<li><code>cnv2vcf</code>: The converter executable to convert CNVnator results to vcf, default: "cnvnator2VCF.pl"  </li>
-<li><code>binsize</code>: The bin_size, default: 100  </li>
-<li><code>genome</code>: The genome: default: hg19  </li>
-<li><code>chrom</code>: Chromosome names, default: "" (all chromosomes)  </li>
-<li><code>chrdir</code>: The dir contains reference sequence of chromosomes, default: "" (don't specify)  </li>
-</ul>
-</li>
-<li>
-<p><strong>requires</strong><br />
-<a href="https://github.com/abyzovlab/CNVnator">CNVnator</a></p>
-</li>
-</ul>
-</div>
-<h3 id="wxsdown">wxsdown</h3>
-<div class="admonition hint">
-<p class="admonition-title">pMutSig</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    MutSig stands for "Mutation Significance".  MutSig analyzes lists of mutations discovered in DNA sequencing, to identify genes that were mutated more often than expected by chance given background mutation processes.</p>
-<p>For more information, see Lawrence, M. et al. Mutational heterogeneity in cancer and the search for new cancer-associated genes. Nature 499, 214-218 (2013).</p>
-<p>See <a href="http://archive.broadinstitute.org/cancer/cga/mutsig_run">dcumentation</a></p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>maffile:file</code>: mutation table  </li>
-<li><code>cvgfile:file</code>: coverage table  </li>
-<li><code>cvrfile:file</code>: covariates table  </li>
-<li><code>mutdict:file</code>: mutation_type_dictionary_file  </li>
-<li><code>chrdir:file</code>: chr_files_hg18 or chr_files_hg19   </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outdir:dir</code>: The output directory  </li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong>  </p>
-<ul>
-<li><code>mutsig</code>: The path to <code>run_MutSigCV.sh</code>, default: 'mutsig'  </li>
-<li><code>mcr</code>: The Matlab MCR path  </li>
-</ul>
-</li>
-<li>
-<p><strong>requires</strong><br />
-<a href="http://archive.broadinstitute.org/cancer/cga/mutsig_download">MutSing</a></p>
-</li>
-</ul>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">pVcf2Maf</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Convert a snpEff-annotated somatic mutation vcf file (with normal and tumor samples) to <a href="https://wiki.nci.nih.gov/display/TCGA/Mutation+Annotation+Format+(MAF)+Specification">maf</a> file</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>infile:file</code>: vcf file  </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outfile:file</code>: The maf file  </li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong><br />
-<code>vepdata</code>: The path of vep data. Default: "" (default data dir of vep)
-       <code>vep</code>: The path of vep excutable. Default: "vep"
-       <code>vcf2maf</code>: The path of vcf2maf excutable. Default: "vcf2maf.pl"
-       <code>reffile</code>: The reference fasta file.
-       <code>nthread</code>: The number of threads used by vep. Default: 1
-       <code>filtervcf</code>: The filter vcf</p>
-<ul>
-<li><code>params</code>: Other parameters for <code>vcf2maf.pl</code>, default: ""  </li>
-</ul>
-</li>
-<li>
-<p><strong>requires</strong><br />
-<a href="https://github.com/mskcc/vcf2maf">vcf2maf.py</a></p>
-</li>
-</ul>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">pMergeMafs</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Merge MAF files</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>indir:file</code>: The directory containing MAF files to be merged  </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outfile:file</code>: The merged MAF file  </li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">pMutsig4Plot</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Prepare somatic mutations for  plotting</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>msdir:file</code>: The mutsig output directory  </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outfile:file</code>: The file for plotting<br />
-<div class="highlight"><pre><span></span>#PANEL: Somatic mutations
-#INFO: MT|PI
-#DESC: Mutation type|Putative impact
-# could also be bordercolor, you can have up to 4 shape features
-#TYPE: shape|bgcolor
-# could also be continuous
-# expressions for set: a,b,c
-#                 norminal: no
-#                 continuous: [0,1]
-#DATA: set|norminal
-#NCOL: 2|2
-#NAME_MT: Frameshift|Missense|Nonsense|Silent|Splice_site|TSS|Nonstop
-#NAME_PI: HIGH|MODERATE|LOW|MODIFIER
-#VALUE_MT: 0|1|20|13|4|17|14
-#EXP_MT: frameshift_variant,inframe_deletion,inframe_insertion|missense_variant,initiator_codon_variant,stop_retained_variant,rare_amino_acid_variant|stop_gained|synonymous_variant|splice_acceptor_variant,splice_donor_variant|start_lost,start_retained|stop_lost
-#
-Sample1	Sample2	Sample3	Sample4	Sample5
-ABC	missense_variant|HIGH	missense_variant|HIGH	...
-...
-</pre></div></li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong>  </p>
-<ul>
-<li><code>topn</code>: the cutoff to select genes. If it is &gt;= 1, top N genes will be selected, otherwise, it will be used as pvalue cutoff. Default: .05  </li>
-</ul>
-</li>
-<li>
-<p><strong>requires</strong><br />
-<a href="https://github.com/jamescasbon/PyVCF"><code>pyvcf</code></a></p>
-</li>
-</ul>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">pMutPlot</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Plot mutations
-    <div class="highlight"><pre><span></span>|           |             |           |           |---
-|- ftWidth -|  s   s   s  |- pnWidth -|- lgWidth -| snHeight
-|           |             |           |           |---
-    feature1
-	feature2
-</pre></div></p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>indir:file</code>: The input directory containing plot files  </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outfile:file</code>: The plot png file  </li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">pCepip</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    run CEPIP.</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>avinput:file</code>: The avinput file  </li>
-<li><code>cell</code>: The cell  </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outfile:file</code>: The cepip result file  </li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong>  </p>
-<ul>
-<li><code>bin-cepip</code>: The jar file path of cepip, default: /data2/junwenwang/shared/tools/cepip/cepip.jar  </li>
-</ul>
-</li>
-<li>
-<p><strong>requires</strong><br />
-<a href="http://jjwanglab.org/cepip/"><code>cepip</code></a></p>
-</li>
-</ul>
-</div>
-<h3 id="wxsprep">wxsprep</h3>
-<div class="admonition hint">
-<p class="admonition-title">pTrimmomaticPE</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Trimming Illumina NGS paired-end data</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>fqfile1:file</code>: The 1st fastq file (could be in .gz format)  </li>
-<li><code>fqfile2:file</code>: The 2nd fastq file  </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outfile1:file</code>: The 1st output file  </li>
-<li><code>outfile2:file</code>: The 2nd output file  </li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong>  </p>
-<ul>
-<li><code>trimmomatic</code>: The trimmomatic executable, default: "trimmomatic"  </li>
-<li><code>phred</code>: "phred33" (default) or "phred64"  </li>
-<li><code>params</code>: Other params for trimmomatric, default: "ILLUMINACLIP:{adapter}:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36"  <ul>
-<li>have to replace <code>{adapter}</code> with the path of the adapter file</li>
-</ul>
-</li>
-<li><code>nthread</code>: 1  </li>
-</ul>
-</li>
-<li>
-<p><strong>requires</strong><br />
-<a href="http://www.usadellab.org/cms/index.php?page=trimmomatic">trimmomatic</a></p>
-</li>
-</ul>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">pTrimmomaticSE</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Trimming Illumina NGS single-end data</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>fqfile:file</code>: The fastq file (could be in .gz format)  </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outfile:file</code>: The output file  </li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong>  </p>
-<ul>
-<li><code>trimmomatic</code>: The trimmomatic executable, default: "trimmomatic"  </li>
-<li><code>phred</code>: "phred33" (default) or "phred64"  </li>
-<li><code>params</code>: Other params for trimmomatric, default: "ILLUMINACLIP:{adapter}:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36"  <ul>
-<li>have to replace <code>{adapter}</code> with the path of the adapter file</li>
-</ul>
-</li>
-<li><code>nthread</code>: 1  </li>
-</ul>
-</li>
-<li>
-<p><strong>requires</strong><br />
-<a href="http://www.usadellab.org/cms/index.php?page=trimmomatic">trimmomatic</a></p>
-</li>
-</ul>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">pAlignPEByBWA</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Align paired-end reads to reference genome using bwa mem</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>infile1:file</code>: read file 1 (fastq, or fastq gzipped)  </li>
-<li><code>infile2:file</code>: read file 2 (fastq, or fastq gzipped)  </li>
-<li><code>reffile:file</code>: The reference file  </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outfile:file</code>: The output sam file  </li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong>  </p>
-<ul>
-<li><code>bwa</code>: The bwa executable, default: bwa  </li>
-<li><code>params</code>: Other params for bwa mem, default: "-M"  </li>
-<li><code>nthread</code>: 1  </li>
-</ul>
-</li>
-<li>
-<p><strong>requires</strong><br />
-<a href="https://github.com/lh3/bwa">bwa</a></p>
-</li>
-</ul>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">pAlignSEByBWA</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Align paired-end reads to reference genome using bwa mem</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>infile:file</code>: read file (fastq, or fastq gzipped)  </li>
-<li><code>reffile:file</code>: The reference file  </li>
-</ul>
-</li>
-<li>
-<p><strong>brings</strong>  </p>
-<ul>
-<li><code>reffile#bwt</code>: "{{reffile | bn}}.bwt",   </li>
-<li><code>reffile#sa</code>: "{{reffile | bn}}.sa",  </li>
-<li><code>reffile#ann</code>: "{{reffile | bn}}.ann",  </li>
-<li><code>reffile#amb</code>: "{{reffile | bn}}.amb",  </li>
-<li><code>reffile#pac</code>: "{{reffile | bn}}.pac"  </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outfile:file</code>: The output sam file  </li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong>  </p>
-<ul>
-<li><code>bwa</code>: The bwa executable, default: bwa  </li>
-<li><code>params</code>: Other params for bwa mem, default: "-M"  </li>
-<li><code>nthread</code>: 1  </li>
-<li><code>reffile</code>: The reference file, required  </li>
-</ul>
-</li>
-<li>
-<p><strong>requires</strong><br />
-<a href="https://github.com/lh3/bwa">bwa</a></p>
-</li>
-</ul>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">pAlignPEByNGM</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Align paired-end reads to reference genome using NextGenMap</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>infile1:file</code>: read file 1 (fastq, or fastq gzipped)  </li>
-<li><code>infile2:file</code>: read file 2 (fastq, or fastq gzipped)  </li>
-<li><code>reffile:file</code>: The reference file  </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outfile:file</code>: The output sam/bam file  </li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong>  </p>
-<ul>
-<li><code>ngm</code>: The NextGenMap executable, default: ngm  </li>
-<li><code>nthread</code>: 1  </li>
-<li><code>outtype</code>: sam or bam, default: sam (only sam for now, due to bug of ngm 0.5.3 (fixed in 0.5.4))  </li>
-<li><code>params</code>: Other params for ngm, default: "--rg-id ngm --rg-sm sample"  </li>
-</ul>
-</li>
-<li>
-<p><strong>requires</strong><br />
-<a href="https://github.com/Cibiv/NextGenMap/wiki">NextGenMap</a></p>
-</li>
-</ul>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">pAlignSEByNGM</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Align single-end reads to reference genome using NextGenMap</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>infile1:file</code>: read file 1 (fastq, or fastq gzipped)  </li>
-<li><code>infile2:file</code>: read file 2 (fastq, or fastq gzipped)  </li>
-<li><code>reffile:file</code>: The reference file  </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outfile:file</code>: The output sam/bam file  </li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong>  </p>
-<ul>
-<li><code>ngm</code>: The NextGenMap executable, default: ngm  </li>
-<li><code>nthread</code>: 1  </li>
-<li><code>outtype</code>: sam or bam, default: sam (only sam for now, due to bug of ngm 0.5.3 (fixed in 0.5.4))  </li>
-<li><code>params</code>: Other params for ngm, default: "--rg-id ngm --rg-sm sample"  </li>
-</ul>
-</li>
-<li>
-<p><strong>requires</strong><br />
-<a href="https://github.com/Cibiv/NextGenMap/wiki">NextGenMap</a></p>
-</li>
-</ul>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">pMergeBams</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Merge bam files</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>bamdir:dir</code>: the dir containing bam files   </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outfile:file</code>: the merged bam file  </li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong>  </p>
-<ul>
-<li><code>samtools</code>: the executable path of samtools, default: "samtools"  </li>
-<li><code>nthread</code>: Number of BAM/CRAM compression threads  </li>
-<li><code>params</code>: Other parameters for <code>samtools merge</code>, default: ""  </li>
-</ul>
-</li>
-<li>
-<p><strong>requires</strong><br />
-<a href="http://www.htslib.org/">samtools</a></p>
-</li>
-</ul>
-</div>
-<h3 id="wxsstat">wxsstat</h3>
-<div class="admonition hint">
-<p class="admonition-title">pVcf2List</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Convert vcf to stat files for pCallRate</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>vcffile:file</code>: The vcf file  </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outfile:file</code>: The stat file  </li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong>  </p>
-<ul>
-<li><code>chroms</code>: SNPs on chromosomes to consider, default: "" (all chroms)  </li>
-<li>use "chr1-22, chrX, chrY" for chr1 to chr22, chrX and chrY</li>
-</ul>
-</li>
-<li>
-<p><strong>requires</strong><br />
-<a href="https://github.com/jamescasbon/PyVCF"><code>pyvcf</code></a></p>
-</li>
-</ul>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">pCallRate</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Calculate sample/snp call rate from a matrix of snp-sample</p>
-<ul>
-<li>rows are snps, columns are samples</li>
-</ul>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>infile:file</code>: The snp-sample matrix file  </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outsample:file</code>: The report of call rate for each sample  </li>
-<li><code>figsample:file</code>: The bar chat of sample call rates  </li>
-<li><code>outsnp:file</code>: The report of call rate for each snp  </li>
-<li><code>figsnp:file</code>: The bar chat of snp call rates  </li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">pCoverageByBamstats</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Use <code>bamstats</code> to calculate coverage for bam file</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>infile:file</code>: The bam file  </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outfile:file</code>: The report of coverage for the bam file  </li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong>  </p>
-<ul>
-<li><code>bin</code>: The <code>bamstats</code> executable, default: "bamstats"  </li>
-<li><code>params</code>: Other parameters for <code>bamstats</code>, default: ""  </li>
-</ul>
-</li>
-<li>
-<p><strong>requires</strong><br />
-<a href="http://bamstats.sourceforge.net/">bamstats</a></p>
-</li>
-</ul>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">pPlotBamstats</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Plot coverage use output files generated by <code>bamstats</code> or <code>wxs.pCoverageByBamstats</code></p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>indir:file</code>: The directory containing bamstats output files  </li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong>  </p>
-<ul>
-<li><code>chroms</code>: Chromosomes to plot. Default: "" (all chroms)  </li>
-<li>Note: Whether to have "chr" prefix or not depends on your reference when mapping.</li>
-<li>You can do a scope assignment: "chr1-chr22, chrX, chrY"</li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outdir:file</code>: The directory containing output figures  </li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">pSnpEff2Stat</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Convert csvstat file from snpEff to R-readable matrix for plotting</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>indir:file</code>: The directory containing the csv stat files from <code>snpEff ann</code>  </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outdir:dir</code>: The output directory  </li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong>  </p>
-<ul>
-<li><code>chroms</code>: The chromsome filter. Default: "" (all chroms)  </li>
-<li>Note: snpEff csvstat file has no "chr" prefix</li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">pPlotSnpEff</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Plot snpEff annotation statistics</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>indir:file</code>: The snpEff result directory containing matrix files generated by pSnpEff2Stat  </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outdir:dir</code>: The output directory  </li>
-</ul>
-</li>
-<li>
-<p><strong>requires</strong><br />
-<a href="https://github.com/pwwang/corrplot"><code>pwwang/corrplot</code></a></p>
-<ul>
-<li>use <code>library(devtools); install.github("pwwang/corrplot")</code>
-<a href="http://ggplot2.org/"><code>ggplot2</code></a></li>
 </ul>
 </li>
 </ul>
