@@ -887,7 +887,7 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <ul>
 <li>
 <p><strong>description</strong><br />
-    Similar to merge, cluster report each set of overlapping or “book-ended” features in an interval file. In contrast to merge, cluster does not flatten the cluster of intervals into a new meta-interval; instead, it assigns an unique cluster ID to each record in each cluster. This is useful for having fine control over how sets of overlapping intervals in a single interval file are combined.</p>
+    Similar to merge, cluster report each set of overlapping or "book-ended" features in an interval file. In contrast to merge, cluster does not flatten the cluster of intervals into a new meta-interval; instead, it assigns an unique cluster ID to each record in each cluster. This is useful for having fine control over how sets of overlapping intervals in a single interval file are combined.</p>
 </li>
 <li>
 <p><strong>input</strong>  </p>
@@ -1186,62 +1186,48 @@ s2	s3	1
 </div>
 <h3 id="cnvkit">cnvkit</h3>
 <div class="admonition hint">
-<p class="admonition-title">pCNVkitAccess</p>
+<p class="admonition-title">pCNVkitPrepare</p>
 <ul>
 <li>
 <p><strong>description</strong><br />
-    Calculate the sequence-accessible coordinates in chromosomes from the given reference genome, output as a BED file.</p>
+    Generate target files for cnvkit, using probably cnvkit's access, target, autobin commands.</p>
 </li>
 <li>
 <p><strong>input</strong>  </p>
 <ul>
-<li><code>index</code>: The index of the job  </li>
+<li><code>infiles:files</code>: The bam files. Indexes are necessary.  <ul>
+<li>Hint: if indexes are not with the input files, you probably need <code>pCNVkitPrepare.infile = 'origin'</code></li>
+</ul>
+</li>
 </ul>
 </li>
 <li>
 <p><strong>output</strong>  </p>
 <ul>
-<li><code>outfile:file</code>: The output file  </li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong>  </p>
-<ul>
-<li><code>params</code>: Other parameters for <code>cnvkit.py access</code>  </li>
-<li><code>cnvkit</code>: The executable of cnvkit. Default: 'cnvkit.py'  </li>
-<li><code>ref</code>: The reference file. Required.  </li>
-</ul>
-</li>
-<li>
-<p><strong>requires</strong><br />
-<a href="http://cnvkit.readthedocs.io/">CNVkit</a></p>
-</li>
-</ul>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">pCNVkitTarget</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Generate targets file for CNVkit using access file and annotate file (<code>cnvkit.py target</code>)</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>acfile:file</code>: The access file  </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outfile:file</code>: The targets file  </li>
+<li><code>target:file</code>: The (autobinned) target file  </li>
+<li><code>antitarget:file</code>: The (autobinned) target file  </li>
 </ul>
 </li>
 <li>
 <p><strong>args</strong>  </p>
 <ul>
 <li><code>cnvkit</code>: The executable of cnvkit. Default: 'cnvkit.py'  </li>
-<li><code>params</code>: Other parameters for <code>cnvkit.py target</code>  </li>
+<li><code>exbaits</code>: The bait file for exome-sequencing data.  <ul>
+<li>See https://github.com/AstraZeneca-NGS/reference_data/tree/master/hg19/bed</li>
+</ul>
+</li>
+<li><code>accfile</code>: Directly use the access file. Default: generating from the reference file.  <ul>
+<li>See https://github.com/etal/cnvkit/tree/master/data</li>
+</ul>
+</li>
+<li><code>ref</code>    : The reference genome.  </li>
+<li><code>params</code> : The extra parameters for cnvkit's <code>access</code>, <code>target</code> and <code>autobin</code> command. Default: <br />
+    <div class="highlight"><pre><span></span><span class="n">Box</span><span class="p">(</span>
+	<span class="n">target</span>  <span class="o">=</span> <span class="n">Box</span><span class="p">({</span><span class="s1">&#39;short-name&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s1">&#39;split&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">}),</span>
+	<span class="n">access</span>  <span class="o">=</span> <span class="n">Box</span><span class="p">(</span><span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;5000&#39;</span><span class="p">),</span>
+	<span class="n">autobin</span> <span class="o">=</span> <span class="n">Box</span><span class="p">()</span>
+<span class="p">)</span>
+</pre></div></li>
 </ul>
 </li>
 <li>
@@ -1262,6 +1248,7 @@ s2	s3	1
 <ul>
 <li><code>infile:file</code>: The bam file  </li>
 <li><code>tgfile:file</code>: The target file  </li>
+<li><code>atgfile:file</code>: The antitarget file  </li>
 </ul>
 </li>
 <li>
@@ -1328,6 +1315,7 @@ s2	s3	1
 <p><strong>input</strong>  </p>
 <ul>
 <li><code>tgfile:file</code>: The target file  </li>
+<li><code>atgfile:file</code>: The antitarget file  </li>
 </ul>
 </li>
 <li>
@@ -1360,7 +1348,8 @@ s2	s3	1
 <li>
 <p><strong>input</strong>  </p>
 <ul>
-<li><code>infile:file</code>: The cnn file to be fixed  </li>
+<li><code>tgfile:file</code>: The target coverage file  </li>
+<li><code>atgfile:file</code>: The antitarget coverage file  </li>
 <li><code>rcfile:file</code>: The reference cnn file  </li>
 </ul>
 </li>
@@ -1373,6 +1362,7 @@ s2	s3	1
 <li>
 <p><strong>args</strong>  </p>
 <ul>
+<li><code>nthread</code>: The number of threads to use. Default: 1  </li>
 <li><code>cnvkit</code>: The executable of cnvkit. Default: 'cnvkit.py'  </li>
 <li><code>params</code>: Other parameters for <code>cnvkit.py fix</code>, default: " --no-edge "  </li>
 </ul>
@@ -1472,6 +1462,7 @@ s2	s3	1
 <p><strong>args</strong>  </p>
 <ul>
 <li><code>cnvkit</code>: The executable of cnvkit. Default: 'cnvkit.py'  </li>
+<li><code>nthread</code>: The number of threads to use. Default: 1  </li>
 <li><code>params</code>: Other parameters for <code>cnvkit.py scatter</code>  </li>
 <li><code>regions</code>: The regoins to plot. Default: <code>['']</code>  <ul>
 <li>You can have extra specific regions, format:</li>
@@ -1506,6 +1497,7 @@ s2	s3	1
 <p><strong>args</strong>  </p>
 <ul>
 <li><code>cnvkit</code>: The executable of cnvkit. Default: 'cnvkit.py'  </li>
+<li><code>nthread</code>: The number of threads to use. Default: 1  </li>
 <li><code>params</code>: Other parameters for <code>cnvkit.py scatter</code>  </li>
 </ul>
 </li>
@@ -1567,11 +1559,15 @@ s2	s3	1
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>cnvkit</code>: The executable of cnvkit. Default: 'cnvkit.py'  </li>
-<li><code>breaks</code>: Whether to report breakpoints. Default: True  </li>
-<li><code>gainloss</code>: Whether to report gainloss. Default: True  </li>
-<li><code>metrics</code>: Whether to report metrics. Default: True  </li>
-<li><code>segmetrics</code>: Whether to report segmetrics. Default: True  </li>
+<li><code>cnvkit</code> : The executable of cnvkit. Default: 'cnvkit.py'  </li>
+<li><code>nthread</code>: The number of threads to use. Default: 1  </li>
+<li><code>params</code> : Extra parameters to the commands.  <ul>
+<li><code>breaks</code>:       Whether to report breakpoints. Default: True</li>
+<li><code>gainloss</code>:     Whether to report gainloss. Default: True</li>
+<li><code>metrics</code>:      Whether to report metrics. Default: True</li>
+<li><code>segmetrics</code>:   Whether to report segmetrics. Default: True</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>
@@ -6726,7 +6722,7 @@ File2:
 <li>
 <p><strong>input</strong>  </p>
 <ul>
-<li><code>indir:dir</code>: The directory containing the maf files  </li>
+<li><code>infiles:files</code>: The maf files  </li>
 </ul>
 </li>
 <li>
@@ -6755,14 +6751,95 @@ File2:
     Use maftools to draw plots.</p>
 </li>
 <li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>indir:dir</code>: The input directory. Could contain:  <ul>
+<li><code>*.maf</code> or <code>*.maf.gz</code> file (required)</li>
+<li><code>*.annot.tsv</code> or <code>*.annot.txt</code> file (see: https://github.com/PoisonAlien/maftools/blob/master/inst/extdata/tcga_laml_annot.tsv)</li>
+<li><code>all_lesions.conf_*.txt</code>: Gistic cnv data</li>
+<li><code>amp_genes.conf_*.txt</code>: Gistic cnv data</li>
+<li><code>del_genes.conf_*.txt</code>: Gistic cnv data</li>
+<li><code>scores.gistic</code>: Gistic cnv data</li>
+<li><code>*.seg.txt</code>: CBS segments data</li>
+<li><code>*sig_genes.txt</code> or <code>*sig_genes.txt.gz</code>: Mutsig results, to do pancancer somparison.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outdir:dir</code>: The output directory  </li>
+</ul>
+</li>
+<li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>ngenes</code>:   </li>
+<li><code>ngenes</code> : Top number of genes to plot for some plots. Default: <code>10</code>  </li>
+<li><code>mutypes</code>: Provide manual list of variant classifications to be considered as non-synonymous. Rest will be considered as silent variants. Default: <code>["Frame_Shift_Del", "Frame_Shift_Ins", "Splice_Site", "Translation_Start_Site","Nonsense_Mutation", "Nonstop_Mutation", "In_Frame_Del","In_Frame_Ins", "Missense_Mutation"]</code>  </li>
+<li><code>isTCGA</code>: If the maf file is from TCGA? Default: <code>False</code>  </li>
+<li><code>ref</code>   : The reference file for signature plot.  </li>
+<li><code>plot</code>  : Which plots to plot.   <ul>
+<li>Default:
+  <div class="highlight"><pre><span></span><span class="n">Box</span><span class="p">(</span>
+	<span class="n">summary</span>        <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+	<span class="n">oncoplot</span>       <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+	<span class="n">oncostrip</span>      <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+	<span class="n">titv</span>           <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+	<span class="n">lollipop</span>       <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+	<span class="n">cbsseg</span>         <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+	<span class="n">rainfall</span>       <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+	<span class="n">tcgacomp</span>       <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+	<span class="n">vaf</span>            <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+	<span class="n">genecloud</span>      <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+	<span class="n">gisticGenome</span>   <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+	<span class="n">gisticBubble</span>   <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+	<span class="n">gisticOncoplot</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+	<span class="n">somInteraction</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+	<span class="n">oncodrive</span>      <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+	<span class="n">pfam</span>           <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+	<span class="n">pancan</span>         <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+	<span class="n">survival</span>       <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+	<span class="n">heterogeneity</span>  <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+	<span class="n">signature</span>      <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div></li>
+</ul>
+</li>
+<li><code>params</code>: The extra parameters for each plot function.  <ul>
+<li>Default:
+  <div class="highlight"><pre><span></span><span class="n">Box</span><span class="p">(</span>
+	<span class="n">summary</span>        <span class="o">=</span> <span class="n">Box</span><span class="p">(</span><span class="n">rmOutlier</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">addStat</span> <span class="o">=</span> <span class="s1">&#39;median&#39;</span><span class="p">,</span> <span class="n">dashboard</span> <span class="o">=</span> <span class="bp">True</span><span class="p">),</span>
+	<span class="n">oncoplot</span>       <span class="o">=</span> <span class="n">Box</span><span class="p">(),</span>
+	<span class="n">oncostrip</span>      <span class="o">=</span> <span class="n">Box</span><span class="p">(),</span>
+	<span class="n">titv</span>           <span class="o">=</span> <span class="n">Box</span><span class="p">(),</span>
+	<span class="n">lollipop</span>       <span class="o">=</span> <span class="n">Box</span><span class="p">(</span><span class="n">AACol</span> <span class="o">=</span> <span class="s1">&#39;Protein_Change&#39;</span><span class="p">),</span>
+	<span class="n">cbsseg</span>         <span class="o">=</span> <span class="n">Box</span><span class="p">(</span><span class="n">labelAll</span> <span class="o">=</span> <span class="bp">True</span><span class="p">),</span>
+	<span class="n">rainfall</span>       <span class="o">=</span> <span class="n">Box</span><span class="p">(</span><span class="n">detectChangePoints</span> <span class="o">=</span> <span class="bp">True</span><span class="p">),</span>
+	<span class="n">tcgacomp</span>       <span class="o">=</span> <span class="n">Box</span><span class="p">(),</span>
+	<span class="n">vaf</span>            <span class="o">=</span> <span class="n">Box</span><span class="p">(</span><span class="n">flip</span> <span class="o">=</span> <span class="bp">True</span><span class="p">),</span>
+	<span class="n">genecloud</span>      <span class="o">=</span> <span class="n">Box</span><span class="p">(</span><span class="n">minMut</span> <span class="o">=</span> <span class="mi">3</span><span class="p">),</span>
+	<span class="n">gisticGenome</span>   <span class="o">=</span> <span class="n">Box</span><span class="p">(</span><span class="n">markBands</span> <span class="o">=</span> <span class="s1">&#39;all&#39;</span><span class="p">),</span>
+	<span class="n">gisticBubble</span>   <span class="o">=</span> <span class="n">Box</span><span class="p">(),</span>
+	<span class="n">gisticOncoplot</span> <span class="o">=</span> <span class="n">Box</span><span class="p">(),</span>
+	<span class="n">somInteraction</span> <span class="o">=</span> <span class="n">Box</span><span class="p">(),</span>
+	<span class="n">oncodrive</span>      <span class="o">=</span> <span class="n">Box</span><span class="p">(</span><span class="n">AACol</span> <span class="o">=</span> <span class="s1">&#39;Protein_Change&#39;</span><span class="p">,</span> <span class="n">minMut</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">pvalMethod</span> <span class="o">=</span> <span class="s1">&#39;zscore&#39;</span><span class="p">,</span> <span class="n">fdrCutOff</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">useFraction</span> <span class="o">=</span> <span class="bp">True</span><span class="p">),</span>
+	<span class="n">pfam</span>           <span class="o">=</span> <span class="n">Box</span><span class="p">(</span><span class="n">AACol</span> <span class="o">=</span> <span class="s1">&#39;Protein_Change&#39;</span><span class="p">),</span>
+	<span class="n">pancan</span>         <span class="o">=</span> <span class="n">Box</span><span class="p">(</span><span class="n">qval</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">normSampleSize</span> <span class="o">=</span> <span class="bp">True</span><span class="p">),</span>
+	<span class="n">survival</span>       <span class="o">=</span> <span class="n">Box</span><span class="p">(),</span>
+	<span class="n">heterogeneity</span>  <span class="o">=</span> <span class="n">Box</span><span class="p">(),</span>
+	<span class="n">signature</span>      <span class="o">=</span> <span class="n">Box</span><span class="p">(</span><span class="n">nTry</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">plotBestFitRes</span> <span class="o">=</span> <span class="bp">False</span><span class="p">),</span>
+<span class="p">)</span>
+</pre></div></li>
+</ul>
+</li>
+<li><code>devpars</code>: The parameters for plot device. Default: <code>Box(res = 300, height = 2000, width = 2000)</code>  </li>
+<li><code>nthread</code>: Number of threads used for multiple plot of one type. Default: <code>1</code>  </li>
 </ul>
 </li>
 <li>
 <p><strong>requires</strong><br />
-    [``]</p>
+<a href="https://bioconductor.org/packages/devel/bioc/vignettes/maftools/inst/doc/maftools.html">Maftools</a></p>
 </li>
 </ul>
 </div>
