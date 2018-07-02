@@ -6003,6 +6003,16 @@ ID	INT	PRIMARY KEY
 <li><code>outdir:file</code>: the directory containing submitter-id named files  </li>
 </ul>
 </li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>method</code>: How the deal with the files. Default: <code>symlink</code>  <ul>
+<li>We can also do <code>copy</code></li>
+</ul>
+</li>
+<li><code>nthread</code>: Number threads to use. Default: <code>1</code>  </li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="admonition hint">
@@ -6577,6 +6587,57 @@ File2:
 <li>otherwise, multiple samples are supported in the input vcf file. Tumor id will be sample name for each sample, normal id will be NORMAL.</li>
 </ul>
 </li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pVcfLiftover</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Lift over vcf files.</p>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>tool</code>: Which tool to use. Default: <code>picard</code>  </li>
+<li><code>picard</code>: The path to picard  </li>
+<li><code>lochain</code>: The liftover chain file  </li>
+<li><code>ref</code>: The reference genome  </li>
+<li><code>mem</code>: The memory to use  </li>
+<li><code>tmpdir</code>: The temporary directory  </li>
+<li><code>params</code>: The extra params.  </li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pVcfAddChr</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Add <code>chr</code> to records of vcf files.</p>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>chr</code>: The prefix to add to each record.  </li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pVcfCleanup</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Remove configs from vcf file according to the given reference.</p>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>ref</code>: The reference file  </li>
 </ul>
 </li>
 </ul>
