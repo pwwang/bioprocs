@@ -6130,8 +6130,14 @@ ID	INT	PRIMARY KEY
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>cnames</code>: Whether the input file has cnames. Default: True  </li>
-<li><code>rnames</code>: Whether the input file has rnames  . Default: 1  </li>
+<li><code>inopts</code>: The input options for infile:  <ul>
+<li><code>cnames</code>: Whether the input file has cnames. Default: True</li>
+<li><code>rnames</code>: Whether the input file has rnames. Default: True</li>
+<li><code>delimit</code>: The delimit. Default: <code>\t</code></li>
+<li><code>skip</code>: First N lines to skip. Default: <code>0</code></li>
+</ul>
+</li>
+<li><code>params</code>: Other params for <code>read.table</code>. Default: <code>{"check.names": "FALSE", "quote": ""}</code>  </li>
 <li><code>code</code>: The R code to operating the matrix. (the matrix is read in variable <code>mat</code>)  </li>
 </ul>
 </li>
@@ -6159,12 +6165,21 @@ ID	INT	PRIMARY KEY
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>cnames</code>: Whether the input file has cnames. Default: True  <ul>
+<li><code>inopts</code>: The input options for infile:  <ul>
+<li><code>cnames</code>: Whether the input file has cnames. Default: True</li>
 <li>or [True, True, False] corresponding to the file order</li>
+<li><code>rnames</code>: Whether the input file has rnames. Default: True</li>
+<li><code>delimit</code>: The delimit. Default: <code>\t</code></li>
+<li><code>skip</code>: First N lines to skip. Default: <code>0</code></li>
 </ul>
 </li>
-<li><code>rnames</code>: Whether the input file has rnames  . Default: 1  </li>
-<li><code>miss</code>: Replacement for missing values. Default: <code>NA</code>  </li>
+<li><code>params</code>: Other params for <code>read.table</code>. Default: <code>{"check.names": "FALSE", "quote": ""}</code>  </li>
+<li><code>fn2cname</code>: The function (r) used to convert file name to column name.  </li>
+<li><code>fill</code>: Do <code>cbind.fill</code> instead of <code>cbind</code>. Default: <code>True</code>  <ul>
+<li>Set it to <code>False</code> if the row names are in the same order</li>
+</ul>
+</li>
+<li><code>na</code>: Replacement for missing values. Default: <code>NA</code>  </li>
 </ul>
 </li>
 </ul>
@@ -6191,12 +6206,22 @@ ID	INT	PRIMARY KEY
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>cnames</code>: Whether the input file has cnames. Default: True  <ul>
+<li><code>inopts</code>: The input options for infile:  <ul>
+<li><code>cnames</code>: Whether the input file has cnames. Default: True</li>
 <li>or [True, True, False] corresponding to the file order</li>
+<li><code>rnames</code>: Whether the input file has rnames. Default: True</li>
+<li><code>delimit</code>: The delimit. Default: <code>\t</code></li>
+<li><code>skip</code>: First N lines to skip. Default: <code>0</code></li>
 </ul>
 </li>
-<li><code>rnames</code>: Whether the input file has rnames  . Default: 1  </li>
-<li><code>miss</code>: Replacement for missing values. Default: <code>NA</code>  </li>
+<li><code>params</code>: Other params for <code>read.table</code>. Default: <code>{"check.names": "FALSE", "quote": ""}</code>  </li>
+<li><code>na</code>: Replacement for missing values. Default: <code>NA</code>  </li>
+<li><code>fn2rname</code>: The function (r) used to convert file name to row name.  </li>
+<li><code>fill</code>: Do <code>rbind.fill</code> instead of <code>rbind</code>. Default: <code>True</code>  <ul>
+<li>Set it to <code>False</code> if the row names are in the same order</li>
+</ul>
+</li>
+<li><code>na</code>: Replacement for missing values. Default: <code>NA</code>  </li>
 </ul>
 </li>
 </ul>
@@ -6223,11 +6248,15 @@ ID	INT	PRIMARY KEY
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>cnames</code>: Whether the input file has cnames. Default: True  <ul>
-<li>or [True, True, False] corresponding to the file order</li>
+<li><code>inopts</code>: The input options for infile:  <ul>
+<li><code>cnames</code>: Whether the input file has cnames. Default: True</li>
+<li><code>rnames</code>: Whether the input file has rnames. Default: True</li>
+<li><code>delimit</code>: The delimit. Default: <code>\t</code></li>
+<li><code>skip</code>: First N lines to skip. Default: <code>0</code></li>
 </ul>
 </li>
-<li><code>rnames</code>: Whether the input file has rnames  . Default: 1  </li>
+<li><code>params</code>: Other params for <code>read.table</code>. Default: <code>{"check.names": "FALSE", "quote": ""}</code>  </li>
+<li><code>size</code>: The chunk size (how many columns to split into one file). Default: <code>1</code>  </li>
 </ul>
 </li>
 </ul>
@@ -6254,11 +6283,15 @@ ID	INT	PRIMARY KEY
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>cnames</code>: Whether the input file has cnames. Default: True  <ul>
-<li>or [True, True, False] corresponding to the file order</li>
+<li><code>inopts</code>: The input options for infile:  <ul>
+<li><code>cnames</code>: Whether the input file has cnames. Default: True</li>
+<li><code>rnames</code>: Whether the input file has rnames. Default: True</li>
+<li><code>delimit</code>: The delimit. Default: <code>\t</code></li>
+<li><code>skip</code>: First N lines to skip. Default: <code>0</code></li>
 </ul>
 </li>
-<li><code>rnames</code>: Whether the input file has rnames  . Default: 1  </li>
+<li><code>params</code>: Other params for <code>read.table</code>. Default: <code>{"check.names": "FALSE", "quote": ""}</code>  </li>
+<li><code>size</code>: The chunk size (how many rows to split into one file). Default: <code>1</code>  </li>
 </ul>
 </li>
 </ul>
@@ -6774,6 +6807,39 @@ File2:
 </ul>
 </div>
 <div class="admonition hint">
+<p class="admonition-title">pMafLiftover</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Liftover maf file from one assembly to another</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input maf file  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output maf file  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>liftover</code>: The liftOver program.  </li>
+<li><code>lochain</code>: The liftOver chain file.  </li>
+<li><code>genome</code>: The target genome.  </li>
+</ul>
+</li>
+<li>
+<p><strong>requires</strong><br />
+    liftOver from UCSC</p>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
 <p class="admonition-title">pMafMerge</p>
 <ul>
 <li>
@@ -6800,6 +6866,36 @@ File2:
 <li>discard: Just discard the extra columns, with only 34 columns left. So you can also put just one maf file in the indir with some columns missed to fill it with standard columns.</li>
 </ul>
 </li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pMaf2Mat</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Convert maf file to a gene(row)-sample(column) matrix</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input file  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output matrix  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>mutypes</code>: Provide manual list of variant classifications to be counted, only effective when <code>args.binary = False</code>. Default: <code>None</code> (all counted)  </li>
+<li><code>binary</code> : Just generate a binary matrix instead of a count matrix. Default: <code>False</code>  </li>
+<li><code>na</code>: What value to use for no mutations reported on a gene. Default: <code>0</code>  </li>
+<li><code>samfn</code>  : A function (in r) to transform the sample names. Default: <code>function(sample) sample</code>  </li>
 </ul>
 </li>
 </ul>
