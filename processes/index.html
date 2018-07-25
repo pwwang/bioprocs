@@ -1631,7 +1631,12 @@ s2	s3	1
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>skip</code>: To skip first N lines. Default: 0  </li>
+<li><code>inopts</code>: The input options for infile:  <ul>
+<li><code>skip</code>   : First N lines to skip. Default: <code>0</code></li>
+<li><code>delimit</code>: The delimit. Default          : <code>\t</code></li>
+<li><code>comment</code>: The comment line mark. Default: <code>#</code></li>
+</ul>
+</li>
 <li><code>case</code>: Case-sensitivity. Default: True  <ul>
 <li>If True, will set $LANG as C</li>
 <li>Otherwise, $LANG will be set as en_US.UTF-8</li>
@@ -3152,10 +3157,16 @@ genome: The genome used to do the conversion.</li>
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>topn</code>: Top N pathways used to plot. Default: 10  </li>
-<li><code>col</code>: The columns index containing the genes. Default: 0  </li>
-<li><code>delimit</code>: The delimit of input file. Default: '\t'  </li>
-<li><code>dbs</code>: The databases to do enrichment against. Default: KEGG_2016  </li>
+<li><code>top</code>: Top N pathways used to plot. Default: 10  </li>
+<li><code>genecol</code>: The columns index containing the genes. Default: 0  </li>
+<li><code>inopts</code>: The input options.  <ul>
+<li><code>delimit</code>: The delimit of input file. Default: <code>\t</code></li>
+<li><code>skip</code>:    Skip first N lines. Default: <code>0</code></li>
+<li><code>comment</code>: Line comment mark. Default: <code>#</code></li>
+<li>Other parameters fit <code>bioprocs.utils.tsvio.TsvReader</code></li>
+</ul>
+</li>
+<li><code>libs</code>: The databases to do enrichment against. Default: KEGG_2016  </li>
 <li>A full list can be found here: http://amp.pharm.mssm.edu/Enrichr/#stats</li>
 <li>Multiple dbs separated by comma (,)</li>
 <li><code>norm</code>: Normalize the gene list use <a href="https://pypi.python.org/pypi/mygene/3.0.0">python-mygene</a>  </li>
@@ -3163,6 +3174,7 @@ genome: The genome used to do the conversion.</li>
 <li>For example: change "Lysine degradation_Homo sapiens_hsa00310" to "Lysine degradation".</li>
 <li><code>plot</code>: Whether to plot the result. Default: True  </li>
 <li><code>title</code>: The title for the plot. Default: "Gene enrichment: {db}"  </li>
+<li><code>cachedir</code>: The cachedir for gene name normalization.  </li>
 </ul>
 </li>
 <li>
@@ -3262,7 +3274,7 @@ has-mir-22	Gene	+	+	+
 </div>
 <h3 id="marray">marray</h3>
 <div class="admonition hint">
-<p class="admonition-title">pCELdir2Matrix</p>
+<p class="admonition-title">pCELDir2Matrix</p>
 <ul>
 <li>
 <p><strong>description</strong><br />
@@ -3274,6 +3286,10 @@ has-mir-22	Gene	+	+	+
 <ul>
 <li><code>indir:file</code>: the directory containing the CEL files, could be gzipped  <ul>
 <li>If you have files, then use <code>pFiles2Dir</code> first</li>
+</ul>
+</li>
+<li><code>sifile:File</code>: the sample infor file, extensions for samples are not necessary.  <ul>
+<li>So that it can be also used by <code>pMArrayDEG</code></li>
 </ul>
 </li>
 </ul>
@@ -3290,24 +3306,76 @@ has-mir-22	Gene	+	+	+
 <ul>
 <li><code>pattern</code>  : The pattern to filter files. Default <code>'*'</code>  </li>
 <li><code>norm</code>     : The normalization method. Default: rma (mas5)  </li>
-<li><code>gfile</code>    : The group file. Default: ''  </li>
+<li><code>transfm</code>  : The extra tranformer for the expression values after the nomralization.  <ul>
+<li><code>Note the expression values have been done with log</code></li>
+</ul>
+</li>
 <li><code>cdffile</code>  : The cdffile. Default: ''  </li>
-<li><code>annofile</code> : The annotation file. Default: ''  </li>
-<li><code>hmrows</code>   : How many rows to be used to plot heatmap  </li>
-<li><code>plot</code>: Whether to plot  <ul>
-<li><code>boxplot</code>   : Whether to plot a boxplot. Default: False</li>
-<li><code>heatmap</code>   : Whether to plot a heatmap. Default: False</li>
-<li><code>histogram</code> : Whether to plot a histgram. Default: False</li>
-</ul>
-</li>
-<li><code>devpars</code>    : Parameters for png. Default: <code>{'res': 300, 'width': 2000, 'height': 2000}</code>  </li>
-<li><code>ggs</code>: The ggplot parameters  <ul>
-<li><code>boxplot</code>  : The ggplot parameters for boxplot. Default: <code>Box(ylab = {0: "Log2 Intensity"})</code></li>
-<li><code>heatmap</code>  : The ggplot parameters for heatmap. Default: <code>Box(theme = {'axis.text.y': 'r:element_blank()'})</code></li>
-<li><code>histogram</code>: The ggplot parameters for histgram. Default: <code>Box(labs = {'x': "Log2 Intensity", "y": "Density"})</code></li>
+<li><code>fn2sample</code>: The transformer to transform file name  </li>
 </ul>
 </li>
 </ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pMArrayDEG</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Detect DEGs from microarray data.</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>efile:file</code>: The expression matrix file  </li>
+<li><code>gfile:file</code>: The sample information file  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The file with DEGs  </li>
+<li><code>outdir:dir</code>  : The directory containing files and plots  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>tool</code>    : The tool to use. Default: <code>limma</code>  </li>
+<li><code>annofile</code>: The annotation file for the probes. Default: ``  <ul>
+<li>If not provided, raw probe name will be used.</li>
+</ul>
+</li>
+<li><code>filter</code>: The filter of the data. Default: <code>[0, 0]</code>  <ul>
+<li>1st element: the <code>rowSums</code> of the expression matrix</li>
+<li>2nd element: how many samples(columns) have to reach the <code>rowSums</code> given by the 1st element</li>
+</ul>
+</li>
+<li><code>pval</code>  : The pval cutoff for DEGs. Default: <code>0.05</code>  <ul>
+<li>You may specify which kind of measurement to use</li>
+<li><code>p:0.05</code>: using cutoff 0.05 for pvalue</li>
+<li><code>q:0.05</code>: using cutoff 0.05 for qvalue(fdr)</li>
+<li>If no prefix is used, then it defaults to pvalue</li>
+</ul>
+</li>
+<li><code>plot</code>  : What kind of plots to generate.   <ul>
+<li><code>mdsplot</code> : The MDS plot</li>
+<li><code>volplot</code> : The volcano plot</li>
+<li><code>maplot</code>  : The MA plot</li>
+<li><code>heatmap</code> : The heatmap. (use <code>args.hmrows</code> to determine how many genes to plot)</li>
+</ul>
+</li>
+<li><code>ggs</code>   : The extra ggplot element for each plot (should be able to concatenate by <code>+</code>).  <ul>
+<li><code>maplot</code>  : for MA plot</li>
+<li><code>heatmap</code> : for heatmap. Default: <code>Box(theme = {'axis.text.y': 'r:element_blank()'})</code></li>
+<li><code>volplot</code> : for volcano plot</li>
+</ul>
+</li>
+<li><code>devpars</code>: The parameters for plotting device. Default: <code>Box(res = 300, width = 2000, height = 2000)</code>  </li>
+</ul>
+</li>
+<li>
+<p><strong>requires</strong><br />
+<code>r-limma</code></p>
 </li>
 </ul>
 </div>
@@ -4257,7 +4325,7 @@ Feature2	3    	2    	...
 </div>
 <h3 id="rnaseq">rnaseq</h3>
 <div class="admonition hint">
-<p class="admonition-title">pEXPRdir2Matrix</p>
+<p class="admonition-title">pExprDir2Matrix</p>
 <ul>
 <li>
 <p><strong>description</strong><br />
@@ -4301,6 +4369,30 @@ Feature2	3    	2    	...
 </ul>
 </div>
 <div class="admonition hint">
+<p class="admonition-title">pExprPlot</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Plot the expression out.</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The expression matrix (rows are genes and columns are samples).  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outdir:dir</code>: The directory containing the plots  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
 <p class="admonition-title">pBatchEffect</p>
 <ul>
 <li>
@@ -4310,7 +4402,7 @@ Feature2	3    	2    	...
 <li>
 <p><strong>input</strong>  </p>
 <ul>
-<li><code>expr:file</code>: The expression file, generated by pEXPRdir2Matrix  </li>
+<li><code>expr:file</code>: The expression file, generated by pExprDir2Matrix  </li>
 <li><code>batch:file</code>: The batch file defines samples and batches.  </li>
 </ul>
 </li>
@@ -4344,11 +4436,21 @@ Feature2	3    	2    	...
 </ul>
 </div>
 <div class="admonition hint">
-<p class="admonition-title">pRawCounts2</p>
+<p class="admonition-title">pUnitConversion</p>
 <ul>
 <li>
 <p><strong>description</strong><br />
-    Convert raw counts to another unit</p>
+    Convert expression between units<br />
+    See here: https://haroldpimentel.wordpress.com/2014/05/08/what-the-fpkm-a-review-rna-seq-expression-units/ and<br />
+    https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/Expression_mRNA_Pipeline/#fpkm<br />
+    Available converstions:</p>
+<ul>
+<li><code>count -&gt; cpm, fpkm/rpkm, fpkm-uq/rpkm-rq, tpm, tmm</code></li>
+<li><code>fpkm/rpkm -&gt; count, tpm, cpm</code></li>
+<li><code>tpm -&gt; count, fpkm/rpkm, cpm</code></li>
+<li><code>cpm -&gt; count, fpkm/rpkm, tpm</code>
+NOTE that during some conversions, <code>sum(counts/effLen)</code> is approximated to <code>sum(counts)/sum(effLen) * length(effLen))</code></li>
+</ul>
 </li>
 <li>
 <p><strong>input</strong>  </p>
@@ -4368,72 +4470,38 @@ Feature2	3    	2    	...
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>transpose</code>: transpose the input matrix? default: False  </li>
-<li><code>log2</code>: whether to take log2? default: False  </li>
-<li><code>unit</code>: convert to which unit? default: cpm (or rpkm, tmm)  </li>
-<li><code>header</code>: whether input file has header? default: True  </li>
-<li><code>rownames</code>: the index of the column as rownames. default: 1  </li>
-<li><code>glenfile</code>: the gene length file, for RPKM  <ul>
-<li>no head, row names are genes, have to be exact the same order and length as the rownames of infile</li>
+<li><code>inunit</code>: The unit of input expression values. Default: <code>count</code>  </li>
+<li><code>outunit</code>: The unit of output expression values. Default: <code>tpm</code>  </li>
+<li><code>meanfl</code>: A file containing the mean fragment length for each sample by rows, without header.  <ul>
+<li>Or a fixed universal estimated number. Default: <code>1</code> (used by TCGA)</li>
 </ul>
 </li>
-<li><code>boxplot</code> : Whether to plot a boxplot. Default: False  </li>
-<li><code>heatmap</code> : Whether to plot a heatmap. Default: False  </li>
-<li><code>histplot</code>: Whether to plot a histgram. Default: False  </li>
-<li><code>devpars</code> : Parameters for png. Default: <code>{'res': 300, 'width': 2000, 'height': 2000}</code>  </li>
-<li><code>boxplotggs</code>: The ggplot parameters for boxplot. Default: <code>['r:ylab("Expression")']</code>  <ul>
-<li>See ggplot2 documentation.</li>
+<li><code>nreads</code>: The estimatied total number of reads for each sample. Default: <code>30000000</code>  <ul>
+<li>Or you can pass a file with the number for each sample by rows, without header.</li>
+<li>In converting <code>fpkm/rpkm -&gt; count</code>: it should be total reads of that sample</li>
+<li>In converting <code>cpm -&gt; count</code>: it should be total reads of that sample</li>
+<li>In converting <code>tpm -&gt; count</code>: it should be total reads of that sample</li>
+<li>In converting <code>tpm -&gt; cpm</code>: it should be total reads of that sample</li>
+<li>In converting <code>tpm -&gt; fpkm/rpkm</code>: it should be <code>sum(fpkm)</code> of that sample</li>
 </ul>
 </li>
-<li><code>heatmapggs</code>: The ggplot parameters for heatmap. Default: <code>['r:theme(axis.text.y = element_blank())']</code>  </li>
-<li><code>histplotggs</code>: The ggplot parameters for histgram. Default: <code>['r:labs(x = "Expression", y = "# Samples")']</code>  </li>
+<li><code>inform</code>: Transform the input to the unit specified. (sometimes the values are log transformed)  <ul>
+<li>For example, if the <code>inunit</code> is <code>tpm</code>, but it's actually <code>log2(expr+1)</code> transformed,</li>
+<li>Then this should be <code>function(expr) 2^(expr - 1)</code>.</li>
+<li>Default: <code>None</code> (No transformation has been done)</li>
+</ul>
+</li>
+<li><code>outform</code>: Transform to be done on the output expression values. Default: <code>None</code>  </li>
+<li><code>refexon</code>: the exome gff file, for RPKM/FPKM  <ul>
+<li><code>gene_id</code> is required for gene names</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>
 <p><strong>requires</strong><br />
 <a href="https://bioconductor.org/packages/release/bioc/html/edger.html">edgeR</a> if cpm or rpkm is chosen
     <a href="https://rdrr.io/rforge/coseq/man/transform_RNAseq.html">coseq</a> if tmm is chosen</p>
-</li>
-</ul>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">p2RawCounts</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Convert gene expression to raw counts.</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>infile:file</code>: The expression matrix file  </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outfile:file</code>: The output file  </li>
-<li><code>outdir:dir</code>: The output directory, may contain the figures.  </li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong>  </p>
-<ul>
-<li><code>unit</code>: The unit of input gene expression. Default: fpkm  <ul>
-<li>Could also be rpkm, tpm</li>
-</ul>
-</li>
-<li><code>nreads</code>     : Total reads approximately. Default: 30, 000, 000  </li>
-<li><code>refgene</code>    : The refgene file for gene length.  </li>
-<li><code>boxplot</code>    : Whether to plot boxplot after transformation. Default: False  </li>
-<li><code>heatmap</code>    : Whether to plot heatmap after transformation. Default: False  </li>
-<li><code>heatmapn</code>   : How many genes used to plot heatmap. Default: 500  </li>
-<li><code>histplot</code>   : Whether to plot histgram after transformation. Default: False  </li>
-<li><code>devpars</code>    : The device parameters for plotting. Default: <code>{'res': 300, 'width': 2000, 'height': 2000}</code>  </li>
-<li><code>boxplotggs</code> : The ggplot statement for boxplot.  </li>
-<li><code>heatmapggs</code> : The ggplot statement for heatmap.  </li>
-<li><code>histplotggs</code>: The ggplot statement for histgram.  </li>
-</ul>
 </li>
 </ul>
 </div>
@@ -5577,23 +5645,19 @@ ID	INT	PRIMARY KEY
 <li><code>rnames</code>: Whether input file has row names. Default: True</li>
 </ul>
 </li>
-<li><code>combine</code>   : Whether combine groups in the same plot. Default: True  </li>
+<li><code>combine</code>   : Whether combine groups in the same plot. Default: <code>Box()</code>  <ul>
+<li><code>nrow</code>: The number of rows. Default: 1</li>
+<li><code>ncol</code>: The number of cols. Default: 1</li>
+</ul>
+</li>
 <li><code>devpars</code>   : The device parameters for png. Default: <code>{res:300, height:2000, width:2000}</code>  <ul>
 <li>The height and width are for each survival plot. If args.combine is True, the width and height will be multiplied by <code>max(arrange.ncol, arrange.nrow)</code></li>
 </ul>
 </li>
 <li><code>covfile</code>   : The covariant file. Require rownames in both this file and input file.  </li>
 <li><code>ngroups</code>   : Number of curves to plot (the continuous number will divided into <code>ngroups</code> groups.  </li>
-<li><code>plot</code>      : The params for plot.  <ul>
 <li><code>params</code> : The params for <code>ggsurvplot</code>. Default: <code>Box({'risk.table': True, 'conf.int': True, 'font.legend': 13, 'pval': '{method}\np = {pval}'})</code><ul>
 <li>You may do <code>ylim.min</code> to set the min ylim. Or you can set it as 'auto'. Default: 0. </li>
-</ul>
-</li>
-<li><code>arrange</code>: How to arrange multiple survival plots in one if <code>args.combine = True</code>.<ul>
-<li><code>nrow</code>: The number of rows. Default: 1</li>
-<li><code>ncol</code>: The number of cols. Default: 1</li>
-</ul>
-</li>
 </ul>
 </li>
 <li><code>ggs</code>       : Extra ggplot2 elements for main plot. <code>ggs.table</code> is for the risk table.  </li>
@@ -6373,21 +6437,45 @@ File2:
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>skip</code>: argument skip for each file  </li>
-<li><code>delimit</code>: argument delimit for each file  </li>
-<li><code>usehead</code>: The header from which input file will be used for output file.  <ul>
-<li>Default: None (Don't write header)</li>
+<li><code>inopts</code>: The input options for infile:  <ul>
+<li><code>skip</code>   : First N lines to skip. Default: <code>0</code></li>
+<li><code>delimit</code>: The delimit. Default          : <code>\t</code></li>
+<li><code>comment</code>: The comment line mark. Default: <code>#</code></li>
+<li><code>ftype</code>: The type of the file. Default : <code>nometa</code></li>
+<li><code>head</code>: Whether input file has head, only for <code>nometa</code>. Default: <code>True</code></li>
 </ul>
 </li>
-<li><code>gzip</code>: argument gzip for each file  </li>
+<li><code>outputs</code>:   <ul>
+<li><code>delimit</code>      : The delimit. Default                    : <code>\t</code></li>
+<li><code>headPrefix</code>   : The prefix for the head line. Default   : ``</li>
+<li><code>headDelimit</code>  : The delimiter for the head line. Default: <code>\t</code></li>
+<li><code>headTransform</code>: The transformer for the head line.</li>
+<li><code>head</code>         : Whether to output the head? Default     : <code>False</code></li>
+<li><code>ftype</code>        : The type of the output. Default         : <code>nometa</code></li>
+<li><code>cnames</code>       : The extra column names. Default         : <code>[]</code></li>
+</ul>
+</li>
+<li><code>usemeta</code>: The header from which input file will be used for output file.  <ul>
+<li>Default: None (Don't write header)</li>
+<li>1-based.</li>
+</ul>
+</li>
 <li><code>match</code>: The match function.   </li>
 <li><code>do</code>: The do function. Global vaiable <code>fout</code> is available to write results to output file.  </li>
+<li><code>helper</code>: Some helper codes.  </li>
 </ul>
 </li>
 <li>
 <p><strong>requires</strong><br />
 <a href="https://github.com/pwwang/simread"><code>python-simread</code></a></p>
 </li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pTsvJoin</p>
+<ul>
+<li><strong>description</strong><br />
+    Alias of pSimRead</li>
 </ul>
 </div>
 <h3 id="vcf">vcf</h3>
@@ -6680,6 +6768,66 @@ File2:
 <ul>
 <li><strong>description</strong><br />
     Convert Vcf file to genotype matrix.</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pVcfSort</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Sort the vcf records</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input file  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output file  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>header</code>: Output header? Default: <code>True</code>  </li>
+<li><code>by</code>    : Sort by what, Coordinates (coord) or names (name)? Default: <code>coord</code>  </li>
+<li><code>tool</code>  : The tool used to do the sort. Default: <code>sort</code> (linux command)  </li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pVcfSubtract</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Subtract one vcf file from another</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile1:file</code>: The vcf file to be subtracted  </li>
+<li><code>infile2:file</code>: The background vcf file  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The subtracted vcf file.  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>header</code>  : Output header? Default: <code>True</code>  </li>
+<li><code>tool</code>    : The tool to be used. Default: <code>bedtools</code>  </li>
+<li><code>bedtools</code>: The path to bedtools.  </li>
+<li><code>any</code>     : Remove record in <code>infile1</code> with any overlap in <code>infile2</code>. Default: <code>True</code>  </li>
+</ul>
+</li>
 </ul>
 </div>
 <h3 id="vcfnext">vcfnext</h3>
