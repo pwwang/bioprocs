@@ -106,10 +106,10 @@
     <li class="toctree-l2"><a href="#marray">marray</a></li>
     
 
-    <li class="toctree-l2"><a href="#math">math</a></li>
+    <li class="toctree-l2"><a href="#misc">misc</a></li>
     
 
-    <li class="toctree-l2"><a href="#misc">misc</a></li>
+    <li class="toctree-l2"><a href="#mlearn">mlearn</a></li>
     
 
     <li class="toctree-l2"><a href="#pca">pca</a></li>
@@ -2866,10 +2866,49 @@ There are also several options for recording the original values of certain anno
 <li>error : report error</li>
 </ul>
 </li>
-<li><code>col</code>: the column index containing the gene names  </li>
-<li><code>from</code>: the original format. Default: 'symbol, alias'  </li>
-<li><code>to</code>: the output gene name format. Default: 'symbol'  </li>
-<li><code>genome</code>: the genome. Default: 'hg19'  </li>
+<li><code>genecol</code> : the column index containing the gene names  </li>
+<li><code>frm</code>     : the original format. Default: 'symbol, alias'  </li>
+<li><code>to</code>      : the output gene name format. Default: 'symbol'  </li>
+<li><code>genome</code>  : the genome. Default: 'hg19'  </li>
+<li><code>cachedir</code>: The cache directory  </li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pIPI</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Convert gene symbol to IPI protein accession and vice versa.
+    One gene symbol could map to multiple IPIs, which will be separated by pipe (|)</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code> : The input file  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output file  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>notfound</code>: What if a record is not found: Default: <code>ignore</code>  <ul>
+<li><code>skip</code>  : skip the record(don't write it to output file)</li>
+<li><code>ignore</code>: use the original name;</li>
+<li><code>error</code> : report error</li>
+</ul>
+</li>
+<li><code>genecol</code>: The column index containing the gene/protein record  </li>
+<li><code>ipidb</code>: The IPI xref database (see http://ftp.ebi.ac.uk/pub/databases/IPI/last_release/current/).  </li>
+<li><code>fromipi</code>: Whether the input is IPI or genes  </li>
+<li><code>inopts</code>: The options for input file  </li>
+<li><code>outopts</code>: The options for output file  </li>
 </ul>
 </li>
 </ul>
@@ -2879,7 +2918,7 @@ There are also several options for recording the original values of certain anno
 <ul>
 <li>
 <p><strong>description</strong><br />
-    Get gene TSS in BEd format.</p>
+    Get gene TSS in BED format.</p>
 </li>
 <li>
 <p><strong>input</strong>  </p>
@@ -3552,61 +3591,6 @@ has-mir-22	Gene	+	+	+
 </li>
 </ul>
 </div>
-<h3 id="math">math</h3>
-<div class="admonition hint">
-<p class="admonition-title">pRank</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Convert values to ranks.</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>infile:file</code>: The input file  </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outfile:file</code>: The output file with ranks.  </li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong>  </p>
-<ul>
-<li><code>na</code>: Where to put the <code>NA</code> values.  <ul>
-<li><code>"first"</code> : Put <code>NA</code> first</li>
-<li><code>"last"</code>  : Put <code>NA</code> last (default)</li>
-<li><code>"remove"</code>: Remove <code>NA</code> values</li>
-<li><code>"keep"</code>  : keep <code>NA</code> values</li>
-</ul>
-</li>
-<li><code>tie</code>: How to deal with ties  <ul>
-<li><code>"average"</code> : Use average ranks (default)</li>
-<li><code>"first"</code>   : Use the ranks come first</li>
-<li><code>"last"</code>    : Use the ranks come last</li>
-<li><code>"random"</code>  : Use the random ranks</li>
-<li><code>"max"</code>     : Use the max ranks</li>
-<li><code>"min"</code>     : Use the min ranks</li>
-</ul>
-</li>
-<li><code>byrow</code>: Calculate ranks by row (instead of by column)? Default: <code>True</code>  </li>
-<li><code>reverse</code>: Take the reverse rank? Default: <code>True</code>  <ul>
-<li>Large number gets higher rank (smaller rank index)</li>
-<li><code>args.na</code> remains the same.</li>
-</ul>
-</li>
-<li><code>inopts</code>: The input options:  <ul>
-<li><code>cnames</code>: Whether the input file has header. Default: <code>True</code></li>
-<li><code>rnames</code>: Whether the input file has row names. Default: <code>True</code></li>
-<li><code>delimit</code>: The separator of columns. Default: <code>\t</code></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</div>
 <h3 id="misc">misc</h3>
 <div class="admonition hint">
 <p class="admonition-title">pGEP70</p>
@@ -3652,8 +3636,8 @@ has-mir-22	Gene	+	+	+
 <p><strong>args</strong>  </p>
 <ul>
 <li><code>gep70</code>: The GEP70 genes.   <ul>
-<li>Column 1: up-regulated genes (51)</li>
-<li>Column 2: down-regulated genes (19)</li>
+<li>Column 1: genes </li>
+<li>Column 2: how is the regulated (up or down)</li>
 </ul>
 </li>
 <li><code>inunit</code>  : The time unit in input file. Default: days  </li>
@@ -3666,13 +3650,6 @@ has-mir-22	Gene	+	+	+
 <li><code>devpars</code> : The device parameters for png. Default: <code>{res:300, height:2000, width:2000}</code>  </li>
 </ul>
 </li>
-</ul>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">pLungCancerGeneSig</p>
-<ul>
-<li><strong>description</strong><br />
-    https://www.ncbi.nlm.nih.gov/pubmed/19118056</li>
 </ul>
 </div>
 <div class="admonition hint">
@@ -3723,6 +3700,142 @@ has-mir-22	Gene	+	+	+
 <li>
 <p><strong>requires</strong><br />
 <a href="https://github.com/biocommons/eutils">python-eutils</a></p>
+</li>
+</ul>
+</div>
+<h3 id="mlearn">mlearn</h3>
+<div class="admonition hint">
+<p class="admonition-title">pLinearRegTrain</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Train a linear regression model</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input file (Last column as Y)  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outmodel:file</code>: The output model (RData file)  </li>
+<li><code>outdir:dir</code>   : The output directory containing model, plots and other files  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>plot</code>   : Whether plot the lm probability. Default: <code>True</code>  </li>
+<li><code>formula</code>: The formula to perform the regression. Default: <code>None</code>.  <ul>
+<li>If <code>None</code>, will use all first N-1 columns as features.</li>
+</ul>
+</li>
+<li><code>inopts</code> : The input options.  </li>
+<li><code>yval</code>   : The type of y values. Default: <code>categ</code>  <ul>
+<li><code>categ</code>  : categorical values</li>
+<li><code>numeric</code>: numeric values</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pLinearRegPredict</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Use a trained linear regression model to predict</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input file   </li>
+<li><code>model:file</code> : The trained model by <code>pLinearRegTrain</code>  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outdir:dir</code>: The output directory  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>inopts</code> : The input options.  </li>
+<li><code>outprob</code>: Also output probabilities? Default: True  </li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pLogitRegTrain</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Train a linear regression model</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input file (Last column as Y)  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outmodel:file</code>: The output model (RData file)  </li>
+<li><code>outdir:dir</code>   : The output directory containing model, plots and other files  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>plot</code>   : Whether plot the glm probability. Default: <code>True</code>  </li>
+<li><code>formula</code>: The formula to perform the regression. Default: <code>None</code>.  <ul>
+<li>If <code>None</code>, will use all first N-1 columns as features.</li>
+</ul>
+</li>
+<li><code>inopts</code> : The input options.  </li>
+<li><code>yval</code>   : The type of y values. Default: <code>categ</code>  <ul>
+<li><code>categ</code>  : categorical values</li>
+<li><code>prob</code>   : probabilities</li>
+<li><code>numeric</code>: numeric values</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pLogitRegPredict</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Use a trained linear regression model to predict</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input file   </li>
+<li><code>model:file</code> : The trained model by <code>pLogitRegTrain</code>  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outdir:dir</code>: The output directory  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>inopts</code> : The input options.  </li>
+<li><code>outprob</code>: Also output probabilities? Default: True  </li>
+</ul>
 </li>
 </ul>
 </div>
@@ -4465,6 +4578,60 @@ Item2	0	1
 </div>
 <h3 id="rank">rank</h3>
 <div class="admonition hint">
+<p class="admonition-title">pRank</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Convert values to ranks.</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input file  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output file with ranks.  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>na</code>: Where to put the <code>NA</code> values.  <ul>
+<li><code>"first"</code> : Put <code>NA</code> first</li>
+<li><code>"last"</code>  : Put <code>NA</code> last (default)</li>
+<li><code>"remove"</code>: Remove <code>NA</code> values</li>
+<li><code>"keep"</code>  : keep <code>NA</code> values</li>
+</ul>
+</li>
+<li><code>tie</code>: How to deal with ties  <ul>
+<li><code>"average"</code> : Use average ranks (default)</li>
+<li><code>"first"</code>   : Use the ranks come first</li>
+<li><code>"last"</code>    : Use the ranks come last</li>
+<li><code>"random"</code>  : Use the random ranks</li>
+<li><code>"max"</code>     : Use the max ranks</li>
+<li><code>"min"</code>     : Use the min ranks</li>
+</ul>
+</li>
+<li><code>byrow</code>: Calculate ranks by row (instead of by column)? Default: <code>True</code>  </li>
+<li><code>reverse</code>: Take the reverse rank? Default: <code>True</code>  <ul>
+<li>Large number gets higher rank (smaller rank index)</li>
+<li><code>args.na</code> remains the same.</li>
+</ul>
+</li>
+<li><code>inopts</code>: The input options:  <ul>
+<li><code>cnames</code>: Whether the input file has header. Default: <code>True</code></li>
+<li><code>rnames</code>: Whether the input file has row names. Default: <code>True</code></li>
+<li><code>delimit</code>: The separator of columns. Default: <code>\t</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
 <p class="admonition-title">pRankProduct</p>
 <ul>
 <li>
@@ -4474,7 +4641,7 @@ Item2	0	1
 <li>
 <p><strong>input</strong>  </p>
 <ul>
-<li><code>infile:file</code>: The input file  </li>
+<li><code>infile:file</code>: The input file  <ul>
 <li>Format:
 <div class="highlight"><pre><span></span>			Case1	Case2	...
 Feature1	8.2  	10.1 	...
@@ -4487,6 +4654,8 @@ Feature1	2    	1    	...
 Feature2	3    	2    	...
 ...
 </pre></div></li>
+</ul>
+</li>
 </ul>
 </li>
 <li>
@@ -5919,7 +6088,7 @@ ID	INT	PRIMARY KEY
 <li>
 <p><strong>output</strong>  </p>
 <ul>
-<li><code>outdir</code>: The output directory containing the output files and plots  </li>
+<li><code>outfile:file</code>: The output excel file.  </li>
 </ul>
 </li>
 <li>
@@ -7596,6 +7765,38 @@ File2:
 <li>
 <p><strong>requires</strong><br />
 <a href="https://bioconductor.org/packages/devel/bioc/vignettes/maftools/inst/doc/maftools.html">Maftools</a></p>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pMutationSigs</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Find similar COSMIC mutation signatures for MAF file 
+    using https://github.com/pwwang/deconstruct_sigs_py</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input maf file.  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outdir:dir</code>: The output directory  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>font_family</code>: Font family for plotting.   </li>
+<li><code>font_weight</code>: Font weight for plotting.   </li>
+<li><code>sig_cutoff</code> : Significance cutoff for signatures.   </li>
+<li><code>err_thres</code>  : The threshold to top the iteration.  </li>
+<li><code>ref</code>        : The reference genome.  </li>
+</ul>
 </li>
 </ul>
 </div>
