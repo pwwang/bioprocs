@@ -6095,7 +6095,8 @@ Sample6	group2
 <ul>
 <li>
 <p><strong>description</strong><br />
-    Get the promoter regions in bed format of a gene list give in infile.</p>
+    Get the promoter regions in bed format of a gene list give in infile.
+    Gene names are supposed to be normalized by <code>gene.pGeneNameNorm</code></p>
 </li>
 <li>
 <p><strong>input</strong>  </p>
@@ -6112,14 +6113,26 @@ Sample6	group2
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>up</code>: the upstream to the tss, default: 2000  </li>
-<li><code>down</code>: the downstream to the tss, default: 2000  </li>
-<li><code>genome</code>: the genome, default: hg19  </li>
+<li><code>region</code>: The region to output. Default: <code>Box(up = 2000, down = None, withbody = False)</code>  <ul>
+<li><code>up</code>: The upstream distance to TSS.</li>
+<li><code>down</code>: The downstream distance to TSS. Defaults to <code>args.region.up</code> if <code>None</code></li>
+<li><code>withbody</code>: Include gene body in the output region? Default: <code>False</code></li>
 </ul>
 </li>
-<li>
-<p><strong>require</strong><br />
-<a href="http://mygene.info/">python-mygene</a></p>
+<li><code>notfound</code>: How to deal with records can't be found. Default: <code>skip</code>  <ul>
+<li><code>skip</code> : Skip the record</li>
+<li><code>error</code>: Report error and exit</li>
+</ul>
+</li>
+<li><code>refgene</code>: The ref gene file. Default: <code>@params.refgene</code>  </li>
+<li><code>inopts</code> : The options for input file. Default: <code>Box(cnames = False, genecol = 0, delimit = "\t")</code>  <ul>
+<li><code>cnames</code>: Whether the input file has header</li>
+<li><code>genecol</code>: The 0-based index or the colname of gene column.</li>
+<li><code>delimit</code>: The delimit of the input file.</li>
+</ul>
+</li>
+<li><code>outopts</code>: The options for output file. Default: <code>Box(cnames = False)</code>  </li>
+</ul>
 </li>
 </ul>
 </div>
