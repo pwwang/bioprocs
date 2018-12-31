@@ -2068,10 +2068,33 @@ s2	s3	1
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>bcode</code>: Some extra BEFORE the content is inserted.  </li>
+<li><code>bcode</code>: Some extra BEFORE the content is inserted (after heading).  </li>
 <li><code>acode</code>: Some extra AFTER the content is inserted.  </li>
 <li><code>error</code>: What to do when error happens. Default: <code>exit</code>  <ul>
 <li><code>ignore</code> to add nothing to the document</li>
+</ul>
+</li>
+<li><code>section</code>: Start a new section of this table. Could be a box of values. Default: <code>Box()</code>.  <ul>
+<li><code>Box()</code> means no new section will start.</li>
+<li><code>type</code>: The type of the section. Could be one of:<ul>
+<li><code>CONTINUOUS</code></li>
+<li><code>NEW_COLUMN</code></li>
+<li><code>NEW_PAGE</code> (default if not provided when <code>args.section.type</code> is not <code>None</code>)</li>
+<li><code>EVEN_PAGE</code> and</li>
+<li><code>ODD_PAGE</code></li>
+</ul>
+</li>
+<li><code>orient</code>: The orientation of the section. Default: <code>PORTRAIT</code><ul>
+<li>Could also be <code>LANDSCAPE</code></li>
+</ul>
+</li>
+<li><code>margin</code>: The margin of the section, in points. Could be:<ul>
+<li>Single value for all margins. Default: 36</li>
+<li>Paired values for top/bottom and left/right margins</li>
+<li>3 values for top, left/right and bottom margins.</li>
+<li>4 values for top, right, bottom and left margins</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -2104,14 +2127,59 @@ s2	s3	1
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>style</code>: The style of the table  </li>
-<li><code>bcode</code>: Some extra BEFORE the table is inserted.  </li>
-<li><code>acode</code>: Some extra AFTER the table is inserted.  </li>
+<li><code>font</code>   : The font of table content. Default: <code>Box(family: 'Arial', size: 10)</code>  </li>
+<li><code>section</code>: Start a new section of this table. Could be a box of values. Default: <code>Box()</code>.  <ul>
+<li><code>Box()</code> means no new section will start.</li>
+<li><code>type</code>: The type of the section. Could be one of:<ul>
+<li><code>CONTINUOUS</code></li>
+<li><code>NEW_COLUMN</code></li>
+<li><code>NEW_PAGE</code> (default if not provided when <code>args.section.type</code> is not <code>None</code>)</li>
+<li><code>EVEN_PAGE</code> and</li>
+<li><code>ODD_PAGE</code></li>
+</ul>
+</li>
+<li><code>orient</code>: The orientation of the section. Default: <code>PORTRAIT</code><ul>
+<li>Could also be <code>LANDSCAPE</code></li>
+</ul>
+</li>
+<li><code>margin</code>: The margin of the section, in points. Could be:<ul>
+<li>Single value for all margins. Default: 36</li>
+<li>Paired values for top/bottom and left/right margins</li>
+<li>3 values for top, left/right and bottom margins.</li>
+<li>4 values for top, right, bottom and left margins</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>style</code>  : The style of the table. Default: <code>Light List Accent 1</code>  <ul>
+<li><code>Table Normal</code></li>
+<li><code>Colorful Grid</code>, <code>Colorful Grid Accent 1~6</code></li>
+<li><code>Colorful List</code>, <code>Colorful List Accent 1~6</code></li>
+<li><code>Colorful Shading</code>, <code>Colorful Shading Accent 1~6</code></li>
+<li><code>Dark List</code>, <code>Dark List Accent 1~6</code></li>
+<li><code>Light Grid</code>, <code>Light Grid Accent 1~6</code></li>
+<li><code>Light List</code>, <code>Light List Accent 1~6</code></li>
+<li><code>Light Shading</code>, <code>Light Shading Accent 1~6</code></li>
+<li><code>Medium Grid 1~3</code>, <code>Medium Grid 1~3 Accent 1~6</code></li>
+<li><code>Medium List 1~2</code>, <code>Medium List 1~2 Accent 1~6</code></li>
+<li><code>Medium Shading 1~2</code>, <code>Medium Shading 1~2 Accent 1~6</code></li>
+<li><code>Table Grid</code></li>
+</ul>
+</li>
+<li><code>title</code>  : The title of the table, could be heading to table caption, Could be:  <ul>
+<li>A string, defaulted as <code>Heading 1</code> (2nd level heading)</li>
+<li>A <code>tuple</code> or <code>list</code> with first element (string) as the content, 2nd element as the heading level</li>
+</ul>
+</li>
+<li><code>caption</code>: The caption of the table. Default: <code>None</code>  </li>
+<li><code>bcode</code>  : Some extra BEFORE the table is inserted.  </li>
+<li><code>acode</code>  : Some extra AFTER the table is inserted.  </li>
+<li><code>inopts</code> : The options for reading the input file.  </li>
 </ul>
 </li>
 <li>
 <p><strong>requires</strong><br />
-<a href="http://python-docx.readthedocs.io/en/latest"><code>python-docx</code></a></p>
+<a href="http://python-docx.readthedocs.io/en/latest"><code>python-docx</code> v0.8.7</a></p>
 </li>
 </ul>
 </div>
@@ -2138,11 +2206,59 @@ s2	s3	1
 <p><strong>args</strong>  </p>
 <ul>
 <li><code>scale</code>: The scale of the image. Default: <code>Box()</code>  <ul>
-<li>With keys <code>width</code> and/or <code>height</code> in inches.</li>
+<li>With keys <code>width</code> and/or <code>height</code> in points.</li>
+<li>If only one is set, the other is automatically scaled.</li>
 </ul>
 </li>
-<li><code>bcode</code>: Some extra BEFORE the table is inserted.  </li>
-<li><code>acode</code>: Some extra AFTER the table is inserted.  </li>
+<li><code>title</code>  : The title of the table, could be heading to table caption, Could be:  <ul>
+<li>A string, defaulted as <code>Heading 1</code> (2nd level heading)</li>
+<li>A <code>tuple</code> or <code>list</code> with first element (string) as the content, 2nd element as the heading level</li>
+<li>Template available. i.e. <code>("Title: {{i.infile | fn2}}", 2)</code></li>
+</ul>
+</li>
+<li><code>section</code>: Start a new section of this table. Could be a box of values. Default: <code>Box()</code>.  <ul>
+<li><code>Box()</code> means no new section will start.</li>
+<li><code>type</code>: The type of the section. Could be one of:<ul>
+<li><code>CONTINUOUS</code></li>
+<li><code>NEW_COLUMN</code></li>
+<li><code>NEW_PAGE</code> (default if not provided when <code>args.section.type</code> is not <code>None</code>)</li>
+<li><code>EVEN_PAGE</code> and</li>
+<li><code>ODD_PAGE</code></li>
+</ul>
+</li>
+<li><code>orient</code>: The orientation of the section. Default: <code>PORTRAIT</code><ul>
+<li>Could also be <code>LANDSCAPE</code></li>
+</ul>
+</li>
+<li><code>margin</code>: The margin of the section, in points. Could be:<ul>
+<li>Single value for all margins. Default: 36</li>
+<li>Paired values for top/bottom and left/right margins</li>
+<li>3 values for top, left/right and bottom margins.</li>
+<li>4 values for top, right, bottom and left margins</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>legend</code>: The legend of the image. Default: <code>None</code>  <ul>
+<li>If starts with <code>Figure X.</code>, this part will be bolded.</li>
+<li>Template available. i.e. <code>Figure 1. {{i.infile | fn2}} shows good results.</code></li>
+</ul>
+</li>
+<li><code>align</code>: How the image is aligned if it is not an inline element. Default: <code>CENTER</code>  <ul>
+<li>To set it inline, set <code>args.align</code> as <code>None</code>, and add something to the paragraph(<code>para</code>) in <code>args.acode</code>.</li>
+</ul>
+</li>
+<li><code>bcode</code> : Some extra BEFORE the table is inserted.  <ul>
+<li><code>doc</code> is available for the <code>document</code> object</li>
+<li><code>sec</code> is available for the <code>section</code> object if <code>args.section</code> has been set.</li>
+</ul>
+</li>
+<li><code>acode</code> : Some extra AFTER the table is inserted.  <ul>
+<li><code>doc</code> and <code>sec</code> are still available</li>
+<li><code>para</code>: The paragraph where the run of the image is placed</li>
+<li><code>run</code>: The run where the image is placed</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>
