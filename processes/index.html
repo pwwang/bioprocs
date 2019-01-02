@@ -7617,6 +7617,51 @@ Case2	Y ~ X2
 </li>
 </ul>
 </div>
+<div class="admonition hint">
+<p class="admonition-title">pAtSnp</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Scan motifs on Snps to detect binding affinity changes.</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>tffile:file</code>: The tf-motif file with 1st column the motif and 2nd the tf  </li>
+<li><code>snpfile:file</code>: The snp file.   <ul>
+<li>Could be a bed file with first 6 columns the bed6 format and 7th the alleles.</li>
+<li>Alleles including reference allele should be seperated by <code>,</code></li>
+<li>It also could be a snp file required by <code>atSNP</code> package.</li>
+<li>See: https://rdrr.io/github/kinsigne/atSNP_modified/man/LoadSNPData.html</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output file  </li>
+<li><code>outdir:dir</code>  : The output directory containing the output file and plots.  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>tfmotifs</code>: The motif database. Defaut: <code>params.tfmotifs</code>  </li>
+<li><code>genome</code>  : The reference genome to get the sequences. Default: <code>params.genome</code>  </li>
+<li><code>fdr</code>     : Do fdr or not. Or could be the p-value adjustment method. Default: <code>True</code> (using <code>BH</code> method)  </li>
+<li><code>pval</code>    : The pvalue cutoff for output and plot.  </li>
+<li><code>plot</code>    : Do plot or not. Default: <code>True</code>  </li>
+<li><code>nthread</code> : How many threads to use. Default: <code>1</code>  </li>
+<li><code>depvars</code> : The device parameters for plotting. Default: <code>Box(res = 300, width = 2000, height = 2000)</code>  </li>
+</ul>
+</li>
+<li>
+<p><strong>requires</strong><br />
+<code>r-atSNP</code></p>
+</li>
+</ul>
+</div>
 <h3 id="tsv">tsv</h3>
 <div class="admonition hint">
 <p class="admonition-title">pMatrixR</p>
