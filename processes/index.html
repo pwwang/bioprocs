@@ -112,7 +112,7 @@
     <li class="toctree-l2"><a href="#mlearn">mlearn</a></li>
     
 
-    <li class="toctree-l2"><a href="#pca">pca</a></li>
+    <li class="toctree-l2"><a href="#network">network</a></li>
     
 
     <li class="toctree-l2"><a href="#picard">picard</a></li>
@@ -164,6 +164,9 @@
     
 
     <li class="toctree-l2"><a href="#tsv">tsv</a></li>
+    
+
+    <li class="toctree-l2"><a href="#tumhet">tumhet</a></li>
     
 
     <li class="toctree-l2"><a href="#vcf">vcf</a></li>
@@ -321,8 +324,7 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <p><strong>args</strong>  </p>
 <ul>
 <li><code>seed</code>: The seed for sampling the training set.  </li>
-<li><code>tfrac</code>: The fraction of samples used for training.<br />
-``</li>
+<li><code>tfrac</code>: The fraction of samples used for training.  </li>
 </ul>
 </li>
 </ul>
@@ -1342,6 +1344,7 @@ s2	s3	1
 <li>See https://github.com/etal/cnvkit/tree/master/data</li>
 </ul>
 </li>
+<li><code>nthread</code>: The number of threads to use. Default: 1  </li>
 <li><code>ref</code>    : The reference genome.  </li>
 <li><code>params</code> : The extra parameters for cnvkit's <code>access</code>, <code>target</code> and <code>autobin</code> command. Default: <br />
     <div class="highlight"><pre><span></span><span class="n">Box</span><span class="p">(</span>
@@ -1417,6 +1420,7 @@ s2	s3	1
 <ul>
 <li><code>ref</code>   : The reference file.  </li>
 <li><code>cnvkit</code>: The executable of cnvkit. Default: 'cnvkit.py'  </li>
+<li><code>nthread</code>: The number of threads to use. Default: 1  </li>
 <li><code>params</code>: Other parameters for <code>cnvkit.py reference</code>, default: " --no-edge "  </li>
 </ul>
 </li>
@@ -1721,12 +1725,43 @@ s2	s3	1
 <p><strong>args</strong>  </p>
 <ul>
 <li><code>cnvkit</code>: The executable of cnvkit. Default: 'cnvkit.py'  </li>
+<li><code>nthread</code>: The number of threads to use. Default: 1  </li>
 <li><code>params</code>: Other params for <code>cnvkit.py export</code>  </li>
 </ul>
 </li>
 <li>
 <p><strong>requires</strong><br />
 <a href="http://cnvkit.readthedocs.io/">CNVkit</a></p>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pCNVkit2Theta</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Convert the results to THetA2 interval input.</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>cnsfile:file</code>: The cns file  </li>
+<li><code>cnnfile:file</code>: The reference cnn file or the cnr file for paired Normal sample. Could be empty.  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The interval file for THetA2  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>nthread</code> : Number threads to use. Default: <code>1</code>  </li>
+<li><code>cnvkit</code>  : The executable of cnvkit. Default: <code>cnvkit.py</code>  </li>
+<li><code>params</code>  : Other params for <code>cnvkit.py export theta</code>  </li>
+</ul>
 </li>
 </ul>
 </div>
@@ -2317,8 +2352,33 @@ s2	s3	1
 <div class="admonition hint">
 <p class="admonition-title">pFastq2Expr</p>
 <ul>
-<li><strong>description</strong><br />
-    Use Kallisto to get gene expression from pair-end fastq files.</li>
+<li>
+<p><strong>description</strong><br />
+    Use Kallisto to get gene expression from pair-end fastq files.</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>fqfile1:file</code>: The fastq file1.  </li>
+<li><code>fqfile2:file</code>: The fastq file2.  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The expression file  </li>
+<li><code>outdir:dir</code>  : Output direcotry with expression and other output files  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>params</code>  : Other parameters for <code>kallisto quant</code>. Default: <code>Box()</code>  </li>
+<li><code>idxfile</code> : The kallisto index file. Default: <code>params.kallistoIdx</code>  </li>
+<li><code>kallisto</code>: The path to <code>kallisto</code>. Default: <code>params.kallisto</code>  </li>
+<li><code>nthread</code> : # threads to use. Default: <code>1</code>  </li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="admonition hint">
@@ -3559,7 +3619,7 @@ genome: The genome used to do the conversion.</li>
 <p><strong>args</strong>  </p>
 <ul>
 <li><code>weightexp</code>: Exponential weight employed in calculation of enrichment scores. Default: 0.75  </li>
-<li><code>nperm</code>: Number of permutations. Default: 10000  </li>
+<li><code>nperm</code>: Number of permutations. Default: 1000  </li>
 </ul>
 </li>
 </ul>
@@ -3598,17 +3658,9 @@ genome: The genome used to do the conversion.</li>
 <li><code>libs</code>: The databases to do enrichment against. Default: KEGG_2016  </li>
 <li>A full list can be found here: http://amp.pharm.mssm.edu/Enrichr/#stats</li>
 <li>Multiple dbs separated by comma (,)</li>
-<li><code>norm</code>: Normalize the gene list use <a href="https://pypi.python.org/pypi/mygene/3.0.0">python-mygene</a>  </li>
-<li><code>rmtags</code>: Remove pathway tags in the plot. Default: True  </li>
-<li>For example: change "Lysine degradation_Homo sapiens_hsa00310" to "Lysine degradation".</li>
 <li><code>plot</code>: Whether to plot the result. Default: True  </li>
-<li><code>title</code>: The title for the plot. Default: "Gene enrichment: {db}"  </li>
-<li><code>cachedir</code>: The cachedir for gene name normalization.  </li>
+<li><code>devpars</code>: Parameters for png. Default: <code>{'res': 300, 'width': 2000, 'height': 2000}</code>  </li>
 </ul>
-</li>
-<li>
-<p><strong>requires</strong><br />
-<a href="https://pypi.python.org/pypi/mygene/3.0.0">python-mygene</a> if <code>args.norm</code> is <code>True</code></p>
 </li>
 </ul>
 </div>
@@ -4172,76 +4224,51 @@ Rn   Case2
 </li>
 </ul>
 </div>
-<h3 id="pca">pca</h3>
 <div class="admonition hint">
-<p class="admonition-title">pPCA</p>
+<p class="admonition-title">pCrossValid</p>
 <ul>
 <li>
 <p><strong>description</strong><br />
-    Perform PCA analysis</p>
+    Do cross validation on a model using R carent package.</p>
 </li>
 <li>
 <p><strong>input</strong>  </p>
 <ul>
-<li><code>infile:file</code>: The matrix to do the analysis  </li>
-<li>Note that rows are samples, columns are features, if not, use <code>args.transpose = True</code></li>
+<li><code>infile:file</code>: The input data file.  </li>
 </ul>
 </li>
 <li>
 <p><strong>output</strong>  </p>
 <ul>
-<li><code>outfile:file</code>: The output coordinate file  </li>
-<li>Columns are PCs, rows are samples</li>
+<li><code>outmodel:file</code>: The trained model in RDS format  </li>
+<li><code>outdir:dir</code>   : The output directory containing output model and plots.  </li>
 </ul>
 </li>
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>transpose</code>: Whether to transpose the input matrix from infile. Default: False  </li>
-<li><code>rownames</code>: The <code>row.names</code> argument for <code>read.table</code>, default: 1  </li>
-<li><code>header</code>: The <code>header</code> argument for <code>read.table</code> to read the input file, default: True.  </li>
-<li><code>screeplot</code>: Whether to generate the screeplot or not. Default: True  </li>
-<li><code>sp_ncp</code>: Number of components in screeplot. Default: 0 (auto detect)  </li>
-<li>if total # components (tcp) &lt; 20: use all</li>
-<li>else if tcp &gt; 20, use 20</li>
-<li><code>varplot</code>: Whether to generate the variable plot or not. Default: False  </li>
-<li><code>biplot</code>: Whether to generate the variable plot or not. Default: True  </li>
+<li><code>inopts</code> : The options to read the input file.  </li>
+<li><code>ctrl</code>   : Arguments for <code>trainControl</code>. See <code>?trainControl</code>. Default: <code>Box(method = '', savePredictions = True, classProbs = True)</code>  </li>
+<li><code>train</code>  : Arguments for <code>train</code> other than <code>data</code> and <code>trControl</code>. Default: <code>Box(form = None, method = '', metric = 'ROC')</code>  <ul>
+<li>see <code>?train</code></li>
+</ul>
+</li>
+<li><code>seed</code>   : The seed. Default: <code>None</code>  </li>
+<li><code>nthread</code>: # threads to use. Default: <code>1</code>  </li>
+<li><code>plots</code>  : Do types of plots. Default: <code>['model', 'roc']</code>  <ul>
+<li><code>varimp</code> also available</li>
+<li>You can also concatenate them using comma (<code>,</code>)</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>
 <p><strong>requires</strong><br />
-<a href="https://cran.r-project.org/web/packages/factoextra/index.html"><code>r-factoextra</code></a> for plots</p>
+<code>r-caret</code></p>
 </li>
 </ul>
 </div>
-<div class="admonition hint">
-<p class="admonition-title">pSelectPCs</p>
-<ul>
-<li>
-<p><strong>description</strong><br />
-    Select a subset of PCs from pPCA results</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>indir:file</code>: The directory generated from pPCA  </li>
-</ul>
-</li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outfile:file</code>: The file containing selected PCs  </li>
-</ul>
-</li>
-<li>
-<p><strong>args</strong>  </p>
-<ul>
-<li><code>n</code>: The number of PCs to select. Default: 0.9  </li>
-<li>If it is &lt; 1, used as the % variation explained from stdev.txt</li>
-</ul>
-</li>
-</ul>
-</div>
+<h3 id="network">network</h3>
 <h3 id="picard">picard</h3>
 <div class="admonition hint">
 <p class="admonition-title">pMarkDuplicates</p>
@@ -4880,7 +4907,7 @@ Rn   Case2
 <li>
 <p><strong>input</strong>  </p>
 <ul>
-<li><code>datafile:file</code>: The data file  </li>
+<li><code>infile:file</code>: The data file  </li>
 </ul>
 </li>
 <li>
@@ -4920,7 +4947,48 @@ Rn   Case2
 </pre></div></li>
 </ul>
 </li>
-<li><code>params</code>: Other parameters for <code>boxplot</code>, default: <code>""</code>  </li>
+<li><code>params</code>: Other parameters for <code>geom_boxplot</code>, default: <code>Box()</code>  </li>
+<li><code>ggs</code>   : Extra ggplot2 statements  </li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pBar</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Generate bar/col plot</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The data file  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outpng:file</code>: The output figure  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>inopts</code> : Input options to read the input file  <ul>
+<li><code>cnames</code> :   Whether the input file has header. Default: <code>True</code></li>
+<li><code>rnames</code> :   Whether the input file has row names. Default: <code>False</code></li>
+<li><code>delimit</code>:   The seperator. Defualt: <code>\\t</code></li>
+</ul>
+</li>
+<li><code>x</code>      : The <code>ind</code> (index) column. Only for <code>args.stacked = True</code>. Default: <code>2</code>  </li>
+<li><code>y</code>      : The <code>values</code> column. Only for <code>args.stacked = True</code>. Default: <code>1</code>  </li>
+<li><code>helper</code> : Some raw codes to help to construct the matrix and arguments.  </li>
+<li><code>stacked</code>: Whether the input file is stacked  <ul>
+<li>see <code>pBoxplot.args.stacked</code></li>
+</ul>
+</li>
+<li><code>params</code>: Other parameters for <code>geom_bar</code>, default: <code>Box()</code>  </li>
 <li><code>ggs</code>   : Extra ggplot2 statements  </li>
 </ul>
 </li>
@@ -4969,6 +5037,65 @@ Rn   Case2
 </li>
 <li><code>cols</code>: Col selector (see <code>rows</code>).  </li>
 </ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pHeatmap2</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Plot heatmaps using R package ComplexHeatmap. Example:
+    <div class="highlight"><pre><span></span>bioprocs plot.pHeatmap2 
+	-i.infile MMPT.txt 
+	-i.annofiles:l:o PatientAnno.txt 
+	-args.params.row_names_gp &#39;r:fontsize5&#39; 
+	-args.params.column_names_gp &#39;r:fontsize5&#39; 
+	-args.params.clustering_distance_rows pearson 
+	-args.params.clustering_distance_columns pearson 
+	-args.devpars.width 5000 
+	-args.devpars.height 5000 
+	-args.draw.merge_legends 
+	-args.params.heatmap_legend_param.title AUC 
+	-args.params.row_dend_reorder 
+	-args.params.column_dend_reorder 
+	-args.params.top_annotation &#39;r:HeatmapAnnotation(Mutation = as.matrix(annos[,(length(groups)+1):ncol(annos)]), Group = as.matrix(annos[,groups]), col = list(Mutation = c(`0`=&quot;grey&quot;, `1`=&quot;lightgreen&quot;, `2`=&quot;green&quot;, `3`=&quot;darkgreen&quot;)), annotation_name_gp = fontsize8, show_legend = c(Group=F))&#39; 
+	-args.params.right_annotation &#39;r:rowAnnotation(AUC = anno_boxplot(as.matrix(data), outline = F))&#39; 
+	-args.helper &#39;fontsize8 = gpar(fontsize = 12); fontsize5 = gpar(fontsize = 8); groups = c(&quot;Group1&quot;, &quot;Group2&quot;, &quot;Group3&quot;)&#39; 
+	-args.seed 8525
+</pre></div></p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input data file for the main heatmap.  </li>
+<li><code>annofiles:files</code>: The annotation files.  <ul>
+<li>For now, they should share the same <code>args.anopts</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:flie</code>: The plot.  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>devpars</code>: The parameters for device. Default: <code>{'res': 300, 'height': 2000, 'width': 2000}</code>  </li>
+<li><code>draw</code>   : The parameters for <code>ComplexHeatmap::draw</code>  </li>
+<li><code>params</code> : Other parameters for <code>ComplexHeatmap::Heatmap</code>  </li>
+<li><code>anopts</code> : The options to read the annotation files.  </li>
+<li><code>inopts</code> : The options to read the input files.  </li>
+<li><code>seed</code>   : The seed. Default: <code>None</code>  </li>
+<li><code>helper</code> : The raw R codes to help defining some R variables or functions.  </li>
+</ul>
+</li>
+<li>
+<p><strong>requires</strong><br />
+<code>R-ComplexHeatmap</code> (tested on c269eb425bf1b2d1713b9d5e68bf9f08bd8c7acb)</p>
 </li>
 </ul>
 </div>
@@ -5148,6 +5275,52 @@ Item2	0	1
 </li>
 </ul>
 </div>
+<div class="admonition hint">
+<p class="admonition-title">pManhattan</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Manhattan plot.</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input file. First 6 columns should be BED6, and then column:  <ul>
+<li>7: The raw pvalue.</li>
+<li>8: The x-axis labels for the records.</li>
+<li>For example:
+    <div class="highlight"><pre><span></span>chr19	45604163	45604163	rs7255060	0	+	3.238E-03	+200K
+chr19	45595277	45595277	rs10417101	0	+	3.870E-03	+200K
+chr19	45394336	45394336	rs71352238	0	+	6.440E-03	-50K
+chr19	45615857	45615857	rs6509194	0	+	1.298E-02	+250K
+chr19	45594170	45594170	rs3178166	0	+	3.617E-02	+200K
+chr19	45361574	45361574	rs3852856	0	+	2.070E-02	-100K
+chr19	45220205	45220205	rs57090948	0	+	4.384E-02	-200K
+chr19	45396219	45396219	rs157582	0	+	9.472E-03	-50K
+chr19	45210634	45210634	rs10421830	0	+	1.375E-02	-250K
+chr19	45228502	45228502	rs10422350	0	+	4.121E-02	-200K
+</pre></div></li>
+</ul>
+</li>
+<li><code>hifile:file</code>: The file with the record names (one per line) to highlight in the plot.  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The plot. Default: <code>{{i.infile | fn}}.manht.png</code>  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>inopts</code> : Options to read the input file. Default: <code>Box(cnames = False, rnames = False)</code>  </li>
+<li><code>ggs</code>    : Extra expressions for ggplot.  </li>
+<li><code>devpars</code>: The parameters for plot device. Default: <code>{'res': 300, 'height': 2000, 'width': 2000}</code>  </li>
+</ul>
+</li>
+</ul>
+</div>
 <h3 id="power">power</h3>
 <div class="admonition hint">
 <p class="admonition-title">pSurvivalPower</p>
@@ -5294,15 +5467,17 @@ Feature2	3    	2    	...
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>informat</code>: The input format of the values. Whether they are real values (value) or ranks (rank). Default: value  </li>
+<li><code>informat</code>: The input format of the values. Whether they are real values (value) or ranks (rank). Default: value  <ul>
+<li>Records will be ordered descendingly by value (Larger value has higher rank (lower rank index)).</li>
+</ul>
+</li>
 <li><code>pval</code>: Whether to calculate the p-value or not. Default: True  </li>
-<li><code>header</code>: Whether the input file has headers (rownames are required!). Default: True  </li>
 <li><code>plot</code>: Number of rows to plot. Default: 0 (Don't plot)  </li>
 <li><code>cex</code>: Font size for plotting. Default: 0.9  </li>
 <li><code>cnheight</code>: Colname height. Default: 80  </li>
 <li><code>rnwidth</code>: Rowname width. Default: 50  </li>
-<li><code>width</code>: Width of the png file. Default: 2000  </li>
-<li><code>height</code>: height of the png file. Default: 2000  </li>
+<li><code>devpars</code>: device parameters for the plot. Default: <code>Box(res=300, width=2000, height=2000)</code>  </li>
+<li><code>inopts</code>: Options for reading the input file. Default: <code>Box(cnames=True, rnames=True, delimit="\t")</code>  </li>
 </ul>
 </li>
 </ul>
@@ -5392,7 +5567,35 @@ Feature2	3    	2    	...
 </ul>
 </div>
 <div class="admonition hint">
-<p class="admonition-title">pExprPlot</p>
+<p class="admonition-title">pExprFiles2Mat</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Merge expression to a matrix from single samples.</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infiles:files</code>: The expression file from single samples, typically with 2 columns: gene and expression value  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: the expression matrix file  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>fn2sample</code>: Transform filename (no extension) as column name. Default: "function(fn) fn"  </li>
+<li><code>inopts</code>   : Options to read input files. Default: <code>Box(rname = True, cnames = True)</code>  </li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pExprStats</p>
 <ul>
 <li>
 <p><strong>description</strong><br />
@@ -5402,16 +5605,37 @@ Feature2	3    	2    	...
 <p><strong>input</strong>  </p>
 <ul>
 <li><code>infile:file</code>: The expression matrix (rows are genes and columns are samples).  </li>
+<li><code>gfile:file</code> : The sample information file. Determines whether to do subgroup stats or not.  <ul>
+<li>If not provided, not do for all samples</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>
 <p><strong>output</strong>  </p>
 <ul>
-<li><code>outdir:dir</code>: The directory containing the plots  </li>
+<li><code>outdir:dir</code>: The directory containing the plots  <ul>
+<li>If <code>args.filter</code> is given, a filtered expression matrix will be generated in <code>outdir</code>.</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>
 <p><strong>args</strong>  </p>
+<ul>
+<li><code>inopts</code>: Options to read <code>infile</code>. Default: <code>Box(cnames = True, rnames = True)</code>  </li>
+<li><code>tsform</code>: An R function in string to transform the expression matrix (i.e take log).  </li>
+<li><code>filter</code>: An R function in string to filter the expression data.  </li>
+<li><code>plot</code>  : Which plot to do? Default: <code>Box(boxplot = True, histogram = True, qqplot = True)</code>  </li>
+<li><code>ggs</code>   : The ggs for each plot. Default:  <ul>
+<li><code>boxplot   = Box(ylab = {0: "Expression"})</code>,</li>
+<li><code>histogram = Box(labs = {'x': 'Expression', 'y': '# Genes'})</code>,</li>
+<li><code>qqplot    = Box()</code></li>
+</ul>
+</li>
+<li><code>params</code> : The params for each ggplot function.  </li>
+<li><code>devpars</code>: Parameters for png. Default: <code>{'res': 300, 'width': 2000, 'height': 2000}</code>  </li>
+</ul>
 </li>
 </ul>
 </div>
@@ -5541,12 +5765,13 @@ NOTE that during some conversions, <code>sum(counts/effLen)</code> is approximat
 <li><code>efile:file</code>: The expression matrix  </li>
 <li><code>gfile:file</code>: The group information  <ul>
 <li>Like:
-<div class="highlight"><pre><span></span>Sample1	Group1
-Sample2	Group1
-Sample3	Group1
-Sample4	group2
-Sample5	group2
-Sample6	group2
+<div class="highlight"><pre><span></span>Sample	[Patient	]Group
+sample1	[patient1	]group1
+sample2	[patient1	]group1
+sample3	[patient2	]group1
+sample4	[patient2	]group2
+sample5	[patient3	]group2
+sample6	[patient3	]group2
 </pre></div></li>
 </ul>
 </li>
@@ -5562,17 +5787,33 @@ Sample6	group2
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>tool</code>      : the tool used to detect DEGs. Default: 'edger' (deseq2)  </li>
-<li><code>filter</code>    : filter out low count records. Default: <code>"1,2"</code> (At least 2 samples have at least 2 reads)  </li>
-<li><code>mdsplot</code>   : whether to plot the MDS plot, default : True  </li>
-<li><code>volplot</code>   : whether to plot the volcano plot, default : True  </li>
-<li><code>maplot</code>    : whether to plot MA plots within each group, default : False  </li>
-<li><code>heatmap</code>   : whether to plot the heatmap using DEGs. Default : False  </li>
-<li><code>heatmapn</code>  : How many genes to be used for heatmap. If <code>heatmapn</code>, the number will be <code>heatmapn * # DEGs</code>. Default: 100  </li>
-<li><code>heatmapggs</code>: The ggplots options for heatmap. Default : []  </li>
-<li><code>maplotggs</code> : The ggplots options for maplot. Default : []  </li>
-<li><code>volplotggs</code>: The ggplots options for volplot. Default : []  </li>
-<li><code>devpars</code>   : Parameters for png. Default: <code>{'res': 300, 'width': 2000, 'height': 2000}</code>  </li>
+<li><code>tool</code>  : The tool used to detect DEGs. Default: 'deseq2' (edger is also available).  </li>
+<li><code>inopts</code>: Options to read <code>infile</code>. Default: <code>Box(cnames = True, rnames = True)</code>  </li>
+<li><code>cutoff</code>: The cutoff used to filter the results. Default: <code>0.05</code>  <ul>
+<li><code>0.05</code> implies <code>{"by": "p", "value": "0.05", "sign": "&lt;"}</code></li>
+</ul>
+</li>
+<li><code>plot</code>  : The plots to do. Default:   <ul>
+<li><code>mdsplot</code>: True, MDS plot</li>
+<li><code>volplot</code>: True, volcano plot</li>
+<li><code>maplot</code>: True, MA plot</li>
+<li><code>heatmap</code>: True, heatmap for DEGs</li>
+<li><code>qqplot</code>: True, The QQplot for pvalues</li>
+</ul>
+</li>
+<li><code>ggs</code>   : The ggs for each plot. Default:  <ul>
+<li><code>heatmap</code>: <code>Box(theme = {'axis.text.y': 'r:element_blank()'})</code></li>
+<li>Not available for <code>mdsplot</code>.</li>
+<li>Others are empty <code>Box()</code>s</li>
+</ul>
+</li>
+<li><code>params</code>: Parameters for each plot. Default:   <ul>
+<li><code>volplot</code>: <code>Box(pcut = 0.05, fccut = 2)</code></li>
+<li><code>maplot</code> : <code>Box(pcut = 0.05)</code></li>
+</ul>
+</li>
+<li><code>devpars</code>: Parameters for png. Default: <code>{'res': 300, 'width': 2000, 'height': 2000}</code>  </li>
+<li><code>mapfile</code>: Probe to gene mapping file. If not provided, assume genes are used as rownames.  </li>
 </ul>
 </li>
 </ul>
@@ -5602,8 +5843,6 @@ Sample6	group2
 <p><strong>output</strong>  </p>
 <ul>
 <li><code>outfile:file</code>: The output bam file  </li>
-<li><code>idxfile:file</code>: The index of the output bam file  </li>
-<li>If args.index == False, it'll a link to outfile and should be never used</li>
 </ul>
 </li>
 <li>
@@ -5613,21 +5852,27 @@ Sample6	group2
 <li><code>sambamba</code>         : The path of the sambamba. Default: sambamba  </li>
 <li><code>picard</code>           : The path of the picard. Default: picard  </li>
 <li><code>biobambam_bamsort</code>: The path of the biobambam's bamsort. Default: bamsort  </li>
-<li><code>samtools</code>         : The path of the samtools. Default: samtools  </li>
-<li><code>sort</code>             : Do sorting? Default: True  </li>
+<li><code>samtools</code>: The path of the samtools. Default: samtools  </li>
+<li><code>sort</code>    : Do sorting? Default: True  <ul>
 <li>If input is sam, tool is biobambam, this should be True</li>
-<li><code>index</code>            : Do indexing? Default: True  </li>
-<li><code>markdup</code>          : Do duplicates marking? Default: False  </li>
+</ul>
+</li>
+<li><code>index</code>  : Do indexing? Default: True  </li>
+<li><code>markdup</code>: Do duplicates marking? Default: False  <ul>
 <li><code>rmdup</code> for samtools will be called</li>
-<li><code>rmdup</code>            : Do duplicates removing? Default: False  </li>
-<li><code>tmpdir</code>           : The tmp dir used to store tmp files. Default: <system default tmpdir>  </li>
-<li><code>sortby</code>           : Sort by coordinate or queryname. Default: coordinate  </li>
-<li><code>nthread</code>          : Default: 1  </li>
-<li><code>informat</code>         : The format of input file. Default: <detect from extension> (sam|bam)  </li>
-<li><code>params</code>           : Other parameters for <code>tool</code>. Defaut: ""  </li>
-<li><code>mem</code>              : The max memory to use. Default: "16G"  </li>
+</ul>
+</li>
+<li><code>rmdup</code>  : Do duplicates removing? Default: False  </li>
+<li><code>tmpdir</code> : The tmp dir used to store tmp files. Default: <system default tmpdir>  </li>
+<li><code>sortby</code> : Sort by coordinate or queryname. Default: coordinate  </li>
+<li><code>nthread</code>: Default: 1  </li>
+<li><code>infmt</code>  : The format of input file. Default: <detect from extension> (sam|bam)  </li>
+<li><code>params</code> : Other parameters for <code>tool</code>. Defaut: ""  </li>
+<li><code>mem</code>    : The max memory to use. Default: "16G"  <ul>
 <li>Unit could be G/g/M/m</li>
 <li>Will be converted to -Xmx4G, and -Xms will be 1/8 of it</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>
@@ -5710,20 +5955,22 @@ Sample6	group2
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>tool</code>                         : The tool used to recalibrate the bam file. Default: <code>gatk</code> (gatk|bamutil)  </li>
-<li><code>gatk</code>                         : The path of gatk, including java path. Default: <code>gatk</code>  </li>
-<li><code>samtools</code>                     : The path of samtools. Default: <code>samtools</code>  </li>
-<li><code>bamutil</code>                      : The path of bamutil. Default: <code>bam</code>  </li>
-<li><code>picard</code>                       : The path of picard. Default: <code>picard</code>  </li>
-<li><code>paramsRealignerTargetCreator</code> : Other parameters for <code>gatk RealignerTargetCreator</code>. Defaut: ""  </li>
-<li><code>paramsIndelRealigner</code>         : Other parameters for <code>gatk IndelRealigner</code>. Defaut: ""  </li>
-<li><code>paramsBaseRecalibrator</code>       : Other parameters for <code>gatk BaseRecalibrator</code>. Defaut: ""  </li>
-<li><code>paramsPrintReads</code>             : Other parameters for <code>gatk PrintReads</code>. Defaut: ""  </li>
-<li><code>params</code>                       : Other parameters for <code>bam recab</code>. Default: ""  </li>
-<li><code>mem</code>                          : The max memory to use. Default: "32G"  </li>
-<li><code>knownSites</code>                   : The known polymorphic sites to mask out. Default: "" (Required for GATK)  </li>
-<li><code>ref</code>                          : The reference file. Required.  </li>
+<li><code>tool</code>    : The tool used to recalibrate the bam file. Default: <code>gatk</code> (gatk|bamutil)  </li>
+<li><code>gatk</code>    : The path of gatk, including java path. Default: <code>gatk</code>  </li>
+<li><code>samtools</code>: The path of samtools. Default: <code>samtools</code>  </li>
+<li><code>bamutil</code> : The path of bamutil. Default: <code>bam</code>  </li>
+<li><code>picard</code>  : The path of picard. Default: <code>picard</code>  </li>
+<li><code>params</code>  : Other parameters for <code>bam recab</code>. Default         : ""<br />
+<code>RealignerTargetCreator</code> : Other parameters for <code>gatk RealignerTargetCreator</code>. Defaut: ""
+    <code>IndelRealigner</code>         : Other parameters for <code>gatk IndelRealigner</code>. Defaut: ""
+    <code>BaseRecalibrator</code>       : Other parameters for <code>gatk BaseRecalibrator</code>. Defaut: ""
+    <code>PrintReads</code>             : Other parameters for <code>gatk PrintReads</code>. Defaut: ""</li>
+<li><code>mem</code>: The max memory to use. Default: "32G"  </li>
+<li><code>knownSites</code>: The known polymorphic sites to mask out. Default: "" (Required for GATK)  </li>
+<li><code>ref</code>: The reference file. Required.  <ul>
 <li>Will be converted to -Xmx4G, and -Xms will be 1/8 of it</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>
@@ -5875,17 +6122,19 @@ Sample6	group2
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>tool</code>: The tool used to call mutations. Default: gatk (vardict, snvsniffer, platypus, strelka)  </li>
-<li><code>gatk</code>: The path of gatk. Default: gatk  </li>
-<li><code>vardict</code>: The path of vardict. Default: vardict  </li>
+<li><code>tool</code>      : The tool used to call mutations. Default: gatk (vardict, snvsniffer, platypus, strelka)  </li>
+<li><code>gatk</code>      : The path of gatk. Default: gatk  </li>
+<li><code>vardict</code>   : The path of vardict. Default: vardict  </li>
 <li><code>snvsniffer</code>: The path of snvsniffer. Default: SNVSniffer  </li>
-<li><code>samtools</code>: The path of samtools. Default: samtools (used to generate reference index)  </li>
-<li><code>platypus</code>: The path of platypus. Default: platypus  </li>
-<li><code>strelka</code>: The path of strelka. Default: configureStrelkaGermlineWorkflow.py  </li>
-<li><code>configParams</code>: The params for <code>strelka</code> configuration. Default: ""  </li>
-<li><code>picard</code>: The path of picard. Default: picard  </li>
-<li><code>mem</code>: The memory to be used. Default: 32G  </li>
+<li><code>samtools</code>  : The path of samtools. Default: samtools (used to generate reference index)  </li>
+<li><code>platypus</code>  : The path of platypus. Default: platypus  </li>
+<li><code>strelka</code>   : The path of strelka. Default: configureStrelkaGermlineWorkflow.py  </li>
+<li><code>cfgParams</code> : The params for <code>strelka</code> configuration. Default: ""  </li>
+<li><code>picard</code>    : The path of picard. Default: picard  </li>
+<li><code>mem</code>       : The memory to be used. Default: 32G  <ul>
 <li>will be converted to -Xms4G -Xmx32G for java programs</li>
+</ul>
+</li>
 <li><code>ref</code>: The reference file. Required.  </li>
 <li><code>gz</code>: Gzip output file? Default: False  </li>
 <li><code>tmpdir</code>: The temporary directory. Default: <system tmpdir>  </li>
@@ -6118,6 +6367,36 @@ Sample6	group2
 <li>
 <p><strong>requires</strong><br />
 <a href="https://htseq.readthedocs.io/"><code>htseq</code></a></p>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pBamIndex</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Index bam files.</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input bam file  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The symbolic link to the input file  </li>
+<li><code>outidx:file</code> : The index file  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>samtools</code>: Path to samtools. Default: <code>params.samtools</code>  </li>
+<li><code>params</code>  : Other parameters for samtools. Default: <code>Box(b = True)</code>  </li>
+<li><code>nthread</code> : # threads to use. Default: <code>1</code>  </li>
+</ul>
 </li>
 </ul>
 </div>
@@ -7332,6 +7611,123 @@ Case2	Y ~ X2
 </li>
 </ul>
 </div>
+<div class="admonition hint">
+<p class="admonition-title">pBootstrap</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Do bootstrapping resampling</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input data file  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output file with the bootstrapped statistics values  <ul>
+<li>depends on the <code>args.stats</code> function</li>
+</ul>
+</li>
+<li><code>outdir:dir</code>: The directory to save the outfile and figures.  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>inopts</code>: The options to read the input file. Default: <code>Box(cnames = True, rnames = True)</code>  </li>
+<li><code>params</code>: Other parameters for <code>boot</code> function from R <code>boot</code> package  </li>
+<li><code>nthread</code>: # of threads(cores) to use. Default: <code>1</code>  </li>
+<li><code>n</code>: Sampling how many times? Default: <code>1000</code>  </li>
+<li><code>stats</code>: The function to generate statistics for output. Default: <code>function(x) x</code>  <ul>
+<li>Default to use all data</li>
+<li>This function can return a multiple statistics in a vector</li>
+<li>The argument <code>x</code> is the data generate for each sampling. </li>
+<li>Unlink the <code>statistic</code> argument from <code>boot</code>, to make it convenient, we don't put the <code>index</code> here.</li>
+</ul>
+</li>
+<li><code>plot</code>: Plot the statistics? Default: <code>all</code> (plot all statistics)  <ul>
+<li>You may also specify indices. For example: <code>[1, 2]</code> to plot the 1st and 2nd statistics</li>
+<li>Use <code>False</code> or <code>None</code> to disable plotting</li>
+</ul>
+</li>
+<li><code>devpars</code>: The device parameters for the plot.  </li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pPCA</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Perform PCA analysis. Example:
+    <div class="highlight"><pre><span></span>bioprocs stats.pPCA 
+	-i.infile Cellline_t.txt 
+	-i.annofile CLAnno.txt 
+	-args.plots.clplot.repel 
+	-args.plots.clplot.shape 3 
+	-args.plots.clplot.ggs.geom_point &#39;r:list(aes(shape = Cellline), color = &quot;#2b6edb&quot;, data = anno)&#39; 
+	-args.seed 8525 
+	-args.plots.cluster.centers 2 
+	-args.plots.clplot.show-clust-cent 0 
+	-args.plots.cluster.npcs 2
+</pre></div></p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The matrix to do the analysis  <ul>
+<li>Columns are the features</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The file with the components  </li>
+<li><code>oudir:dir</code>   : The directory c  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>devpars</code>: The parameters for device. Default: <code>{'res': 300, 'height': 2000, 'width': 2000}</code>  </li>
+<li><code>anopts</code> : The options to read the annotation files.  </li>
+<li><code>inopts</code> : The options to read the input files.  </li>
+<li><code>na</code>     : How to deal with <code>NA</code> values. Default: <code>0</code>  <ul>
+<li>A logistic/boolean value will remove them (use <code>complete.cases</code>)</li>
+<li>Otherwise, it will be replaced by the given value.</li>
+</ul>
+</li>
+<li><code>seed</code>   : The seed. Default: <code>None</code>  </li>
+<li><code>plots</code>  : Use R package <code>factoextra</code> to do Plots. You can use <code>False</code> for each to disable each plot.  <ul>
+<li><code>scree</code>  : Scree plot, see <code>?fviz_screeplot</code>. Default: <code>Box(ncp = 20</code>)</li>
+<li><code>var</code>    : Var plot, see <code>?fviz_pca_var</code>. Default: <code>Box(repel = False)</code></li>
+<li><code>bi</code>     : Biplot,   see <code>?fviz_pca_biplot</code>. Default: <code>Box(repel = False)</code></li>
+<li><code>clplot</code> : Cluster plot, see <code>?fviz_cluster</code>. Default: <code>Box(repel = False, main = "", ggs = Box())</code><ul>
+<li>The extra <code>ggs</code> is used to extend the plot. See example in description.</li>
+</ul>
+</li>
+<li><code>cluster</code>: Cluster options for the cluster plot. Default: <code>Box(npcs  = .8, method = 'kmeans')</code><ul>
+<li><code>npcs</code>: # of PCs to use for clustering. <code>npcs</code> &lt; 1 will be treated as variance contribution of PCs. For example, <code>0.8</code> will take first N PCs will contribute 80% of variance. Default: <code>.8</code></li>
+<li><code>method</code>: Clustering method. Available methods would be <code>kmeans</code> and methods supported by <code>cluster</code> package.</li>
+<li>Other arguments for the clustering function.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>requires</strong><br />
+<a href="https://cran.r-project.org/web/packages/factoextra/index.html"><code>R-factoextra</code></a> for plots</p>
+</li>
+</ul>
+</div>
 <h3 id="tabix">tabix</h3>
 <div class="admonition hint">
 <p class="admonition-title">pTabix</p>
@@ -7586,7 +7982,7 @@ Case2	Y ~ X2
 <ul>
 <li><code>tffile:file</code>: The infile containing TF name and motif name.  <ul>
 <li>If only one column is give, will be used as both TF and motif name</li>
-<li>If there are 2 columns, 1st column will be motif name, 2nd column will be TF name</li>
+<li>If there are 2+ columns, 1st column will be motif name, 2nd column will be TF name</li>
 </ul>
 </li>
 <li><code>sfile:file</code>: The sequence file  </li>
@@ -7602,8 +7998,8 @@ Case2	Y ~ X2
 <p><strong>args</strong>  </p>
 <ul>
 <li><code>tools</code>   : The tool used to scan the motif. Default: 'meme'  </li>
-<li><code>meme</code>    : The path of MEME's fimo. Default: 'fimo'<br />
-`motifs   : The motif database in MEME format.</li>
+<li><code>meme</code>    : The path of MEME's fimo. Default: 'fimo'  </li>
+<li><code>motifs</code>  : The motif database in MEME format.  </li>
 <li><code>pval</code>    : The pvalue cutoff. Default: 1e-4  </li>
 <li><code>cleanmname</code>: Whether to clean motif name. Default: True  </li>
 <li><code>ucsclink</code>: The ucsc link template. Default: <code>https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg19&amp;position={}</code>  </li>
@@ -8132,6 +8528,168 @@ File2:
 </li>
 </ul>
 </div>
+<h3 id="tumhet">tumhet</h3>
+<div class="admonition hint">
+<p class="admonition-title">pSciClone</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Run sciClone for subclonal analysis.</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>vfvcfs:files</code>: The VCF files of mutations of each sample  </li>
+<li><code>cnvcfs:files</code>: The VCF files of copy number variations of each sample  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outdir:dir</code>: The output directory.  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>params</code>  : Other parameters for original <code>sciClone</code> function. Default: <code>Box()</code>  </li>
+<li><code>exfile</code>  : The regions to be excluded. In BED3 format  </li>
+<li><code>vfsamcol</code>: The index of the target sample in mutation VCF file, 1-based. Default: <code>1</code>  </li>
+<li><code>cnsamcol</code>: The index of the target sample in copy number VCF file, 1-based. Default: <code>1</code>  </li>
+<li><code>varcount</code>: An R function string to define how to get the variant allele count. Default: <code>function(fmt) as.integer(unlist(strsplit(fmt$AD, ","))[2])</code>  <ul>
+<li>If this function returns <code>NULL</code>, record will be skipped.</li>
+<li>It can use the sample calls (<code>fmt</code>) and also the record info (<code>info</code>)</li>
+<li>Both <code>function(fmt) ...</code> and <code>function(fmt, info) ...</code> can be used.</li>
+<li>Don't include <code>info</code> if not necessary. This saves time.</li>
+<li>This function can return the variant count directly, or </li>
+<li>an R <code>list</code> like: <code>list(count = &lt;var count&gt;, depth = &lt;depth&gt;)</code>.</li>
+<li>By default, the <code>depth</code> will be read from <code>fmt$DP</code></li>
+</ul>
+</li>
+<li><code>cncount</code> : An R function string to define how to get the copy number. Default: <code>function(fmt) fmt$CN</code>  <ul>
+<li>Similar as <code>varcount</code></li>
+<li>Returns copy number directly, or</li>
+<li>an R <code>list</code> like: <code>list(cn = &lt;copy number&gt;, end = &lt;end&gt;, probes = &lt;probes&gt;)</code></li>
+<li><code>end</code> defines where the copy number variation stops</li>
+<li><code>probes</code> defines how many probes cover this copy number variantion.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pPyClone</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Run PyClone for subclonal analysis</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>vfvcfs:files</code>: The VCF files of mutations of each sample  </li>
+<li><code>cnvcfs:files</code>: The VCF files of copy number variations of each sample  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outdir:dir</code>: The output directory.  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>params</code>  : Other parameters for original <code>PyClone run_analysis_pipeline</code> function. Default: <code>Box()</code>  </li>
+<li><code>vfsamcol</code>: The index of the target sample in mutation VCF file, 1-based. Default: <code>1</code>  </li>
+<li><code>cnsamcol</code>: The index of the target sample in copy number VCF file, 1-based. Default: <code>1</code>  </li>
+<li><code>varcount</code>: A python lambda string to define how to get the variant allele count. Default: <code>lambda fmt: fmt.get("AD") and fmt.get("AD")[1]</code>  <ul>
+<li>If this function returns <code>None</code>, record will be skipped.</li>
+<li>It can use the sample calls (<code>fmt</code>) and also the record info (<code>info</code>)</li>
+<li>Both <code>function(fmt) ...</code> and <code>function(fmt, info) ...</code> can be used.</li>
+<li>This function can return the variant count directly, or </li>
+<li>a <code>dict</code> like: <code>dict(count = &lt;var count&gt;, depth = &lt;depth&gt;)</code>.</li>
+<li>By default, the <code>depth</code> will be read from <code>fmt.DP</code></li>
+</ul>
+</li>
+<li><code>cncount</code> : An python lambda string to define how to get the copy number. Default: <code>lambda fmt: fmt.get("CN")</code>  <ul>
+<li>Similar as <code>varcount</code></li>
+<li>Returns copy number directly, or</li>
+<li>a <code>dict</code> like: <code>dict(cn = &lt;copy number&gt;, end = &lt;end&gt;)</code></li>
+<li><code>end</code> defines where the copy number variation stops</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pQuantumClone</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Run QuantumClone: https://academic.oup.com/bioinformatics/article/34/11/1808/4802225</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>vfvcfs:files</code>: The input vcf files with mutations  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outdir:dir</code>: The output directory  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>params</code>  : other parameters for <code>QuantumClone</code>'s <code>One_step_clustering</code>  </li>
+<li><code>vfsamcol</code>: The index of the target sample in mutation VCF file, 1-based. Default: <code>1</code>  </li>
+<li><code>varcount</code>: An R function string to define how to get the variant allele count. Default: <code>function(fmt) as.integer(unlist(strsplit(fmt$AD, ","))[2])</code>  <ul>
+<li>If this function returns <code>NULL</code>, record will be skipped.</li>
+<li>It can use the sample calls (<code>fmt</code>) and also the record info (<code>info</code>)</li>
+<li>Both <code>function(fmt) ...</code> and <code>function(fmt, info) ...</code> can be used.</li>
+<li>Don't include <code>info</code> if not necessary. This saves time.</li>
+<li>This function can return the variant count directly, or </li>
+<li>an R <code>list</code> like: <code>list(count = &lt;var count&gt;, depth = &lt;depth&gt;)</code>.</li>
+<li>By default, the <code>depth</code> will be read from <code>fmt$DP</code></li>
+</ul>
+</li>
+<li><code>nthread</code> : # threads to use. Default: <code>1</code>  </li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pTheta</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Run THetA2 for tumor purity calculation
+    Set lower MIN_FRAC if interval is not enough and NO_CLUSTERING if it raises 
+    "No valid Copy Number Profiles exist", but have to pay attention to the results. 
+    (see: https://groups.google.com/forum/#!topic/theta-users/igrEUol3sZo)</p>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>affysnps</code>: The affymetrix Array snps, or other candidate snp list, in BED6-like format  <ul>
+<li>The first 6 columns should be in BED6 format</li>
+<li>The 7th column is reference allele, and 8th column is mutation allele.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>install</strong><br />
+<code>conda install -c bioconda theta2</code>
+    <code>conda install -c bioconda bam-readcount</code></p>
+</li>
+</ul>
+</div>
 <h3 id="vcf">vcf</h3>
 <div class="admonition hint">
 <p class="admonition-title">pVcfFilter</p>
@@ -8236,6 +8794,36 @@ File2:
 <li>
 <p><strong>requires</strong><br />
 <code>pyvcf</code></p>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pVcfRemoveFilter</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Remove one or more filters in vcf files</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input vcf file  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output file  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>rmfilter</code>: The filters to remove. If None, ALL filters will be removed!  <ul>
+<li>A <code>list</code> of filter names.</li>
+</ul>
+</li>
+</ul>
 </li>
 </ul>
 </div>
@@ -8429,10 +9017,7 @@ File2:
 <li>
 <p><strong>input</strong>  </p>
 <ul>
-<li><code>infile:file</code>: The input vcf file, needs to be tabix indexed.  <ul>
-<li><code>iftype = origin</code>, <code>i.infile</code> will point to the original file</li>
-</ul>
-</li>
+<li><code>infile:file</code>: The input vcf file, needs to be tabix indexed.  </li>
 </ul>
 </li>
 <li>
@@ -8634,6 +9219,25 @@ File2:
 <li><code>bedtools</code>: The path to bedtools.  </li>
 <li><code>tabix</code>   : The path to tabix.  </li>
 <li><code>any</code>     : Remove record in <code>infile1</code> with any overlap in <code>infile2</code>. Default: <code>True</code>  </li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pVcfExtract</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Extract variants from a VCF file by given regions</p>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>tabix</code> : The path to tabix.  </li>
+<li><code>params</code>: Other parameters for <code>tabix</code>. Default: <code>Box(h = True, B = True)</code>  <ul>
+<li>See <code>tabix --help</code></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
