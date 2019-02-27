@@ -354,7 +354,7 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <ul>
 <li><code>tool</code>: The tool used to sort the file. Default: sort (bedtools, bedops)  </li>
 <li><code>bedtools</code>: The path to bedtools. Default: bedtools  </li>
-<li><code>bedops_sort</code>: The path to bedops' sort-bed. Default: sort-bed  </li>
+<li><code>bedops</code>: The path to bedops' sort-bed. Default: sort-bed  </li>
 <li><code>mem</code>: The memory to use. Default: 8G  </li>
 <li><code>by</code>: Sort by coordinates("coord", default) or name("name")  <ul>
 <li>Only available when use tool <code>sort</code></li>
@@ -363,6 +363,11 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <li><code>tmpdir</code>: The tmpdir to use. Default: <code>$TMPDIR</code>  </li>
 <li><code>unique</code>: Remove the dupliated records? Default: True  </li>
 <li><code>params</code>: Other params for <code>tool</code>. Default: {}  </li>
+<li><code>chrorder</code>: The chromosome order used to sort. Default: <code>None</code>  <ul>
+<li><code>None</code>: Sort by natural order (chr1 followed by chr10, instead of chr2)</li>
+<li>Only available when using <code>sort</code> (<code>args.tool = 'sort'</code>)</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>
@@ -837,7 +842,6 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <p><strong>input</strong>  </p>
 <ul>
 <li><code>infile:file</code>: The input file  </li>
-<li><code>gfile:file</code>: The genome size file  </li>
 </ul>
 </li>
 <li>
@@ -849,8 +853,15 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>bin</code>: The bedtools executable, default: "bedtools"  </li>
-<li><code>params</code>: Other parameters for <code>bedtools shuffle</code>, default: ""  </li>
+<li><code>bedtools</code>: The bedtools executable, default: "bedtools"  </li>
+<li><code>params</code>  : Other parameters for <code>bedtools shuffle</code>, default: ""  </li>
+<li><code>gsize</code>   : The chromsize file. Default: <code>params.gsize</code>  </li>
+<li><code>n</code>       : Only return top <code>n</code> records (act like sampling). Default: <code>0</code>  <ul>
+<li><code>0</code>/<code>None</code> will return all records</li>
+<li><code>n&lt;1</code> will return proportion of the records</li>
+<li><code>n&gt;=1</code> will return top <code>n</code> records</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>
@@ -1791,7 +1802,6 @@ s2	s3	1
 <li><code>inopts</code>: The input options for infile:  <ul>
 <li><code>skip</code>   : First N lines to skip. Default: <code>0</code></li>
 <li><code>delimit</code>: The delimit. Default          : <code>\t</code></li>
-<li><code>comment</code>: The comment line mark. Default: <code>#</code></li>
 </ul>
 </li>
 <li><code>case</code>: Case-sensitivity. Default: True  <ul>
@@ -3134,7 +3144,8 @@ There are also several options for recording the original values of certain anno
 <ul>
 <li><code>inopts</code>: options for reading input file.  </li>
 <li><code>outopts</code>: options for writing output file.  <ul>
-<li><code>query</code>: Output the original query column? Default: <code>False</code></li>
+<li><code>query</code> : Output the original query column? Default: <code>False</code></li>
+<li><code>cnames</code>: Output headers? Default: <code>True</code></li>
 </ul>
 </li>
 <li><code>notfound</code>: What if a symbol is not found. Default: ignore  <ul>
@@ -4839,13 +4850,13 @@ Rn   Case2
     Use ggplot2 geom_histogram to generate histograms</p>
 </li>
 <li>
-<p><strong>infile</strong>  </p>
+<p><strong>input</strong>  </p>
 <ul>
 <li><code>infile:file</code>: The input data file  </li>
 </ul>
 </li>
 <li>
-<p><strong>outfile</strong>  </p>
+<p><strong>output</strong>  </p>
 <ul>
 <li><code>outfile:file</code>: The output file  </li>
 </ul>
@@ -4853,8 +4864,7 @@ Rn   Case2
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>cnames</code> : Whether the input file has colnames. Default: True  </li>
-<li><code>rnames</code> : Whether the input file has rownames. Default: False  </li>
+<li><code>inopts</code> : Options to read the input file. Default: <code>Box(cnames = True, rnames = False)</code>  </li>
 <li><code>x</code>      : The x aes. Default: 1 (corresponding to colnames)  </li>
 <li><code>helper</code> : Some helper codes to generate <code>params</code> and <code>ggs</code>  </li>
 <li><code>devpars</code>: The device parameters. Default: <code>Box(res = 300, height = 2000, width = 2000)</code>  </li>
@@ -5047,22 +5057,24 @@ Rn   Case2
 <p><strong>description</strong><br />
     Plot heatmaps using R package ComplexHeatmap. Example:
     <div class="highlight"><pre><span></span>bioprocs plot.pHeatmap2 
-	-i.infile MMPT.txt 
-	-i.annofiles:l:o PatientAnno.txt 
-	-args.params.row_names_gp &#39;r:fontsize5&#39; 
-	-args.params.column_names_gp &#39;r:fontsize5&#39; 
-	-args.params.clustering_distance_rows pearson 
-	-args.params.clustering_distance_columns pearson 
-	-args.devpars.width 5000 
-	-args.devpars.height 5000 
-	-args.draw.merge_legends 
-	-args.params.heatmap_legend_param.title AUC 
-	-args.params.row_dend_reorder 
-	-args.params.column_dend_reorder 
-	-args.params.top_annotation &#39;r:HeatmapAnnotation(Mutation = as.matrix(annos[,(length(groups)+1):ncol(annos)]), Group = as.matrix(annos[,groups]), col = list(Mutation = c(`0`=&quot;grey&quot;, `1`=&quot;lightgreen&quot;, `2`=&quot;green&quot;, `3`=&quot;darkgreen&quot;)), annotation_name_gp = fontsize8, show_legend = c(Group=F))&#39; 
-	-args.params.right_annotation &#39;r:rowAnnotation(AUC = anno_boxplot(as.matrix(data), outline = F))&#39; 
-	-args.helper &#39;fontsize8 = gpar(fontsize = 12); fontsize5 = gpar(fontsize = 8); groups = c(&quot;Group1&quot;, &quot;Group2&quot;, &quot;Group3&quot;)&#39; 
-	-args.seed 8525
+  -i.infile MMPT.txt 
+  -i.annofiles:l:o PatientAnno.txt 
+  -args.params.row_names_gp &#39;r:fontsize5&#39; 
+  -args.params.column_names_gp &#39;r:fontsize5&#39; 
+  -args.params.clustering_distance_rows pearson 
+  -args.params.clustering_distance_columns pearson 
+  -args.params.show_row_names false
+  -args.params.row_split 3
+  -args.devpars.width 5000 
+  -args.devpars.height 5000 
+  -args.draw.merge_legends 
+  -args.params.heatmap_legend_param.title AUC 
+  -args.params.row_dend_reorder 
+  -args.params.column_dend_reorder 
+  -args.params.top_annotation &#39;r:HeatmapAnnotation(Mutation = as.matrix(annos[,(length(groups)+1)  :ncol(annos)]), Group = as.matrix(annos[,groups]), col = list(Mutation = c(`0`=&quot;grey&quot;,   `1`=&quot;lightgreen&quot;, `2`=&quot;green&quot;, `3`=&quot;darkgreen&quot;)), annotation_name_gp = fontsize8, show_legend =   c(Group=F))&#39; 
+  -args.params.right_annotation &#39;r:rowAnnotation(AUC = anno_boxplot(as.matrix(data), outline = F))  &#39; 
+  -args.helper &#39;fontsize8 = gpar(fontsize = 12); fontsize5 = gpar(fontsize = 8); groups = c  (&quot;Group1&quot;, &quot;Group2&quot;, &quot;Group3&quot;)&#39; 
+  -args.seed 8525
 </pre></div></p>
 </li>
 <li>
@@ -5078,19 +5090,21 @@ Rn   Case2
 <li>
 <p><strong>output</strong>  </p>
 <ul>
-<li><code>outfile:flie</code>: The plot.  </li>
+<li><code>outfile:file</code>: The plot.  </li>
+<li><code>outdir:dir</code>: The output directory including the output plot and other information.  </li>
 </ul>
 </li>
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>devpars</code>: The parameters for device. Default: <code>{'res': 300, 'height': 2000, 'width': 2000}</code>  </li>
-<li><code>draw</code>   : The parameters for <code>ComplexHeatmap::draw</code>  </li>
-<li><code>params</code> : Other parameters for <code>ComplexHeatmap::Heatmap</code>  </li>
-<li><code>anopts</code> : The options to read the annotation files.  </li>
-<li><code>inopts</code> : The options to read the input files.  </li>
-<li><code>seed</code>   : The seed. Default: <code>None</code>  </li>
-<li><code>helper</code> : The raw R codes to help defining some R variables or functions.  </li>
+<li><code>devpars</code> : The parameters for device. Default: <code>{'res': 300, 'height': 2000, 'width': 2000}</code>  </li>
+<li><code>draw</code>    : The parameters for <code>ComplexHeatmap::draw</code>  </li>
+<li><code>params</code>  : Other parameters for <code>ComplexHeatmap::Heatmap</code>  </li>
+<li><code>anopts</code>  : The options to read the annotation files.  </li>
+<li><code>inopts</code>  : The options to read the input files.  </li>
+<li><code>seed</code>    : The seed. Default: <code>None</code>  </li>
+<li><code>helper</code>  : The raw R codes to help defining some R variables or functions.  </li>
+<li><code>saveinfo</code>: Save other information include the heatmap object and the clusters. Default: <code>True</code>  </li>
 </ul>
 </li>
 <li>
@@ -5287,7 +5301,8 @@ Item2	0	1
 <ul>
 <li><code>infile:file</code>: The input file. First 6 columns should be BED6, and then column:  <ul>
 <li>7: The raw pvalue.</li>
-<li>8: The x-axis labels for the records.</li>
+<li>8: The x-axis labels for the records. Optional. If not provided, chromosomes will be used.</li>
+<li>This file has to be sorted by coordinates.</li>
 <li>For example:
     <div class="highlight"><pre><span></span>chr19	45604163	45604163	rs7255060	0	+	3.238E-03	+200K
 chr19	45595277	45595277	rs10417101	0	+	3.870E-03	+200K
@@ -5317,6 +5332,10 @@ chr19	45228502	45228502	rs10422350	0	+	4.121E-02	-200K
 <li><code>inopts</code> : Options to read the input file. Default: <code>Box(cnames = False, rnames = False)</code>  </li>
 <li><code>ggs</code>    : Extra expressions for ggplot.  </li>
 <li><code>devpars</code>: The parameters for plot device. Default: <code>{'res': 300, 'height': 2000, 'width': 2000}</code>  </li>
+<li><code>gsize</code>  : The genome sizes file. Default: <code>None</code>  <ul>
+<li>If <code>None</code>, will infer from the snp coordinates</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -6554,10 +6573,28 @@ sample6	[patient3	]group2
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>dbsnp</code>: The dbsnp vcf file  </li>
+<li><code>tool</code>    : The tool used to retrieve the coordinates. Default: <code>cruzdb</code>  <ul>
+<li>Or retrieve from a dbsnp VCF file (dbsnp or local)</li>
+</ul>
+</li>
+<li><code>dbsnp</code>   : The dbsnp vcf file  </li>
 <li><code>notfound</code>: What to do if the snp is not found. Default: skip  </li>
-<li><code>inopts</code>: The input options for input file<br />
-``</li>
+<li><code>inopts</code>  : The input options for input file. Default: <code>Box(delimit = '\t', skip = 0, comment = '#')</code>  </li>
+<li><code>snpcol</code>  : The column where the snp is. Could be index (0-based) or the column name with <code>args.inopts.cnames = True</code>  </li>
+<li><code>ncol</code>    : How many columns to output. Possible values: 6, 8, 9. Default: <code>8</code>  <ul>
+<li><code>6</code>: The BED6 format</li>
+<li><code>8</code>: BED6 + <code>ref</code> + <code>alt</code></li>
+<li><code>9</code>: BED6 + <code>ref</code> + <code>alt</code> + <code>allele frequences from 1000 genome project</code> </li>
+<li><code>args.ncol = 9</code> only avaliable when <code>args.tool = "dbsnp"</code></li>
+</ul>
+</li>
+<li><code>vcftools</code>: The path to vcftools to extract snp from <code>args.dbsnp</code>  </li>
+<li><code>genome</code>  : The genome to locate the right database from <code>cruzdb</code>  </li>
+<li><code>dbsnpver</code>: The version of dbsnp from <code>cruzdb</code>  </li>
+<li><code>sortby</code>  : Sort the output file by coordinates (coord) or name. Default: <code>coord</code>  <ul>
+<li><code>False</code>: don't sort.</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -7414,23 +7451,19 @@ Gy   Z   Case1
 <p><strong>input</strong>  </p>
 <ul>
 <li><code>infile:file</code>: The input file for data to do the regressions. Example:<br />
-    <div class="highlight"><pre><span></span>	    X1  X2  X3  X4 ... Y
-	G1  1   2   1   4  ... 9
-	G2  2   3   1   1  ... 3
-	... ...
-	Gm  3   9   1   7  ... 8
+    <div class="highlight"><pre><span></span>  	X1  X2  X3  X4 ... Y
+  S1  1   2   1   4  ... 9
+  S2  2   3   1   1  ... 3
+  ... ...
+  Sm  3   9   1   7  ... 8
 </pre></div></li>
 <li><code>groupfile:file</code>: Specify the groups to compare. You may also specify the cases. The Chow-Test will be done between the group for each case. Example:<br />
-    <div class="highlight"><pre><span></span>	G1	Group1	Case1
-	G2	Group1	Case1
-	... ...
-	Gs	Group2	Case1
-	Gt	Group2	Case1
-	Gt	Group1	Case2
-	... ...
-	Gu	Group1	Case2
-	... ...
-	Gz	Group2	Case2
+    <div class="highlight"><pre><span></span>        Case1	Case2
+  S1	Group1	Group1
+  S2	Group1	NA          # Exclude S2 in Case2
+  S3	Group2	Group1
+  ... ...
+  Sm	Group2	Group2
 </pre></div><ul>
 <li>In such case, the test will be done between Group1 and Group2 for Case1 and Case2, respectively.</li>
 <li>Instances can be resued (Gt in the example)</li>
@@ -7438,9 +7471,12 @@ Gy   Z   Case1
 </ul>
 </li>
 <li><code>casefile:file</code>: Define the formula (which columns to use for each case). Example:<br />
-    <div class="highlight"><pre><span></span>Case1	Y ~ X1
-Case2	Y ~ X2
-</pre></div></li>
+    <div class="highlight"><pre><span></span>  Case1	Y ~ X1
+  Case2	Y ~ X2
+</pre></div><ul>
+<li>This file is optional, then formula <code>Y ~ .</code> will be used for all cases.</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>
@@ -7792,7 +7828,7 @@ Case2	Y ~ X2
 </div>
 <h3 id="tcga">tcga</h3>
 <div class="admonition hint">
-<p class="admonition-title">pDownload</p>
+<p class="admonition-title">pTCGADownload</p>
 <ul>
 <li>
 <p><strong>description</strong><br />
@@ -7875,8 +7911,9 @@ Case2	Y ~ X2
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>rsmap</code>  : The rsid probe mapping file. If not provided, will use the probe id for matrix rownames.  </li>
-<li><code>fn2sam</code> : How to convert filename(without extension) to sample name. Default: <code>None</code>  </li>
+<li><code>rsmap</code>    : The rsid probe mapping file. If not provided, will use the probe id for matrix rownames.  </li>
+<li><code>fn2sample</code>: How to convert filename(without extension) to sample name. Default: <code>None</code>  </li>
+<li><code>confcut</code>  : The confidence cutoff. Genotype will be NA for lower confidence snps. Default: <code>0.05</code>  </li>
 </ul>
 </li>
 </ul>
@@ -7922,49 +7959,34 @@ Case2	Y ~ X2
 </ul>
 </div>
 <div class="admonition hint">
-<p class="admonition-title">pConvertExpFiles2Matrix</p>
+<p class="admonition-title">pClinic2PlinkMeta</p>
 <ul>
 <li>
 <p><strong>description</strong><br />
-    convert TCGA expression files to expression matrix, and convert sample name to submitter id</p>
+    Convert TCGA clinic data to plink meta file.
+    Used with a <code>GTMat</code> file to convert to plink binary file (see vcfnext.pGTMat2Plink).</p>
 </li>
 <li>
 <p><strong>input</strong>  </p>
 <ul>
-<li><code>dir:file</code>: the directory containing the samples  </li>
-<li><code>mdfile:file</code>: the metadata file  </li>
+<li><code>infile:file</code>: The input TCGA patiant clinic file.  </li>
 </ul>
 </li>
 <li>
 <p><strong>output</strong>  </p>
 <ul>
-<li><code>outfile:file</code>: the output matrix  </li>
+<li><code>outfile:file</code>: The meta file.  </li>
 </ul>
 </li>
 <li>
-<p><strong>requires</strong><br />
-<a href="https://pypi.python.org/pypi/mygene/3.0.0">python-mygene</a></p>
-</li>
-</ul>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">pConvertMutFiles2Matrix</p>
+<p><strong>args</strong>  </p>
 <ul>
-<li>
-<p><strong>description</strong><br />
-    convert TCGA mutation files (vcf.gz) to mut matrix, and convert sample name to submitter id</p>
-</li>
-<li>
-<p><strong>input</strong>  </p>
-<ul>
-<li><code>dir:file</code>: the directory containing the samples  </li>
-<li><code>mdfile:file</code>: the metadata file  </li>
+<li><code>suffix</code>: The suffix added to the barcode. Default: <code>''</code>  <ul>
+<li>By default the barcode is like <code>TCGA-55-8087</code>, but in analysis, we want to be specific to samples</li>
+<li>For example, for solid tumor, it'll be <code>TCGA-55-8087-01</code>, then suffix <code>-01</code> will be added</li>
+<li>You can add multiple suffices by <code>-01, -10</code> or <code>['-01', '-10']</code></li>
 </ul>
 </li>
-<li>
-<p><strong>output</strong>  </p>
-<ul>
-<li><code>outfile:file</code>: the output matrix  </li>
 </ul>
 </li>
 </ul>
@@ -8014,6 +8036,81 @@ Case2	Y ~ X2
 </ul>
 </div>
 <div class="admonition hint">
+<p class="admonition-title">pMotifSimilarity</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Compare the similarity between motifs.</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>mfile1:file</code>: The motif database in meme format  </li>
+<li><code>mfile2:file</code>: Another motif database in meme format.   <ul>
+<li>If not provided, <code>mfile1</code> will be used.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output file from <code>tomtom</code>  </li>
+<li><code>outdir:dir</code>  : The output directory from <code>tomtom</code>  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>qval</code>   : The qvalue cutoff. Default: <code>0.5</code>  </li>
+<li><code>tomtom</code> : The path to <code>tomtom</code>  </li>
+<li><code>nthread</code>: Number of threads to use. Default: <code>1</code>  </li>
+<li><code>params</code> : parameters for <code>tomtom</code>:  <ul>
+<li><code>xalph</code>       : <code>True</code></li>
+<li><code>no-ssc</code>      : <code>True</code></li>
+<li><code>dist</code>        : <code>pearson</code>,</li>
+<li><code>min-overlap</code> : <code>1</code>,</li>
+<li><code>motif-pseudo</code>: <code>.1</code>,</li>
+<li><code>verbosity</code>   : <code>4</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pMotifFilter</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Filter motifs from a meme file.</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The motif database in MEME format  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: the output file.  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>filter</code>: A string of lambda function to filter the motifs.  <ul>
+<li>Possible attributes for a motif are:</li>
+<li><code>E, URL, alength, altname, matrix, mtype, name, nsites, w</code></li>
+<li>Motifs will be filtered out when this function returns <code>True</code>.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
 <p class="admonition-title">pAtSnp</p>
 <ul>
 <li>
@@ -8025,7 +8122,7 @@ Case2	Y ~ X2
 <ul>
 <li><code>tffile:file</code>: The tf-motif file with 1st column the motif and 2nd the tf  </li>
 <li><code>snpfile:file</code>: The snp file.   <ul>
-<li>Could be a bed file with first 6 columns the bed6 format and 7th the alleles.</li>
+<li>Could be a bed file with first 6 columns the bed6 format and 7th the reference allele, and 8th the alternative alleles.</li>
 <li>Alleles including reference allele should be seperated by <code>,</code></li>
 <li>It also could be a snp file required by <code>atSNP</code> package.</li>
 <li>See: https://rdrr.io/github/kinsigne/atSNP_modified/man/LoadSNPData.html</li>
@@ -8342,8 +8439,8 @@ Case2	Y ~ X2
 <li><code>ftype</code>: The file type. Metadata can be assigned direct (list/OrderedDict, '+' as an element or key is allowed to indicate extra meta from the reader). If not specified, metadata will be borrowed from the reader. </li>
 </ul>
 </li>
-<li><code>ops</code>: A ops function to transform the row. Argument is an instance of <code>readRecord</code>  </li>
-<li><code>opshelper</code>: A helper function for <code>args.ops</code>  </li>
+<li><code>row</code>: A row function to transform/filter the row. Argument is an instance of <code>TsvRecord</code>  </li>
+<li><code>helper</code>: A helper function for <code>args.ops</code>  </li>
 </ul>
 </li>
 </ul>
@@ -8393,6 +8490,7 @@ File2:
 <li><code>cnames</code>         : Whether to output the head? Default: <code>False</code></li>
 </ul>
 </li>
+<li><code>debug</code>: Save debug information in stderr file. Default: <code>False</code>  </li>
 <li><code>match</code>: The match function.   </li>
 <li><code>do</code>: The do function. Global vaiable <code>fout</code> is available to write results to output file.  </li>
 <li><code>helper</code>: Some helper codes.  </li>
@@ -8451,7 +8549,7 @@ File2:
 </ul>
 </div>
 <div class="admonition hint">
-<p class="admonition-title">pMergeFiles</p>
+<p class="admonition-title">pTsvMerge</p>
 <ul>
 <li>
 <p><strong>description</strong><br />
@@ -8472,18 +8570,8 @@ File2:
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>inopts</code>: The options for input file.  <ul>
-<li>defaults: skip: 0, comment: #, delimit '\t'</li>
-</ul>
-</li>
-<li><code>outopts</code>: The options for output file. Defaults:  <ul>
-<li>head: False (not output head line)</li>
-<li>headPrefix: <code>#</code> (The prefix for head line)</li>
-<li>headDelimit: <code>\\t</code> (The delimit for head line)</li>
-<li>headTransform: <code>None</code> (The callback for head line)</li>
-<li>delimit: <code>\\t</code> (The delimit for output line)</li>
-</ul>
-</li>
+<li><code>inopts</code>: The options for input file. Default: <code>Box(skip = 0, comment = '#', delimit = '\t')</code>  </li>
+<li><code>outopts</code>: The options for output file. Default: <code>Box()</code>  </li>
 </ul>
 </li>
 </ul>
@@ -9375,8 +9463,15 @@ File2:
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>ncol</code>: How many columns of bed to output. Default: <code>6</code>. Possible values: 3, 6 and 8  </li>
-<li><code>name</code>: Use the neat name (usually rsid) or full name (row names). Default: <code>neat</code>  </li>
+<li><code>ncol</code>  : How many columns of bed to output. Default: <code>6</code>.   <ul>
+<li>Possible values: 3, 6, 8, 66, 88</li>
+<li>If <code>8</code>, then reference and alternative alleles will be 7th and 8th column</li>
+<li>If <code>66</code>, then genotypes will be attached to BED6</li>
+<li>If <code>88</code>, then genotypes will be attached to <code>ncol = 8</code></li>
+</ul>
+</li>
+<li><code>name</code>  : Use the neat name (usually rsid) or full name (row names). Default: <code>neat</code>  </li>
+<li><code>inopts</code>: Options to read the input file. Default: <code>Box(cnames = True)</code>  </li>
 </ul>
 </li>
 </ul>
