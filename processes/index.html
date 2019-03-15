@@ -2336,7 +2336,7 @@ s2	s3	1
 <ul>
 <li><code>snpfile:file</code>: The genotype file, rows are snps and columns are samples  </li>
 <li><code>expfile:file</code>: The expression file, rows are genes  </li>
-<li><code>covfile:file</code>: The covariant file, rows are covariants  </li>
+<li><code>covfile:file</code>: The covariant file, columns are covariants  </li>
 </ul>
 </li>
 <li>
@@ -4775,6 +4775,54 @@ Rn   Case2
 <li><code>iid</code> : use <code>&lt;IID&gt;</code> as sample id</li>
 </ul>
 </li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pPlinkPCA</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Do PCA on genotype data with PLINK</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>indir</code>: The input directory with .bed/.bim/.fam files  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output file of selected PCs, Default: <code>{{i.indir | fn}}.plinkPCA/{{i.indir | fn}}.pcs.txt</code>  </li>
+<li><code>outdir:dir</code>: The output directory with output file and plots. Default: <code>{{i.indir | fn}}.plinkPCA</code>  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>plink</code>: The path to <code>plink</code>, Default: <code>&lt;params.plink&gt;</code>  </li>
+<li><code>samid</code>: Which IDs to report in results, Default: <code>both</code>  <ul>
+<li><code>both</code>: Both family ID and individual ID connected with <code>_</code></li>
+<li><code>iid</code>:  Individual ID</li>
+<li><code>fid</code>:  Family ID</li>
+</ul>
+</li>
+<li><code>nthread</code>: # threads to use, Default: <code>False</code>  <ul>
+<li><code>False</code>: Don't put <code>--threads</code> in plink command</li>
+</ul>
+</li>
+<li><code>indep</code>: <code>indep</code> used to prune LD SNPs. Default: <code>[50, 5, .2]</code>  </li>
+<li><code>highld</code>: High LD regions. Default: <code>&lt;params.highld&gt;</code>  </li>
+<li><code>params</code>: Other parameters for <code>plink --pca</code>. Default: <code>Box(mind = .95)</code>  </li>
+<li><code>select</code>: Select first PCs in the output file. Default: <code>0.2</code>  <ul>
+<li><code>select &lt; 1</code>: select PCs with contribution greater than <code>select</code></li>
+<li><code>select &gt;=1</code>: select first <code>select</code> PCs</li>
+</ul>
+</li>
+<li><code>plots</code> : Output plots. Default: <code>Box(scree = Box(ncp = 20))</code>  </li>
+<li><code>devpars</code>: The parameters for ploting device. Default: <code>Box(height = 2000, width = 2000, res = 300)</code>  </li>
 </ul>
 </li>
 </ul>
@@ -8481,7 +8529,62 @@ Gy   Z   Case1
 <ul>
 <li><code>inopts</code>: The options for reading input file. Default: <code>Box(cnames = True)</code>  </li>
 <li><code>keep</code>  : Whether to keep in <code>args.cols</code> or to discard  </li>
-<li><code>cols</code>  : The columns used to filter. Could be names or indices(0-based)  </li>
+<li><code>cols</code>  : The columns used to filter. Could be names or indices(0-based) or a file containing the column names, one per line.  </li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pTsvAggregate</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Aggregate on columns with a set of records</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input file  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output file, Default: <code>{{i.infile | fn2}}.aggr.txt</code>  <ul>
+<li>With columns <code>args.on</code> and aggregated results from <code>args.aggrs</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>inopts</code>: The options to read the input file, Default: <code>Box(cnames = True)</code>  </li>
+<li><code>on</code>: Aggregate according to which column, Default: <code>0</code>  <ul>
+<li>It also could column name if <code>args.inopts = True</code></li>
+<li>The input file has to sorted by this column</li>
+</ul>
+</li>
+<li><code>helper</code>: Raw codes to give some help for <code>args.aggrs</code>  </li>
+<li><code>aggrs</code>: The aggregation methods. Required.  <ul>
+<li>It's a <code>Box</code> with the keys for aggregated results</li>
+<li>If <code>args.inopts.cnames = True</code> then these keys will be output as column names, otherwise ignored</li>
+<li>You can also combine the aggregation results. <ul>
+<li>For example: <code>{"sum,mean": lambda rs: [sum(r.value for r in rs), sum(r.value for r in rs)/float(len(rs))]}</code></li>
+</ul>
+</li>
+<li>We have some built-in aggregation methods:<ul>
+<li><code>args.aggrs.Sum = "$sum:3"</code>          : Get the sum of the 4th column</li>
+<li><code>args.aggrs.Mean = "$mean:Height</code>    : Get the mean of column "Height"</li>
+<li><code>args.aggrs.Median = "$median:1"</code>    : Get the median of the 2nd column</li>
+<li><code>args.aggrs.Min = "$min:1"</code>          : Get the min of the 2nd column</li>
+<li><code>args.aggrs.Max = "$max:1"</code>          : Get the max of the 2nd column</li>
+<li><code>args.aggrs.Max2 = "$max:2"</code>         : Get the max of the 3rd column</li>
+<li><code>args.aggrs["Max,Max2"] = "$max:1,2"</code>: Get the max of the 2nd and 3rd column, respectively</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -9487,7 +9590,8 @@ File2:
 <ul>
 <li><code>infile:file</code>: The input genotype matrix, columns are samples, rows are mutations in format:  <ul>
 <li><code>&lt;chr&gt;_&lt;pos&gt;_&lt;ref&gt;_&lt;alt&gt;</code> or <code>&lt;chr&gt;_&lt;pos&gt;_&lt;name&gt;_&lt;ref&gt;_&lt;alt&gt;</code></li>
-<li>has to be sorted (see <code>args.chrsort</code>)</li>
+<li>has to be sorted by coordinates.</li>
+<li><code>chromsomes</code> have to be in order of <code>args.chrorder</code></li>
 </ul>
 </li>
 </ul>
@@ -9506,16 +9610,19 @@ File2:
 <ul>
 <li><code>dbsnp</code>: the dbsnp vcf file used to annotation the snps.  <ul>
 <li>assume sorted by coordinates</li>
-<li>see <code>args.chrsort</code> for chromsome sorting</li>
+<li><code>chromsomes</code> have to be in order of <code>args.chrorder</code></li>
 </ul>
 </li>
-<li><code>notfound</code>: What to used if RS id not found. Default: <code>NOVEL</code>  </li>
-<li><code>chrsort</code>: How chromsome is sorted. Default: <code>version</code>  <ul>
-<li>version sort: chr1, chr2, chr3, ..., chr10, chr11, ... chr20, ..., chrM(T), chrX, chrY</li>
-<li>natural sort: chr1, chr10, chr11, ..., chr19, chr2, chr21, chr22, chr3, ..., chrM(T), chrX, chrY</li>
-<li>or a list of chromsome order: e.g: <code>["chr1", "chr2", ..., "chrM", "chrX", "chrY"]</code></li>
+<li><code>notfound</code>: What to used if RS id not found. Default: <code>NOVEL</code>  <ul>
+<li><code>None/Fase</code> to skip to record</li>
 </ul>
 </li>
+<li><code>exist</code>: What if RS id exists? Default: <code>keep</code>  <ul>
+<li><code>keep</code>: Keep the RS ID and skip seeking</li>
+<li><code>force</code>: Force using the RS ID being found to replace the old one.</li>
+</ul>
+</li>
+<li><code>chrorder</code>: The chromsome order. Default: <code>&lt;params.chrorder&gt;</code>  </li>
 </ul>
 </li>
 </ul>
