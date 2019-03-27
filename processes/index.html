@@ -471,7 +471,7 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <p><strong>args</strong>  </p>
 <ul>
 <li><code>ref</code>     : The fasta file  </li>
-<li><code>bedtools</code>: The bedtools executable,                  default: "bedtools"  </li>
+<li><code>bedtools</code>: The bedtools executable,                  default: <code>&lt;params.bedtools&gt;</code>  </li>
 <li><code>params</code>  : Other parameters for <code>bedtools getfasta</code>, default: ""  </li>
 </ul>
 </li>
@@ -504,7 +504,7 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>bedtools</code>: The bedtools executable, default: "bedtools"  </li>
+<li><code>bedtools</code>: The bedtools executable, default: <code>&lt;params.bedtools&gt;</code>  </li>
 <li><code>params</code>: Other parameters for <code>bedtools closest</code>, default: ""  </li>
 </ul>
 </li>
@@ -537,7 +537,7 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>bedtools</code>: The bedtools executable, default: "bedtools"  </li>
+<li><code>bedtools</code>: The bedtools executable, default: <code>&lt;params.bedtools&gt;</code>  </li>
 <li><code>params</code>: Other parameters for <code>bedtools closest</code>, default: ""  </li>
 </ul>
 </li>
@@ -570,7 +570,7 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>bin</code>: The bedtools executable, default: "bedtools"  </li>
+<li><code>bedtools</code>: The bedtools executable, default: <code>&lt;params.bedtools&gt;</code>  </li>
 <li><code>params</code>: Other parameters for <code>bedtools flank</code>, default: ""  </li>
 </ul>
 </li>
@@ -603,7 +603,7 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>bedtools</code>: The bedtools executable, default: "bedtools"  </li>
+<li><code>bedtools</code>: The bedtools executable, default: <code>&lt;params.bedtools&gt;</code>  </li>
 <li><code>params</code>: Other parameters for <code>bedtools intersect</code>, default: ""  </li>
 </ul>
 </li>
@@ -636,7 +636,7 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>bedtools</code>: The bedtools executable, default: "bedtools"  </li>
+<li><code>bedtools</code>: The bedtools executable, default: <code>&lt;params.bedtools&gt;</code>  </li>
 <li><code>params</code>: Other parameters for <code>bedtools intersect</code>, default: ""  </li>
 </ul>
 </li>
@@ -668,9 +668,9 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>bin</code>: The bedtools executable, default: "bedtools"  </li>
-<li><code>informat</code>: The format of input file, whether is a "bed" file or "genome" size file. Default: "bed"  </li>
-<li><code>params</code>: Other parameters for <code>bedtools makewindows</code>, default: ""  </li>
+<li><code>bedtools</code>: The bedtools executable, default: <code>&lt;params.bedtools&gt;</code>  </li>
+<li><code>intype</code>: The format of input file, whether is a "bed" file or "genome" size file. Default: <code>bed</code>  </li>
+<li><code>params</code>: Other parameters for <code>bedtools makewindows</code>, default: <code>Box()</code>  </li>
 </ul>
 </li>
 <li>
@@ -701,7 +701,7 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>bedtools</code>: The bedtools executable,               default: "bedtools"  </li>
+<li><code>bedtools</code>: The bedtools executable,               default: <code>&lt;params.bedtools&gt;</code>  </li>
 <li><code>params</code>  : Other parameters for <code>bedtools merge</code>, default: {}  </li>
 </ul>
 </li>
@@ -733,7 +733,7 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>bedtools</code>: The bedtools executable,               default: "bedtools"  </li>
+<li><code>bedtools</code>: The bedtools executable,               default: <code>&lt;params.bedtools&gt;</code>  </li>
 <li><code>params</code>  : Other parameters for <code>bedtools merge</code>, default: {}  </li>
 </ul>
 </li>
@@ -765,7 +765,7 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>bin</code>: The bedtools executable, default: "bedtools"  </li>
+<li><code>bedtools</code>: The bedtools executable, default: <code>&lt;params.bedtools&gt;</code>  </li>
 <li><code>params</code>: Other parameters for <code>bedtools multiinter</code>, default: ""  </li>
 </ul>
 </li>
@@ -797,7 +797,7 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>bedtools</code>: The bedtools executable,    default: "bedtools"  </li>
+<li><code>bedtools</code>: The bedtools executable,    default: <code>&lt;params.bedtools&gt;</code>  </li>
 <li><code>seed</code>    : The seed for randomization, default: None  </li>
 <li><code>gsize</code>   : The chromsize file.  </li>
 </ul>
@@ -819,7 +819,6 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <p><strong>input</strong>  </p>
 <ul>
 <li><code>infile:file</code>: The input file  </li>
-<li><code>gfile:file</code>: The genome size file  </li>
 </ul>
 </li>
 <li>
@@ -831,8 +830,9 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>bin</code>: The bedtools executable, default: "bedtools"  </li>
-<li><code>params</code>: Other parameters for <code>bedtools shift</code>, default: ""  </li>
+<li><code>gsize</code>   : The genome size file. Default: <code>&lt;params.gsize&gt;</code>  </li>
+<li><code>bedtools</code>: The bedtools executable. Default: <code>&lt;params.bedtools&gt;</code>  </li>
+<li><code>params</code>  : Other parameters for <code>bedtools shift</code>. Default: ``  </li>
 </ul>
 </li>
 <li>
@@ -863,7 +863,7 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>bedtools</code>: The bedtools executable, default: "bedtools"  </li>
+<li><code>bedtools</code>: The bedtools executable, default: <code>&lt;params.bedtools&gt;</code>  </li>
 <li><code>params</code>  : Other parameters for <code>bedtools shuffle</code>, default: ""  </li>
 <li><code>gsize</code>   : The chromsize file. Default: <code>params.gsize</code>  </li>
 <li><code>n</code>       : Only return top <code>n</code> records (act like sampling). Default: <code>0</code>  <ul>
@@ -903,7 +903,7 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>bin</code>: The bedtools executable, default: "bedtools"  </li>
+<li><code>bedtools</code>: The bedtools executable, default: <code>&lt;params.bedtools&gt;</code>  </li>
 <li><code>params</code>: Other parameters for <code>bedtools subtract</code>, default: ""  </li>
 </ul>
 </li>
@@ -936,7 +936,7 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>bin</code>: The bedtools executable, default: "bedtools"  </li>
+<li><code>bedtools</code>: The bedtools executable, default: <code>&lt;params.bedtools&gt;</code>  </li>
 <li><code>params</code>: Other parameters for <code>bedtools window</code>, default: ""  </li>
 </ul>
 </li>
@@ -969,7 +969,7 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>bedtools</code>: The bedtools executable, default: "bedtools"  </li>
+<li><code>bedtools</code>: The bedtools executable, default: <code>&lt;params.bedtools&gt;</code>  </li>
 <li><code>params</code>: Other parameters for <code>bedtools genomecov</code>, default: <code>Box(bg = True)</code>  </li>
 </ul>
 </li>
@@ -1001,7 +1001,7 @@ c |_____|  b |   Dt  | a |Y |    ---&gt; c |___|
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>bedtools</code>: The bedtools executable, default: "bedtools"  </li>
+<li><code>bedtools</code>: The bedtools executable, default: <code>&lt;params.bedtools&gt;</code>  </li>
 <li><code>params</code>: Other parameters for <code>bedtools cluster</code>, default: <code>Box()</code>  </li>
 </ul>
 </li>
@@ -4675,6 +4675,11 @@ Rn   Case2
 <li><code>pihat</code>: The PI_HAT cutoff. Default: 0.1875 (see: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5007749/)  </li>
 <li><code>plot</code> : Whether plot the PI_HAT heatmap? Default: <code>True</code>  </li>
 <li><code>devpars</code>: The device parameters for the plot. Default: <code>Box(res=300, width=2200, height=1600)</code>  </li>
+<li><code>samid</code>: Sample ids on the heatmap. Default: <code>iid</code>  <ul>
+<li>Could also be <code>fid</code> or <code>fid&lt;sep&gt;iid</code>, or an R function: <code>function(fid, iid)</code></li>
+</ul>
+</li>
+<li><code>anno</code> : The annotation file for the samples. Names must match the ones that are transformed by <code>args.samid</code>. Default: <code>''</code>  </li>
 </ul>
 </li>
 </ul>
@@ -4927,7 +4932,39 @@ Rn   Case2
 <li><code>x</code>      : The x aes. Default: 1 (corresponding to colnames)  </li>
 <li><code>helper</code> : Some helper codes to generate <code>params</code> and <code>ggs</code>  </li>
 <li><code>devpars</code>: The device parameters. Default: <code>Box(res = 300, height = 2000, width = 2000)</code>  </li>
-<li><code>params</code> : The extra params for <code>geom_point</code>  </li>
+<li><code>params</code> : The extra params for <code>geom_histogram</code>  </li>
+<li><code>ggs</code>    : The extra ggplot elements.  </li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pDensity</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Use ggplot2 geom_density to generate density plot</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input data file  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output file  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>inopts</code> : Options to read the input file. Default: <code>Box(cnames = True, rnames = False)</code>  </li>
+<li><code>x</code>      : The x aes. Default: 1 (corresponding to colnames)  </li>
+<li><code>helper</code> : Some helper codes to generate <code>params</code> and <code>ggs</code>  </li>
+<li><code>devpars</code>: The device parameters. Default: <code>Box(res = 300, height = 2000, width = 2000)</code>  </li>
+<li><code>params</code> : The extra params for <code>geom_density</code>  </li>
 <li><code>ggs</code>    : The extra ggplot elements.  </li>
 </ul>
 </li>
@@ -5262,15 +5299,20 @@ Rn   Case2
 <li>
 <p><strong>input</strong>  </p>
 <ul>
-<li><code>infile:file</code>: The input matrix  <ul>
-<li>format:
-<div class="highlight"><pre><span></span>	category1	category2	category3
+<li><code>infile:file</code>: The input matrix, could be two formats:  <ul>
+<li><code>args.intype == "raw"</code>:
+    <div class="highlight"><pre><span></span>category1	category2	category3
+e1	e2	e2
+e2	e3	e4
+... ...
+</pre></div></li>
+<li><code>args.intype == "computed"</code>:
+    <div class="highlight"><pre><span></span>	category1	category2	category3
 [e1]	0	1	1
 [e2]	0	0	1
 ...
 [eN]	1	0	0
-</pre></div>
-rownames are not necessary but colnames are.</li>
+</pre></div></li>
 </ul>
 </li>
 <li><code>metafile:file</code>: The metadata file for each category for upset plot.  <ul>
@@ -5295,7 +5337,11 @@ categoryN	xN	yN	...	zN
 <p><strong>args</strong>  </p>
 <ul>
 <li><code>tool</code>    : Which tools to use. Default: auto (venn, upsetr, auto(n&lt;=3: venn, otherwise upsetr))  </li>
-<li><code>rnames</code>  : Whether input file has rownames. Default: False  </li>
+<li><code>intype</code>  : Type of input file. See <code>i.infile</code>. Default: <code>raw</code>  </li>
+<li><code>inopts</code>  : options to read the input file.  <ul>
+<li><code>rnames</code>  : Whether input file has rownames. Default: False</li>
+</ul>
+</li>
 <li><code>params</code>  : Other params for <code>venn.diagram</code> or <code>upset</code>. Default: {}  </li>
 <li><code>devpars</code> : The parameters for plot device. Default: <code>{'res': 300, 'height': 2000, 'width': 2000}</code>  </li>
 </ul>
@@ -5304,6 +5350,50 @@ categoryN	xN	yN	...	zN
 <p><strong>requires</strong><br />
 <a href="https://www.rdocumentation.org/packages/VennDiagram"><code>r-VennDiagram</code></a>
     <a href="https://www.rdocumentation.org/packages/UpSetR"><code>r-UpSetR</code></a></p>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pVenn2</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Venn plots using individual input files, each of which contains the elements of the category.</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infiles:files</code>: The input files, each one is a category containing the elements.  <ul>
+<li>If it has column name, then it will be used as category name, otherwise</li>
+<li>the filename (without extension) will be used.</li>
+</ul>
+</li>
+<li><code>metafile:file</code>: The metadata file for each category for upset plot.  <ul>
+<li>format:
+<div class="highlight"><pre><span></span>	col1	col2	...	colN
+category1	x1	y1	...	z1
+category2	x2	y2	...	z2
+...	...
+categoryN	xN	yN	...	zN
+</pre></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output file, Default: <code>{{i.infiles | fs2name}}.venn.png</code>  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>tool</code>    : Which tools to use. Default: auto (venn, upsetr, auto(n&lt;=3: venn, otherwise upsetr))  </li>
+<li><code>inopts</code>  : options to read the input file. Default: <code>Box(rnames = False, cnames = False)</code>  </li>
+<li><code>params</code>  : Other params for <code>venn.diagram</code> or <code>upset</code>. Default: <code>Box()</code>  </li>
+<li><code>devpars</code> : The parameters for plot device. Default: <code>{'res': 300, 'height': 2000, 'width': 2000}</code>  </li>
+</ul>
 </li>
 </ul>
 </div>
@@ -8766,6 +8856,39 @@ File2:
 </ul>
 </div>
 <div class="admonition hint">
+<p class="admonition-title">pTsvSample</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Sample records from a TSV file</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input file  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output file, Default: <code>{{i.infile | fn2}}.sampled.txt</code>  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>inopts</code>   : input options, only skip available, Default: <code>Box()</code>  </li>
+<li><code>n</code>        : how many records to sample, Default: <code>10</code>  </li>
+<li><code>arsample</code> : sample program by Alex Reynolds, Default: <code>&lt;params.arsample&gt;</code>  </li>
+<li><code>replace</code>  : Whether sample with replacement or not, Default: <code>False</code>  </li>
+<li><code>keeporder</code>: Keep the order of the sampled records as it's in input file, Default: <code>False</code>  </li>
+<li><code>seed</code>: The seed, Default: <code>0</code>  </li>
+<li><code>params</code>: Other params for arsample, Default: <code>Box()</code>  </li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
 <p class="admonition-title">pTsvMerge</p>
 <ul>
 <li>
@@ -9197,7 +9320,7 @@ File2:
 <li><code>annovar_convert</code>: The path of convert2annovar.pl, used to convert vcf to annovar input file. Default: convert2annovar.pl  </li>
 <li><code>genome</code>: The genome for annotation. Default: hg19  </li>
 <li><code>tmpdir</code>: The tmpdir, mainly used by snpeff. Default: <system tmpdir>  </li>
-<li><code>dbpath</code>: The path of database for each tool. Required by 'annovar' and 'vep'  </li>
+<li><code>dbs</code>: The path of database for each tool. Required by 'annovar' and 'vep'  </li>
 <li><code>params</code>: Other params for tool. Default: ''  </li>
 <li><code>snpeffStats</code>: Whether to generate stats file when use snpeff. Default: False  </li>
 <li><code>mem</code>: The memory used by snpeff. Default: '4G'  </li>
@@ -9234,8 +9357,7 @@ File2:
 <li>
 <p><strong>args</strong>  </p>
 <ul>
-<li><code>tool</code>: The tool used to do extraction. Default: vcftools (gatk, awk)  </li>
-<li><code>vcftools</code>: The path of vcftools' vcf-subset  </li>
+<li><code>tool</code>: The tool used to do extraction. Default: bcftools (gatk, awk)  </li>
 <li><code>bcftools</code>: The path of bcftools, used to extract the sample names from input vcf file.  </li>
 <li><code>gatk</code>: The path of gatk.  </li>
 </ul>
@@ -9299,13 +9421,9 @@ File2:
 <li><code>filtervcf</code>: The filter vcf. Something like: ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz  </li>
 <li><code>ref</code>      : The reference genome  </li>
 <li><code>nthread</code>  : Number of threads used to extract samples. Default: 1  </li>
-<li><code>tumor1st</code> : Whether tumor sample comes first. Default: <code>True</code>  </li>
 <li><code>bcftools</code> : Path to bcftools used to extract sample names.  </li>
-<li><code>vcftools</code> : Path to vcftools used to split vcf.  </li>
-<li><code>samfunc</code>  : A lambda function used to deduce sample names from file name.  </li>
-<li><code>somatic</code>  : Whether input vcf file is a somatic mutation file. Default: False  <ul>
-<li>somatic mutation vcf file can only have one sample TUMOR, or two samples, TUMOR and NORMAL, but will be considered as single sample.</li>
-<li>otherwise, multiple samples are supported in the input vcf file. Tumor id will be sample name for each sample, normal id will be NORMAL.</li>
+<li><code>tumor</code>    : The index of the tumor sample in the vcf file. Default: <code>0</code>  <ul>
+<li>If <code>tumor &gt; 1 or tumor &lt; 0</code>: Then all samples are tumors in the vcf file.</li>
 </ul>
 </li>
 </ul>
@@ -9340,10 +9458,21 @@ File2:
 <li><code>double-id</code>          : <code>True</code></li>
 <li><code>vcf-filter</code>         : <code>True</code></li>
 <li><code>vcf-idspace-to</code>     : <code>_</code></li>
-<li><code>set-missing-var-ids</code>: <code>@_#</code>    # make sure no duplicate vars</li>
+<li><code>set-missing-var-ids</code>: <code>@_#</code>    # make sure no duplicate vars<ul>
+<li>if <code>$1</code>, <code>$2</code> ... included, this will run a extra process to set the var ids first</li>
+<li>Since plink 1.x doesn't specify <code>$1</code> as ref, but the first one of all alleles in ASCII-sort order</li>
+<li>Here <code>$1</code> will be bound to reference allele</li>
+</ul>
+</li>
 <li><code>biallelic-only</code>     : <code>strict</code></li>
 </ul>
 </li>
+</ul>
+</li>
+<li>
+<p><strong>requires</strong>  </p>
+<ul>
+<li><code>python:pyvcf</code>: to assign variant names (see <code>args.set-missing-var-ids</code>)  </li>
 </ul>
 </li>
 </ul>
@@ -9420,6 +9549,117 @@ File2:
 <p><strong>args</strong>  </p>
 <ul>
 <li><code>ref</code>: The reference file  </li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pVcf2GTVcf</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Keep only GT information for each sample.</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input file  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output file, Default: <code>{{i.infile | fn2}}.vcf{{".gz" if args.gz else ""}}</code>  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>tool</code>    : The tool to use, Default: <code>bcftools</code>  </li>
+<li><code>gz</code>      : Gzip the output file or not, Default: <code>False</code>  </li>
+<li><code>bcftools</code>: Path to bcftools, Default: <code>&lt;params.bcftools&gt;</code>  </li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pVcfSampleFilter</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Keep or remove some samples from VCF file.</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code> : The input file  </li>
+<li><code>samfile:file</code>: The file with sample names, one per line. Could be ignored, see <code>args.samples</code>  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output file, Default: <code>{{i.infile | fn2}}.vcf</code>  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>bcftools</code>: Path to bcftools, Default: <code>&lt;params.bcftools&gt;</code>  </li>
+<li><code>samples</code>: Samples to filter, could be one of the followings, Default: <code>None</code>  <ul>
+<li>A file with sample names, one per line.</li>
+<li>A list with sample names</li>
+<li>A string with sample names, separated by comma(,)</li>
+<li>A string of lambda function to tell to keep current sample or not.<ul>
+<li>If this returns <code>True</code>, samples are added to the list, otherwise excluded.</li>
+<li>Note that when <code>args.keep == False</code>, <code>True</code> samples will be removed.</li>
+</ul>
+</li>
+<li><code>None</code>: use sample names from <code>i.samfile</code></li>
+</ul>
+</li>
+<li><code>keep</code>: Keep the samples provided or remove them. Default: <code>True</code>  </li>
+<li><code>params</code>: Other parameters for <code>bcftools view</code>. Default: <code>Box(U = True)</code>  <ul>
+<li><code>U = True</code>: Exclude uncalled sites (genotypes of all samples are missing).</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">pVcfSampleReplace</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Replace sample names in VCF file</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code> : The input file  </li>
+<li><code>samfile:file</code>: The file with sample names, one per line. Could be ignored, see <code>args.samples</code>  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output file, Default: <code>{{i.infile | fn2}}.vcf</code>  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>bcftools</code>: Path to bcftools, Default: <code>&lt;params.bcftools&gt;</code>  </li>
+<li><code>samples</code>: New samples, could be one of the followings, Default: <code>None</code>  <ul>
+<li>A file with new sample names, one per line.</li>
+<li>A list with new sample names</li>
+<li>A string with new sample names, separated by comma(,)</li>
+<li>A string of lambda function to modify current sample names.</li>
+<li><code>None</code>: use sample names from <code>i.samfile</code></li>
+</ul>
+</li>
+<li><code>nthread</code>: # threads used by <code>bcftools</code>  </li>
 </ul>
 </li>
 </ul>
@@ -9898,7 +10138,7 @@ File2:
 <li>
 <p><strong>input</strong>  </p>
 <ul>
-<li><code>indir:dir</code>: The input directory. Could contain:  <ul>
+<li><code>indir:file</code>: The input directory or a single maf file. A directory could contain:  <ul>
 <li><code>*.maf</code> or <code>*.maf.gz</code> file (required)</li>
 <li><code>*.annot.tsv</code> or <code>*.annot.txt</code> file (see: https://github.com/PoisonAlien/maftools/blob/master/inst/extdata/tcga_laml_annot.tsv)</li>
 <li><code>all_lesions.conf_*.txt</code>: Gistic cnv data</li>
