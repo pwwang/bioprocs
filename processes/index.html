@@ -8642,6 +8642,7 @@ Gy   Z   Case1
 <ul>
 <li><code>outfile:file</code>: The output file, Default: <code>{{i.infile | fn2}}.aggr.txt</code>  <ul>
 <li>With columns <code>args.on</code> and aggregated results from <code>args.aggrs</code></li>
+<li>If <code>args.on</code> is a function, then the calculated term will be add to the 1st column.</li>
 </ul>
 </li>
 </ul>
@@ -8653,6 +8654,7 @@ Gy   Z   Case1
 <li><code>on</code>: Aggregate according to which column, Default: <code>0</code>  <ul>
 <li>It also could column name if <code>args.inopts = True</code></li>
 <li>The input file has to sorted by this column</li>
+<li>Or a string of (lambda) function to calculate the term to aggregate on.</li>
 </ul>
 </li>
 <li><code>helper</code>: Raw codes to give some help for <code>args.aggrs</code>  </li>
@@ -8671,6 +8673,7 @@ Gy   Z   Case1
 <li><code>args.aggrs.Max = "$max:1"</code>          : Get the max of the 2nd column</li>
 <li><code>args.aggrs.Max2 = "$max:2"</code>         : Get the max of the 3rd column</li>
 <li><code>args.aggrs["Max,Max2"] = "$max:1,2"</code>: Get the max of the 2nd and 3rd column, respectively</li>
+<li><code>args.aggrs.CombinedP = "$fisher:1"</code> : Get the combined pvalues for 1st column using fisher'method (<code>scipy.stats.combine_pvalues</code>)</li>
 </ul>
 </li>
 </ul>
