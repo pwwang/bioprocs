@@ -4506,6 +4506,37 @@ Rn   Case2
 </li>
 </ul>
 </div>
+<div class="admonition hint">
+<p class="admonition-title">pCollectOxoGMetrics</p>
+<ul>
+<li>
+<p><strong>description</strong><br />
+    Collect metrics to assess oxidative artifacts.This tool collects metrics quantifying the error rate resulting from oxidative artifacts. For a brief primer on oxidative artifacts, see the GATK Dictionary.</p>
+<p>This tool calculates the Phred-scaled probability that an alternate base call results from an oxidation artifact. This probability score is based on base context, sequencing read orientation, and the characteristic low allelic frequency. Please see the following reference for an in-depth discussion of the OxoG error rate.</p>
+<p>Lower probability values implicate artifacts resulting from 8-oxoguanine, while higher probability values suggest that an alternate base call is due to either some other type of artifact or is a real variant.</p>
+</li>
+<li>
+<p><strong>input</strong>  </p>
+<ul>
+<li><code>infile:file</code>: The input bam file  </li>
+</ul>
+</li>
+<li>
+<p><strong>output</strong>  </p>
+<ul>
+<li><code>outfile:file</code>: The output file, Default: <code>{{i.infile | fn2}}.oxoG_metrics.txt</code>  </li>
+</ul>
+</li>
+<li>
+<p><strong>args</strong>  </p>
+<ul>
+<li><code>ref</code>   : The reference genome, Default: <code>&lt;params.ref&gt;</code>  </li>
+<li><code>picard</code>: The path to picard, Default: <code>&lt;params.picard&gt;</code>  </li>
+<li><code>params</code>: Other parameters for picard, Default: <code>Box()</code>  </li>
+</ul>
+</li>
+</ul>
+</div>
 <h3 id="plink">plink</h3>
 <div class="admonition hint">
 <p class="admonition-title">pPlinkMiss</p>
